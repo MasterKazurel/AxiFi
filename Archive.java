@@ -26,7 +26,7 @@ public class Archive {
 	public Archive (newLinkedList<Record> weightStack){
 		this.weightStack = weightStack;
 		setMonths();
-		makeDropdown();
+		//makeDropdown();
 	}
 	
 	//goes through list to see what months records exist for. Populates list of months. 
@@ -86,7 +86,7 @@ public class Archive {
 	//uses list of months to make the combo box
 	public void makeDropdown(){
 		monthList = new JComboBox(monthArray);
-		monthList.setSelectedIndex(0);
+		//monthList.setSelectedIndex(0);
 	}
 	
 	public JComboBox getDropdown(){

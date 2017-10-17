@@ -13,7 +13,7 @@ public class Account {
 	newLinkedList<Record> recordStack = new LinkedListStack<Record>();
 	
 	@SuppressWarnings("resource")
-	// when a Weight object is created (in the main class), this scans the File
+	// when an account object is created (in the main class), this scans the File
 	// and creates objects of everything contained within it
 	public Account(File fileName) {
 		Scanner scanner = null;
@@ -43,8 +43,6 @@ public class Account {
 		scanning(inputScanner);
 	}
 
-	//calculates BMI
-
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
@@ -61,7 +59,7 @@ public class Account {
 		return time;
 	}
 
-	//converts the Double height to a string
+	//converts the Balance to a string
 	public String getBalanceString() {
 		String balanceString = String.format("%.1f", balance);
 		return balanceString;

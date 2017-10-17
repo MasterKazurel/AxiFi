@@ -170,7 +170,7 @@ public abstract class Creation extends JPanel implements Impl {
 		welcome.setPreferredSize(new Dimension(400, 500));
 		welcome.setBorder(new EmptyBorder(new Insets(40, 100, 100, 100)));
 
-		topLabel = new JLabel("Your account type: ");
+		topLabel = new JLabel("Your account: ");
 		welcome.add(topLabel);
 		welcome.add(Box.createRigidArea(new Dimension(0, 50)));
 
@@ -202,7 +202,7 @@ public abstract class Creation extends JPanel implements Impl {
 
 		add(welcome);
 		
-		addOlder(welcome);
+		//addOlder(welcome);
 	}
 
 	/*
