@@ -37,7 +37,7 @@ public abstract class Creation extends JPanel implements Impl {
 
 	private JLabel nameLabel, change, balanceLabel, weightLabel, goalLabel, BMILabel, poundsLabel, topLabel, userLabel,
 			passLabel;
-	private JTextField name, balance, weight, goal, BMI, pounds, txuser, userField, passField;
+	private JTextField name, balance, weight, goal, BMI, pounds, txuser, userField, passField, initBal;
 	private JTextArea nameArea, changeArea, heightArea, weightArea, goalArea, infoArea, BMIarea, userArea, passArea;
 	private JButton submit, update, calculate, graph, blogin, baccount;
 	private JPasswordField pass;
@@ -235,14 +235,14 @@ public abstract class Creation extends JPanel implements Impl {
 		account.add(name);
 		account.add(Box.createRigidArea(new Dimension(0, 25)));
 
-		/*heightLabel = new JLabel("Height (in inches): ");
-		height = new JTextField();
-		heightLabel.add(height);
-		account.add(heightLabel);
-		account.add(height);
+		balanceLabel = new JLabel("Initial deposit: ");
+		initBal = new JTextField();
+		balanceLabel.add(initBal);
+		account.add(balanceLabel);
+		account.add(initBal);
 		account.add(Box.createRigidArea(new Dimension(0, 25)));
 
-		weightLabel = new JLabel("Current weight (in pounds): ");
+		/*weightLabel = new JLabel("Current weight (in pounds): ");
 		weight = new JTextField();
 		account.add(weightLabel);
 		account.add(weight);
@@ -260,7 +260,7 @@ public abstract class Creation extends JPanel implements Impl {
 
 		submit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (checkWordInput(userField, passField, name) == false) {
+				/*if (checkWordInput(userField, passField, name) == false)*/ {
 					String fileName = userField.getText();
 					file = new File(fileName);
 					if (!file.exists()) {
