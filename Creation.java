@@ -128,7 +128,7 @@ public abstract class Creation extends JPanel implements Impl {
 
 		puname = txuser.getText();
 		ppaswd = pass.getText();
-		file = new File("./src/" + puname);
+		file = new File(puname);
 		Scanner scanner = null;
 
 		try {
