@@ -39,7 +39,7 @@ public abstract class Creation extends JPanel implements Impl {
 			passLabel;
 	private JTextField name, balance, weight, goal, BMI, pounds, txuser, userField, passField, initBal;
 	private JTextArea nameArea, changeArea, heightArea, weightArea, goalArea, infoArea, BMIarea, userArea, passArea;
-	private JButton submit, update, calculate, graph, blogin, baccount;
+	private JButton submit, logout, update, calculate, graph, blogin, baccount;
 	private JPasswordField pass;
 	JPanel panel, updated, calculated, account, welcome, back;
 	File file;
@@ -199,6 +199,15 @@ public abstract class Creation extends JPanel implements Impl {
 			}
 
 		});
+		logout = new JButton("Log Out");
+		welcome.add(logout);
+		welcome.add(Box.createRigidArea(new Dimension(0,5)));
+		logout.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent event) {
+				System.exit(0);
+				}
+			
+		});
 
 		add(welcome);
 		
@@ -257,6 +266,10 @@ public abstract class Creation extends JPanel implements Impl {
 		submit = new JButton("Create");
 		account.add(submit);
 		account.add(Box.createRigidArea(new Dimension(0, 5)));
+		
+		logout = new JButton("Log Out"); //might make more sense to change this to cancel button?
+		account.add(logout);
+		account.add(Box.createRigidArea(new Dimension(0,5)));
 
 		submit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -275,6 +288,12 @@ public abstract class Creation extends JPanel implements Impl {
 						txuser.requestFocus();
 					}
 				}
+			}
+		});
+		
+		logout.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent event) {
+				System.exit(0);
 			}
 		});
 
