@@ -219,7 +219,9 @@ public abstract class Creation extends JPanel implements Impl {
 		welcome.add(Box.createRigidArea(new Dimension(0,5)));
 		logout.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent event) {
-				System.exit(0);
+				//System.exit(0);
+				initUI();
+				welcome.setVisible(false);
 				}
 			
 		});
