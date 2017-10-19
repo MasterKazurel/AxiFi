@@ -467,6 +467,30 @@ public abstract class Creation extends JPanel implements Impl {
 			}
 
 		});*/
+		
+		update = new JButton("Create a new transaction");
+		updated.add(update);
+		updated.add(Box.createRigidArea(new Dimension(0, 5)));
+		update.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (checkNumInput(balance, weight, goal) == false) {
+					updateButtonPressed();
+					//update.setVisible(false);
+				}
+			}
+
+		});
+		
+		logout = new JButton("Log Out");
+		updated.add(logout);
+		updated.add(Box.createRigidArea(new Dimension(0,5)));
+		logout.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent event) {
+				System.exit(0);
+				}
+			
+		});
+
 
 		add(updated);
 		panel.setVisible(false);
