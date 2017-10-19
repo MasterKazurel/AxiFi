@@ -46,7 +46,7 @@ public abstract class Creation extends JPanel implements Impl {
 	Font font = new Font("Arial", 12, 24);
 	String Record, puname, ppaswd;
 	Account driver;
-	String nameText = "", heightText = "", weightText = "", goalText = "", newName = "", userName = "", password = "",
+	String nameText = "", balText = "", weightText = "", goalText = "", newName = "", userName = "", password = "",
 			userText = "", passText = "", newHeight = "", newGoal = "", newWeight = "";
 	double heightNum, weightNum, goalNum;
 	newLinkedList<Record> recordStack;
@@ -217,6 +217,10 @@ public abstract class Creation extends JPanel implements Impl {
 		account.setPreferredSize(new Dimension(400, 500));
 		account.setBorder(new EmptyBorder(new Insets(40, 100, 100, 100)));
 
+		JLabel top = new JLabel("All fields must be filled out!");
+		account.add(top);
+		account.add(Box.createRigidArea(new Dimension(0, 25)));
+		
 		userLabel = new JLabel("Choose a username: ");
 		userField = new JTextField();
 		account.add(userLabel);
@@ -332,8 +336,8 @@ public abstract class Creation extends JPanel implements Impl {
 		userText = userField.getText();
 		passText = passField.getText();
 		nameText = name.getText();
-/*		heightText = height.getText();
-		weightText = weight.getText();
+		balText = initBal.getText();
+		/*weightText = weight.getText();
 		goalText = goal.getText();*/
 
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
@@ -380,15 +384,15 @@ public abstract class Creation extends JPanel implements Impl {
 		updated.add(name);
 		updated.add(Box.createRigidArea(new Dimension(0, 25)));
 
-		/*heightLabel = new JLabel("Your height (in inches) is: ");
-		height = new JTextField();
-		height.setText(heightText);
-		heightLabel.add(height);
-		updated.add(heightLabel);
-		updated.add(height);
+		balanceLabel = new JLabel("Your balance is: ");
+		initBal = new JTextField();
+		initBal.setText(balText);
+		balanceLabel.add(initBal);
+		updated.add(balanceLabel);
+		updated.add(initBal);
 		updated.add(Box.createRigidArea(new Dimension(0, 25)));
 
-		weightLabel = new JLabel("Your weight is: ");
+		/*weightLabel = new JLabel("Your weight is: ");
 		weight = new JTextField();
 		weight.setText(weightText);
 		updated.add(weightLabel);
