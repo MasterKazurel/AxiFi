@@ -35,19 +35,19 @@ import javax.swing.text.PlainDocument;
 
 public abstract class Creation extends JPanel implements Impl {
 
-	private JLabel nameLabel, change, balanceLabel, weightLabel, goalLabel, BMILabel, poundsLabel, topLabel, userLabel,
+	private JLabel nameLabel, change, balanceLabel, topLabel, userLabel,
 			passLabel, accountLabel; 
 	private JTextField accountField, name, balance, weight, goal, BMI, pounds, txuser, userField, passField, initBal;
-	private JTextArea nameArea, changeArea, heightArea, weightArea, goalArea, infoArea, BMIarea, userArea, passArea;
-	private JButton submit, logout, update, calculate, graph, blogin, baccount;
+	private JTextArea nameArea, userArea, passArea;
+	private JButton submit, logout, update, blogin, baccount;
 	private JPasswordField pass;
 	JPanel panel, updated, calculated, account, welcome, back;
 	File file;
 	Font font = new Font("Arial", 12, 24);
 	String Record, puname, ppaswd;
 	Account driver;
-	String nameText = "", balText = "", weightText = "", goalText = "", newName = "", userName = "", password = "",
-			userText = "", passText = "", newHeight = "", newGoal = "", newWeight = "", accountText = "";
+	String nameText = "", balText = "", newName = "", userName = "", password = "",
+			userText = "", passText = "", accountText = "";
 	double heightNum, weightNum, goalNum;
 	newLinkedList<Record> recordStack;
 	ArrayList<Point2D.Double> points = new ArrayList<Point2D.Double>();
@@ -380,9 +380,6 @@ public abstract class Creation extends JPanel implements Impl {
 		balText = initBal.getText();
 
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-		/*heightNum = Double.parseDouble(heightText);
-		weightNum = Double.parseDouble(weightText);
-		goalNum = Double.parseDouble(goalText);*/
 
 		// writes information to file
 		String fileName = userText;
@@ -437,21 +434,6 @@ public abstract class Creation extends JPanel implements Impl {
 		updated.add(balanceLabel);
 		updated.add(initBal);
 		updated.add(Box.createRigidArea(new Dimension(0, 25)));
-
-		/*weightLabel = new JLabel("Your weight is: ");
-		weight = new JTextField();
-		weight.setText(weightText);
-		updated.add(weightLabel);
-		updated.add(weight);
-		updated.add(Box.createRigidArea(new Dimension(0, 25)));
-
-		goalLabel = new JLabel("Your goal is: ");
-		goal = new JTextField();
-		goal.setText(goalText);
-		updated.add(goalLabel);
-		updated.add(goal);
-		updated.add(Box.createRigidArea(new Dimension(0, 25)));
-		add(updated);*/
 
 		/*add(updated);
 
