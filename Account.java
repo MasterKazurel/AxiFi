@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class Account {
 	private Double balance;
-	private String userName, password, time, accountType;
+	private String userName, password, time, accountType, transaction, name;
 	private Timestamp ts;
 	newLinkedList<Record> recordStack = new LinkedListStack<Record>();
 	
@@ -22,8 +22,9 @@ public class Account {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		password = scanner.next().trim(); // scans the first line to pull the
-											// password
+		password = scanner.next().trim(); // scans the first line to pull the password
+		name = scanner.next().trim();
+		accountType = scanner.next().trim();
 		scanning(scanner); // starts recursive scanning function
 
 	}
@@ -35,11 +36,11 @@ public class Account {
 			return;
 
 		time = inputScanner.next().trim();
-		accountType = inputScanner.next().trim();
 		balance = Double.parseDouble(inputScanner.next().trim());
+		transaction = inputScanner.next().trim();
 		
 		ts = Timestamp.valueOf(time);
-		recordStack.push(new Record(ts, accountType, balance));
+		recordStack.push(new Record(ts, balance, transaction));
 		scanning(inputScanner);
 	}
 
@@ -49,6 +50,17 @@ public class Account {
 
 	public Double getBalance() {
 		return balance;
+	}
+	public String getType() {
+		return accountType;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public String getTransaction() {
+		return transaction;
 	}
 
 	public Timestamp getTimestamp() {

@@ -36,8 +36,8 @@ import javax.swing.text.PlainDocument;
 public abstract class Creation extends JPanel implements Impl {
 
 	private JLabel nameLabel, change, balanceLabel, weightLabel, goalLabel, BMILabel, poundsLabel, topLabel, userLabel,
-			passLabel;
-	private JTextField name, balance, weight, goal, BMI, pounds, txuser, userField, passField, initBal;
+			passLabel, accountLabel; 
+	private JTextField accountField, name, balance, weight, goal, BMI, pounds, txuser, userField, passField, initBal;
 	private JTextArea nameArea, changeArea, heightArea, weightArea, goalArea, infoArea, BMIarea, userArea, passArea;
 	private JButton submit, logout, update, calculate, graph, blogin, baccount;
 	private JPasswordField pass;
@@ -47,7 +47,7 @@ public abstract class Creation extends JPanel implements Impl {
 	String Record, puname, ppaswd;
 	Account driver;
 	String nameText = "", balText = "", weightText = "", goalText = "", newName = "", userName = "", password = "",
-			userText = "", passText = "", newHeight = "", newGoal = "", newWeight = "";
+			userText = "", passText = "", newHeight = "", newGoal = "", newWeight = "", accountText = "";
 	double heightNum, weightNum, goalNum;
 	newLinkedList<Record> recordStack;
 	ArrayList<Point2D.Double> points = new ArrayList<Point2D.Double>();
@@ -180,14 +180,29 @@ public abstract class Creation extends JPanel implements Impl {
 		welcome.add(name);
 		welcome.add(Box.createRigidArea(new Dimension(0, 25)));
 
+		JLabel accountLabel = new JLabel("Account Type: ");
+		JTextField accountField = new JTextField(driver.getType());
+		accountLabel.add(accountField);
+		welcome.add(accountLabel);
+		welcome.add(accountField);
+		welcome.add(Box.createRigidArea(new Dimension(0, 25)));
+		
 		balanceLabel = new JLabel("Balance: ");
 		balance = new JTextField(driver.getBalanceString());
 		balanceLabel.add(balance);
 		welcome.add(balanceLabel);
 		welcome.add(balance);
 		welcome.add(Box.createRigidArea(new Dimension(0, 25)));
+		
+		JLabel transact = new JLabel("Last Transaction: ");
+		JTextField trans = new JTextField(driver.getTransaction());
+		transact.add(trans);
+		welcome.add(transact);
+		welcome.add(trans);
+		welcome.add(Box.createRigidArea(new Dimension(0, 25)));
+		
 
-		update = new JButton("Update");
+		update = new JButton("Create a new transaction");
 		welcome.add(update);
 		welcome.add(Box.createRigidArea(new Dimension(0, 5)));
 		update.addActionListener(new ActionListener() {
@@ -247,6 +262,12 @@ public abstract class Creation extends JPanel implements Impl {
 		account.add(nameLabel);
 		account.add(name);
 		account.add(Box.createRigidArea(new Dimension(0, 25)));
+		
+		accountLabel = new JLabel("Account Type: ");
+		accountField = new JTextField();
+		account.add(accountLabel);
+		account.add(accountField);
+		account.add(Box.createRigidArea(new Dimension(0, 25)));
 
 		balanceLabel = new JLabel("Initial deposit: ");
 		initBal = new JTextField();
@@ -271,7 +292,7 @@ public abstract class Creation extends JPanel implements Impl {
 		account.add(submit);
 		account.add(Box.createRigidArea(new Dimension(0, 5)));
 		
-		logout = new JButton("Log Out"); //might make more sense to change this to cancel button?
+		logout = new JButton("Cancel"); //might make more sense to change this to cancel button?
 		account.add(logout);
 		account.add(Box.createRigidArea(new Dimension(0,5)));
 
@@ -355,9 +376,8 @@ public abstract class Creation extends JPanel implements Impl {
 		userText = userField.getText();
 		passText = passField.getText();
 		nameText = name.getText();
+		accountText = accountField.getText();
 		balText = initBal.getText();
-		/*weightText = weight.getText();
-		goalText = goal.getText();*/
 
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 		/*heightNum = Double.parseDouble(heightText);
@@ -372,12 +392,12 @@ public abstract class Creation extends JPanel implements Impl {
 			FileWriter fw = new FileWriter(file.getAbsoluteFile(), true);
 			BufferedWriter bw = new BufferedWriter(fw);
 			// writes password to first line
-			bw.write(passText + ",");
+			bw.write(passText + "," + nameText + "," + accountText + ",");
 			bw.newLine();
 			// then each Record will go on subsequent lines
-			bw.write(timestamp + " ");
+			bw.write(timestamp + ", " + balText + ", + " + balText + ",");
 			bw.close();
-			// makes Weight object of that file
+			// makes Account object of that file
 			driver = new Account(file);
 			recordStack = driver.recordStack;
 			// adds the new Record to the Stack
@@ -392,18 +412,25 @@ public abstract class Creation extends JPanel implements Impl {
 		updated.setPreferredSize(new Dimension(400, 500));
 		updated.setBorder(new EmptyBorder(new Insets(40, 100, 100, 100)));
 
-		topLabel = new JLabel("Info Logged!");
+		topLabel = new JLabel("Account created!");
 		updated.add(topLabel);
 		updated.add(Box.createRigidArea(new Dimension(0, 50)));
 
 		nameLabel = new JLabel("Name: ");
 		name = new JTextField();
-		name.setText(nameText);
+		name.setText(driver.getName());
 		updated.add(nameLabel);
 		updated.add(name);
 		updated.add(Box.createRigidArea(new Dimension(0, 25)));
 
-		balanceLabel = new JLabel("Your balance is: ");
+		JLabel accountLabel = new JLabel("Account Type: ");
+		JTextField accountField = new JTextField(accountText);
+		accountLabel.add(accountField);
+		updated.add(accountLabel);
+		updated.add(accountField);
+		updated.add(Box.createRigidArea(new Dimension(0, 25)));
+		
+		balanceLabel = new JLabel("Your initial balance is: ");
 		initBal = new JTextField();
 		initBal.setText(balText);
 		balanceLabel.add(initBal);
@@ -444,7 +471,7 @@ public abstract class Creation extends JPanel implements Impl {
 		add(updated);
 		panel.setVisible(false);
 		updated.setVisible(true);
-		addOlder(updated);
+		//addOlder(updated);
 	}
 
 	/*

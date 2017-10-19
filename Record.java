@@ -5,16 +5,16 @@ import java.text.SimpleDateFormat;
 
 public class Record implements Comparable<Record> {
 	int year, monthOfYear, dayOfMonth, hourOfDay, minuteOfHour;
-	String accountType; 
+	String transaction; 
 	double balance;
 	Timestamp timestamp;
 	SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
 
 
-	public Record(Timestamp timestamp, String type, double balance) {
+	public Record(Timestamp timestamp, double balance, String transaction) {
 		this.timestamp = timestamp;
 		this.balance = balance;
-		this.accountType = type;
+		this.transaction = transaction;
 	}
 
 	public Timestamp getTime() {
@@ -22,7 +22,7 @@ public class Record implements Comparable<Record> {
 	}
 
 	public String toString(){
-		return "Date: " + format.format(timestamp) + ", " + "Balance: " + balance + ", " + "Account Type: " + accountType ;	
+		return "Date: " + format.format(timestamp) + ", " + "Balance: " + balance + ", " + "Transaction: " + transaction ;	
 	}
 	
 	@Override
