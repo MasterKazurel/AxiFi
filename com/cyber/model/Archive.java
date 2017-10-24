@@ -1,3 +1,4 @@
+package com.cyber.model;
 
 
 import java.sql.Timestamp;
@@ -5,13 +6,12 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JComboBox;
 
 public class Archive {
-	private newLinkedList<Record> weightStack;
+	private List<Transaction> weightStack;
 	String[] monthArray;
 	SimpleDateFormat allFormat = new SimpleDateFormat("yyyyMMdd");
 	SimpleDateFormat dayFormat = new SimpleDateFormat("dd");
@@ -20,10 +20,10 @@ public class Archive {
 	SimpleDateFormat yearMonth = new SimpleDateFormat("yyyyMM");
 	NumberFormat findFormat = new DecimalFormat("00");
 	JComboBox monthList;
-	ArrayList<Record> foundRecords = new ArrayList<Record>();
+	ArrayList<Transaction> foundRecords = new ArrayList<Transaction>();
 	
 	//makes Archive object from linkedlist
-	public Archive (newLinkedList<Record> weightStack){
+	public Archive (List<Transaction> weightStack){
 		this.weightStack = weightStack;
 		setMonths();
 		//makeDropdown();
@@ -34,7 +34,7 @@ public class Archive {
 	 ArrayList<String> tempList = new ArrayList<String>();
 
 		for (int i = 1; i<weightStack.size(); i++){
-			Record temp = weightStack.get(i);
+			Transaction temp = weightStack.get(i);
 			Timestamp t = temp.timestamp;
 			String month = monthFormat.format(t);
 			
@@ -94,14 +94,14 @@ public class Archive {
 	}
 	
 	//searches through list for all records that match that selected month! 
-	public ArrayList<Record> findRecords(newLinkedList<Record> r) {
+	public ArrayList<Transaction> findRecords(List<Transaction> r) {
 		String temp = monthList.getSelectedItem().toString();
 		String toFind = "2017"+compareMonths(temp);
 		int toFindInd = monthList.getSelectedIndex()+1;
 		String date = "";
 		
 		int index =1;
-		foundRecords = new ArrayList<Record>();
+		foundRecords = new ArrayList<Transaction>();
 		while (index < r.size()){
 			date = yearMonth.format(r.get(index).timestamp);
 			if(date.compareTo(toFind) == 0)

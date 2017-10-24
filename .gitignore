@@ -23,3 +23,16 @@
 /CreationPanel.class
 /LoginPanel$1.class
 /LoginPanel$2.class
+/AccountPanel.class
+/Validator.class
+/AccountPanel$ViewPanel.class
+/AccountPanel$EditPanel.class
+/AccountPanel$HistoryPanel.class
+/AccountPanel$HistoryPanel$1.class
+/AccViewPanel.class
+/ViewPanel.class
+/AccHistoryPanel.class
+/HistoryPanel.class
+/AccEditPanel.class
+/Model.class
+/Testing.class
