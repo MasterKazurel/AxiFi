@@ -2,8 +2,6 @@ package com.cyber.view;
 
 import javax.swing.JPanel;
 
-import com.cyber.control.MasterControl;
-
 public abstract class Panel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	

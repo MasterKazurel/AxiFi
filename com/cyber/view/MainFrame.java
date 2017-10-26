@@ -14,12 +14,12 @@ public class MainFrame extends JFrame {
 	private CreationPanel createPnl;
 	
 	public enum Panels {
-		LOGIN("login"),
-		CREATE("create"),
-		EDIT("edit"),
-		VIEW("view"), 
-		TRANS("trans"),
-		ACCOUNT("account");
+		LOGIN("LOGIN"),
+		CREATE("CREATE"),
+		EDIT("EDIT"),
+		VIEW("VIEW"), 
+		TRANS("TRANS"),
+		ACCOUNT("ACCOUNT");
 		private String val;
 		
 		private Panels(String val) {
@@ -46,6 +46,7 @@ public class MainFrame extends JFrame {
 		transPnl = new TransactionPanel();
 		createPnl = new CreationPanel();
 		
+		//Necessary for controller's identification
 		loginPnl.setName(Panels.LOGIN.val());
 		accPnl.setName(Panels.ACCOUNT.val());
 		transPnl.setName(Panels.TRANS.val());

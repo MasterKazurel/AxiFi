@@ -12,15 +12,20 @@ import com.cyber.model.Account.Level;
 import com.cyber.model.Transaction;
 import com.cyber.model.Transaction.Code;
 import com.cyber.view.CardPanel;
+import com.cyber.view.MainFrame.Panels;
 
 public class Testing {
+	
+	public static void main(String[] args) {
+		assert Panels.valueOf("login").is(Panels.LOGIN): Panels.valueOf("login");
+	}
 
 	public static Account dummyAccount() {
 		List<Transaction> ts = new ArrayList<Transaction>();
 		ts.add(new Transaction(new Date(), 0.00, "shoes", Code.BLANK));
 		ts.add(new Transaction(new Date(), 5.00, "bling", Code.BLANK));
 		ts.add(new Transaction(new Date(), 2000000.00, "Lambo", Code.BLANK));
-		return new Account(new Date(), "Admin", "csadmin", "CSCI323", 100.00, Level.ADMIN, ts);
+		return new Account(new Date(), "Admin", "csadmin", "csci323", 100.00, Level.ADMIN, ts);
 	}
 	
 	// For easy UI testing

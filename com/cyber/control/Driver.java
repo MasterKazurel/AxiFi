@@ -1,16 +1,14 @@
 package com.cyber.control;
 
-import javax.swing.SwingUtilities;
-
-public class Driver {
-
+public class Driver extends Thread {
+	
 	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				MasterControl master = new MasterControl();
-				master.start();
-			}
-		});
+		MasterController master = new MasterController();
+		try {
+			master.start();
+			master.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 }
