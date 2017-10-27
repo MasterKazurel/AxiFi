@@ -1,15 +1,16 @@
 package com.cyber.control;
 
+import com.cyber.control.MasterControl.Controllers;
+import com.cyber.model.Model;
 import com.cyber.view.LoginPanel;
-import com.cyber.view.MainFrame.Panels;
 import com.cyber.view.Message;
 
-public class LoginController extends MasterController {
+public class LoginController extends Controller<LoginPanel> {
 	
 	private LoginPanel panel;
 	
-	public LoginController(Controllers name, LoginPanel panel) {
-		super(name, panel.getName());
+	public LoginController(Controllers name, Model model, LoginPanel panel) {
+		super(name, model, panel);
 		this.panel = panel;
 	}
 
@@ -17,13 +18,13 @@ public class LoginController extends MasterController {
 	public void run() {
 		panel.addLoginListener(a -> {
 			String[] loginInput = panel.getInput();
-			if (model.login(loginInput[0], loginInput[1]))
-				switchTo(Controllers.TRANS);
+			if (MasterControl.model.login(loginInput[0], loginInput[1]))
+				MasterControl.switchTo(Controllers.ACCOUNT);
 			else
 				Message.showError(panel, "Invalid login info.");
 		});
 		panel.addCreateAccountListener(a -> {
-			switchTo(Controllers.ACCOUNT);
+			MasterControl.switchTo(Controllers.ACCOUNT);
 		});
 	}
 

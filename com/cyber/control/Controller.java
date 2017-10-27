@@ -1,21 +1,22 @@
 package com.cyber.control;
 
-import com.cyber.control.MasterController.Controllers;
+import com.cyber.control.MasterControl.Controllers;
+import com.cyber.model.Model;
 import com.cyber.view.MainFrame.Panels;
+import com.cyber.view.Panel;
 
-public abstract class Controller extends Thread {
+public abstract class Controller<Pnl extends Panel> implements Runnable {
 	private Controllers id;
-	private Panels panelID;
+	protected Panel panel;
+	protected Model model;
 	
-	public Controller() {}
-	
-	protected Controller(Controllers id, String panelName) {
+	protected Controller(Controllers id, Model model, Panel panel) {
 		this.id = id;
-		this.panelID = Panels.valueOf(panelName);
+		this.panel = panel;
 	}
 	
-	protected Controllers getID() {return id;}
-	protected Panels getPanelID() {return panelID;}
+	Controllers getID() {return id;}
+	Panels getPanelID() {return Panels.valueOf(panel.getName());}
 	
 	public abstract void run();
 }

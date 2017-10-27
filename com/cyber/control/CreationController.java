@@ -1,16 +1,16 @@
 package com.cyber.control;
 
+import com.cyber.control.MasterControl.Controllers;
+import com.cyber.model.Model;
 import com.cyber.view.CreationPanel;
-import com.cyber.view.MainFrame.Panels;
 
-public class CreationController extends MasterController {
+public class CreationController extends Controller<CreationPanel> {
 	
 	private CreationPanel panel;
 
-	public CreationController(Controllers name, CreationPanel panel) {
-		super(name, panel.getName());
+	public CreationController(Controllers name, Model model, CreationPanel panel) {
+		super(name, model, panel);
 		this.panel = panel;
-		super.setName("creationctrl");
 	}
 
 	@Override

@@ -1,16 +1,16 @@
 package com.cyber.control;
 
+import com.cyber.control.MasterControl.Controllers;
+import com.cyber.model.Model;
 import com.cyber.view.AccountPanel;
-import com.cyber.view.MainFrame.Panels;
 
-public class AccountController extends MasterController {
+public class AccountController extends Controller<AccountPanel> {
 	
 	private AccountPanel panel;
 	
-	public AccountController(Controllers name, AccountPanel panel) {
-		super(name, panel.getName());
+	public AccountController(Controllers name, Model model, AccountPanel panel) {
+		super(name, model, panel);
 		this.panel = panel;
-		super.setName("accctrl");
 	}
 
 	@Override
