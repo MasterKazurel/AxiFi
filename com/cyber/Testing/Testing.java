@@ -1,4 +1,4 @@
-package com.cyber.Testing;
+package cyber.testing;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -6,13 +6,14 @@ import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
-import com.cyber.model.Account;
-import com.cyber.model.Account.Level;
-import com.cyber.model.Transaction;
-import com.cyber.model.Transaction.Code;
-import com.cyber.view.CardPanel;
-import com.cyber.view.MainFrame.Panels;
+import cyber.model.Account;
+import cyber.model.Account.Level;
+import cyber.model.Transaction;
+import cyber.model.Transaction.Code;
+import cyber.view.CardPanel;
+import cyber.view.MainFrame.Panels;
 
 public class Testing {
 	
@@ -32,7 +33,7 @@ public class Testing {
 	public static void frame(JPanel panel) {
 		JFrame frame = new JFrame("ViewPanel test");
 		frame.getContentPane().add(panel);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);

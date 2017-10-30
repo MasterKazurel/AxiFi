@@ -1,8 +1,8 @@
-package com.cyber.control;
+package cyber.control;
 
-import com.cyber.control.MasterControl.Controllers;
-import com.cyber.model.Model;
-import com.cyber.view.TransactionPanel;
+import cyber.control.MasterControl.Controllers;
+import cyber.model.Model;
+import cyber.view.TransactionPanel;
 
 public class TransactionController extends Controller<TransactionPanel> {
 	

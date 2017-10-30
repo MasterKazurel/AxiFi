@@ -1,4 +1,4 @@
-package com.cyber.model;
+package cyber.model;
 
 
 import java.io.FileOutputStream;
@@ -44,6 +44,7 @@ public class Account extends Storeable<Account> {
 		this.lvl = a.lvl;
 	}
 	
+	@Override
 	public boolean save() {
 		ObjectOutputStream oos;
 		try {

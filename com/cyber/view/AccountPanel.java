@@ -1,10 +1,10 @@
-package com.cyber.view;
+package cyber.view;
 
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 
-import com.cyber.Testing.Testing;
-import com.cyber.view.MainFrame.Panels;
+import cyber.testing.Testing;
+import cyber.view.MainFrame.Panels;
 
 public class AccountPanel extends CardPanel {
 	private static final long serialVersionUID = 1L;

@@ -1,13 +1,13 @@
-package com.cyber.view;
+package cyber.view;
 
 import java.awt.Font;
-import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 public class Format {
 	public static Font defFont = new Font("Arial", 12, 24);
 	
 	public static String toCurrency(double n) {
-		return DecimalFormat.getCurrencyInstance().format(n);
+		return NumberFormat.getCurrencyInstance().format(n);
 	}
 	
 	public static String toCsvLine(String...strs) {

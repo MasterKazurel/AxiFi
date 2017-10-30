@@ -1,8 +1,8 @@
-package com.cyber.control;
+package cyber.control;
 
-import com.cyber.control.MasterControl.Controllers;
-import com.cyber.model.Model;
-import com.cyber.view.AccountPanel;
+import cyber.control.MasterControl.Controllers;
+import cyber.model.Model;
+import cyber.view.AccountPanel;
 
 public class AccountController extends Controller<AccountPanel> {
 	

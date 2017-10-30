@@ -1,11 +1,11 @@
-package com.cyber.view;
+package cyber.view;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
-import com.cyber.Testing.Testing;
-import com.cyber.model.Model;
+import cyber.model.Model;
+import cyber.testing.Testing;
 
 public class TransactionPanel extends Panel {
 	private static final long serialVersionUID = 1L;

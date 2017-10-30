@@ -1,4 +1,4 @@
-package com.cyber.view;
+package cyber.view;
 
 import javax.swing.JPanel;
 

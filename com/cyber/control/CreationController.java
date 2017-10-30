@@ -1,8 +1,8 @@
-package com.cyber.control;
+package cyber.control;
 
-import com.cyber.control.MasterControl.Controllers;
-import com.cyber.model.Model;
-import com.cyber.view.CreationPanel;
+import cyber.control.MasterControl.Controllers;
+import cyber.model.Model;
+import cyber.view.CreationPanel;
 
 public class CreationController extends Controller<CreationPanel> {
 	

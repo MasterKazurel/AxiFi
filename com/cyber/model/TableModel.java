@@ -1,4 +1,4 @@
-package com.cyber.model;
+package cyber.model;
 
 import javax.swing.table.AbstractTableModel;
 

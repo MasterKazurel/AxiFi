@@ -1,4 +1,4 @@
-package com.cyber.view;
+package cyber.view;
 
 import java.awt.Component;
 

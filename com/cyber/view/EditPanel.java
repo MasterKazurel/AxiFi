@@ -1,6 +1,6 @@
-package com.cyber.view;
+package cyber.view;
 
-import com.cyber.Testing.Testing;
+import cyber.testing.Testing;
 
 public class EditPanel extends Panel {
 	private static final long serialVersionUID = 1L;

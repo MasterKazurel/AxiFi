@@ -1,9 +1,10 @@
-package com.cyber.view;
+package cyber.view;
 
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.UIManager;
+import javax.swing.WindowConstants;
 
 public class MainFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -66,7 +67,7 @@ public class MainFrame extends JFrame {
 		{ e.printStackTrace(); }
 		
 		getContentPane().add(cards);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setIconImage(Toolkit.getDefaultToolkit().getImage("cyberdyne.png"));
 		pack();
 		setLocationRelativeTo(null);

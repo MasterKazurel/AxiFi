@@ -1,4 +1,4 @@
-package com.cyber.view;
+package cyber.view;
 
 import java.awt.Dimension;
 import java.awt.Insets;
@@ -11,7 +11,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.border.EmptyBorder;
 
-import com.cyber.Testing.Testing;
+import cyber.testing.Testing;
 /**
  * To view and update account info.
  * @author Sean

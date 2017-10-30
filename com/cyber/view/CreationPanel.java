@@ -1,9 +1,8 @@
-package com.cyber.view;
+package cyber.view;
 
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
-import java.io.File;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -12,7 +11,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.border.EmptyBorder;
 
-import com.cyber.Testing.Testing;
+import cyber.testing.Testing;
 
 public class CreationPanel extends Panel {
 	private static final long serialVersionUID = 1L;

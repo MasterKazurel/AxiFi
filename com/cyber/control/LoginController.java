@@ -1,9 +1,8 @@
-package com.cyber.control;
+package cyber.control;
 
-import com.cyber.control.MasterControl.Controllers;
-import com.cyber.model.Model;
-import com.cyber.view.LoginPanel;
-import com.cyber.view.Message;
+import cyber.control.MasterControl.Controllers;
+import cyber.model.Model;
+import cyber.view.LoginPanel;
 
 public class LoginController extends Controller<LoginPanel> {
 	
@@ -18,10 +17,11 @@ public class LoginController extends Controller<LoginPanel> {
 	public void run() {
 		panel.addLoginListener(a -> {
 			String[] loginInput = panel.getInput();
-			if (MasterControl.model.login(loginInput[0], loginInput[1]))
-				MasterControl.switchTo(Controllers.ACCOUNT);
+			MasterControl.switchTo(Controllers.ACCOUNT);
+			/*if (model.login(loginInput[0], loginInput[1]))
+				MasterControl.switchTo(Controllers.TRANS);
 			else
-				Message.showError(panel, "Invalid login info.");
+				Message.showError(panel, "Invalid login info.");*/
 		});
 		panel.addCreateAccountListener(a -> {
 			MasterControl.switchTo(Controllers.ACCOUNT);

@@ -1,14 +1,14 @@
-package com.cyber.model;
+package cyber.model;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
-import com.cyber.Testing.Testing;
-import com.cyber.model.Account.Level;
+import cyber.model.Account.Level;
+import cyber.testing.Testing;
 
 public class Model {
 	private Account user;
@@ -30,7 +30,9 @@ public class Model {
 		ObjectInputStream ois;
 		Entity e = null;
 		try {
-			ois = new ObjectInputStream(new FileInputStream(fileName + ".ser"));
+			InputStream is = Model.class.getClassLoader().getResourceAsStream(fileName + ".ser");
+			
+			ois = new ObjectInputStream(is);
 			Object o = ois.readObject();
 			e = (Entity)o;
 			ois.close();

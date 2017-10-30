@@ -1,11 +1,11 @@
-package com.cyber.model;
+package cyber.model;
 import java.util.regex.Pattern;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 
-import com.cyber.view.Message;
+import cyber.view.Message;
 
 public class Validator {
 	

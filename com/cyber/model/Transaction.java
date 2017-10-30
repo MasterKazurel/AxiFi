@@ -1,11 +1,11 @@
-package com.cyber.model;
+package cyber.model;
 
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.cyber.view.Format;
+import cyber.view.Format;
 
 public class Transaction implements Comparable<Transaction>, Serializable {
 	private static final long serialVersionUID = 1L;
@@ -35,6 +35,7 @@ public class Transaction implements Comparable<Transaction>, Serializable {
 		return time;
 	}
 
+	@Override
 	public String toString(){
 		return "Date: " + format.format(time) +
 				", " + "Balance: " + Format.toCurrency(amount) +
@@ -43,9 +44,9 @@ public class Transaction implements Comparable<Transaction>, Serializable {
 	
 	@Override
 	public int compareTo(Transaction o) {
-        if (this.time.toInstant().toEpochMilli() == ((Transaction) o).time.toInstant().toEpochMilli())
+        if (this.time.toInstant().toEpochMilli() == o.time.toInstant().toEpochMilli())
             return 0;
-        else if ((this.time.toInstant().toEpochMilli()) > ((Transaction) o).time.toInstant().toEpochMilli())
+        else if ((this.time.toInstant().toEpochMilli()) > o.time.toInstant().toEpochMilli())
             return 1;
         else
             return -1;

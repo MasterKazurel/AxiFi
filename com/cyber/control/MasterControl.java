@@ -1,11 +1,10 @@
-package com.cyber.control;
+package cyber.control;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.cyber.model.Model;
-import com.cyber.view.MainFrame;
-import com.cyber.view.Panel;
+import cyber.model.Model;
+import cyber.view.MainFrame;
 
 public class MasterControl {
 	

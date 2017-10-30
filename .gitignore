@@ -36,3 +36,8 @@
 /AccEditPanel.class
 /Model.class
 /Testing.class
+/bin/
+/target/*
+
+# Whitelist
+!/target/AxiFi*.jar

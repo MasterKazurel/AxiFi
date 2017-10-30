@@ -1,4 +1,4 @@
-package com.cyber.view;
+package cyber.view;
 
 import java.awt.CardLayout;
 import java.awt.Container;
@@ -7,7 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.cyber.Testing.Testing;
+import cyber.testing.Testing;
 
 public abstract class CardPanel extends Panel {
 	private static final long serialVersionUID = 1L;

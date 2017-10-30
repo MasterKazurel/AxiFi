@@ -1,9 +1,9 @@
-package com.cyber.control;
+package cyber.control;
 
-import com.cyber.control.MasterControl.Controllers;
-import com.cyber.model.Model;
-import com.cyber.view.MainFrame.Panels;
-import com.cyber.view.Panel;
+import cyber.control.MasterControl.Controllers;
+import cyber.model.Model;
+import cyber.view.MainFrame.Panels;
+import cyber.view.Panel;
 
 public abstract class Controller<Pnl extends Panel> implements Runnable {
 	private Controllers id;
@@ -18,5 +18,6 @@ public abstract class Controller<Pnl extends Panel> implements Runnable {
 	Controllers getID() {return id;}
 	Panels getPanelID() {return Panels.valueOf(panel.getName());}
 	
+	@Override
 	public abstract void run();
 }
