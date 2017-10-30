@@ -1,42 +1,12 @@
-/Creation.class
-/Archive.class
-/Impl.class
-/LinkedListStack.class
-/MainFrame.class
-/MainPanel.class
-/newLinkedList$Node.class
-/newLinkedList.class
-/Record.class
-/Creation$1.class
-/Creation$2.class
-/Creation$3.class
-/Creation$4.class
-/Creation$5.class
-/Creation$6.class
-/Creation$7.class
-/Creation$8.class
-/Creation$9.class
-/Weight.class
-/Creation$10.class
-/LoginPanel.class
-/Account.class
-/CreationPanel.class
-/LoginPanel$1.class
-/LoginPanel$2.class
-/AccountPanel.class
-/Validator.class
-/AccountPanel$ViewPanel.class
-/AccountPanel$EditPanel.class
-/AccountPanel$HistoryPanel.class
-/AccountPanel$HistoryPanel$1.class
-/AccViewPanel.class
-/ViewPanel.class
-/AccHistoryPanel.class
-/HistoryPanel.class
-/AccEditPanel.class
-/Model.class
-/Testing.class
+# Eclipse
+/.metadata/
+/.settings/
+
+# Java
+//*.class
 /bin/
+
+# Maven
 /target/*
 
 # Whitelist
