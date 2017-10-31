@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;AxiFi/src/view/PersonOverview.fxml&apos; to &apos;Login.fxml&apos;" description="Rename resource &apos;PersonOverview.fxml&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="src/view/PersonOverview.fxml" name="Login.fxml" stamp="1509061578414" updateReferences="true"/>
+</session>
