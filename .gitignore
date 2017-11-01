@@ -1,0 +1,13 @@
+# Eclipse
+/.metadata/
+/.settings/
+
+# Java
+//*.class
+/bin/
+
+# Maven
+/target/*
+
+# Whitelist
+!/target/AxiFi*.jar
