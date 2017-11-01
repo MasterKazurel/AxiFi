@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane minHeight="600.0" minWidth="600.0" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane minHeight="600.0" minWidth="600.0" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.PersonOverviewController">
    <children>
       <VBox layoutX="236.0" layoutY="200.0" prefHeight="600.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -52,10 +52,10 @@
                   <Insets />
                </VBox.margin>
             </HBox>
-            <TableView prefHeight="450.0" prefWidth="200.0">
+            <TableView fx:id="personTable" prefHeight="450.0" prefWidth="200.0">
               <columns>
-                <TableColumn prefWidth="180.0" text="Date" />
-                <TableColumn prefWidth="198.0" text="Transaction" />
+                <TableColumn fx:id="firstNameColumn" prefWidth="180.0" text="Date" />
+                <TableColumn fx:id="lastNameColumn" prefWidth="198.0" text="Transaction" />
                   <TableColumn prefWidth="221.0" text="Balance" />
               </columns>
                <VBox.margin>

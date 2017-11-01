@@ -1,0 +1,5 @@
+package cyber.model;
+
+public class Person {
+
+}

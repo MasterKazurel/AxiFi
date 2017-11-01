@@ -35,17 +35,17 @@
                   <Blend />
                </effect>
             </Label>
-            <TextField layoutX="200.0" onKeyPressed="// key press stuff" onKeyTyped="// key typed" onMouseClicked="// clicked - should select" prefWidth="300.0" promptText="Username">
+            <TextField layoutX="200.0" prefWidth="300.0" promptText="Username">
                <VBox.margin>
                   <Insets bottom="75.0" left="100.0" right="100.0" top="25.0" />
                </VBox.margin>
             </TextField>
-            <PasswordField onKeyTyped="//typed here" promptText="Password">
+            <PasswordField promptText="Password">
                <VBox.margin>
                   <Insets left="100.0" right="100.0" />
                </VBox.margin>
             </PasswordField>
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="//do something" prefWidth="75.0" text="Log in" textAlignment="CENTER">
+            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefWidth="75.0" text="Log in" textAlignment="CENTER">
                <VBox.margin>
                   <Insets bottom="25.0" left="260.0" right="100.0" top="25.0" />
                </VBox.margin>
