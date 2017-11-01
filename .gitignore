@@ -1,0 +1,13 @@
+# Ant
+build
+
+# Eclipse
+.metadata
+.settings/
+.recommenders
+bin/
+tmp/
+*.launch
+
+# Java
+//*.class
