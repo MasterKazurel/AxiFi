@@ -12,7 +12,7 @@ import main.MainApp.Views;
 public class NewTransactionController extends Controller {
 	@FXML private MenuButton transTypeMenu;
 		@FXML private MenuItem depositItm, withdrawItm;
-		@FXML private MenuButton paymentMenu;
+	@FXML private MenuButton paymentMenu;
 		@FXML private MenuItem creditItm, checkItm;
 	@FXML private Label amountLbl, methodLbl, 
 				actualAmountLbl, actualAmountValLbl,
@@ -25,11 +25,15 @@ public class NewTransactionController extends Controller {
 		if (src.equals(depositItm)) {
 			transTypeMenu.setText(depositItm.getText());
 			showTransDetails(true);
+			paymentMenu.setVisible(true);
+			methodLbl.setVisible(true);
 			actualAmountLbl.setText("Amount being deposited: ");
 		}
 		else if (src.equals(withdrawItm)) {
 			transTypeMenu.setText(withdrawItm.getText());
 			showTransDetails(true);
+			paymentMenu.setVisible(false);
+			methodLbl.setVisible(false);
 			actualAmountLbl.setText("Amount being withdrawn: ");
 		}
 		else if (src.equals(creditItm)) {
