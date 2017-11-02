@@ -61,7 +61,7 @@
 						<Insets />
 					</VBox.margin>
 				</HBox>
-				<TableView fx:id="transTable" prefHeight="700.0"
+				<TableView fx:id="transTable" prefHeight="550.0"
 					prefWidth="200.0">
 					<columns>
 						<TableColumn fx:id="dateCol" prefWidth="180.0" text="Date" />

@@ -1,7 +1,5 @@
 package control;
 
-import javax.swing.JOptionPane;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -15,8 +13,6 @@ public class LoginController extends Controller {
 	@FXML ImageView logoImgView;
 	
 	@FXML private void handleLogin(ActionEvent e) {
-		JOptionPane.showMessageDialog(null, "User: " + usernameFld.getText() + "\n" + 
-											"Password: " + passwordFld.getText());
 		mainApp.show(Views.MAIN);
 	}
 
