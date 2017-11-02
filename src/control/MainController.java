@@ -40,9 +40,9 @@ public class MainController extends Controller {
     private void initialize() {
     	transactions = new ArrayList<Transaction>();
     	// Add some sample data
-    	transactions.add(new Transaction("10/15/17", "$100.00", "T-shirts"));
-    	transactions.add(new Transaction("9/27/17", "$50.00", "Cups"));
-    	transactions.add(new Transaction("11/01/17", "$1000.00", "Party hats"));
+    	transactions.add(new Transaction("10/15/17", "T-shirts", "$100.00"));
+    	transactions.add(new Transaction("9/27/17", "Cups", "$50.00"));
+    	transactions.add(new Transaction("11/01/17", "Party hats", "$1000.00"));
     	transTable.setItems(FXCollections.observableList(transactions));
         // Initialize the person table with the two columns.
         dateCol.setCellValueFactory(cellData -> cellData.getValue().getTime());
