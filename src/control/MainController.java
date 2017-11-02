@@ -1,7 +1,9 @@
 package control;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -9,18 +11,19 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import main.MainApp.Views;
-import model.Person;
+import model.Transaction;
 
 public class MainController extends Controller {
-    @FXML private TableView<Person> personTable;
+    @FXML private TableView<Transaction> transTable;
     
-    @FXML private TableColumn<Person, String> firstNameColumn, 
-    									lastNameColumn;
+    @FXML private TableColumn<Transaction, String> dateCol, amountCol, 
+    									descripCol;
 
     @FXML private Label firstNameLabel, lastNameLabel, streetLabel, 
     				postalCodeLabel, cityLabel, birthdayLabel;
     @FXML Button newAccBtn, delAccBtn, logoutBtn, newTransBtn;
-    private ObservableList<Person> personData = FXCollections.observableArrayList();
+    
+    private List<Transaction> transactions;
 
     /**
      * The constructor.
@@ -35,20 +38,16 @@ public class MainController extends Controller {
      */
     @FXML
     private void initialize() {
+    	transactions = new ArrayList<Transaction>();
     	// Add some sample data
-        personData.add(new Person("Hans", "Muster"));
-        personData.add(new Person("Ruth", "Mueller"));
-        personData.add(new Person("Heinz", "Kurz"));
-        personData.add(new Person("Cornelia", "Meier"));
-        personData.add(new Person("Werner", "Meyer"));
-        personData.add(new Person("Lydia", "Kunz"));
-        personData.add(new Person("Anna", "Best"));
-        personData.add(new Person("Stefan", "Meier"));
-        personData.add(new Person("Martin", "Mueller"));
-        personTable.setItems(personData);
+    	transactions.add(new Transaction("10/15/17", "$100.00", "T-shirts"));
+    	transactions.add(new Transaction("9/27/17", "$50.00", "Cups"));
+    	transactions.add(new Transaction("11/01/17", "$1000.00", "Party hats"));
+    	transTable.setItems(FXCollections.observableList(transactions));
         // Initialize the person table with the two columns.
-        firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
-        lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
+        dateCol.setCellValueFactory(cellData -> cellData.getValue().getTime());
+        amountCol.setCellValueFactory(cellData -> cellData.getValue().getAmount());
+        descripCol.setCellValueFactory(cellData -> cellData.getValue().getDescription());
     }
     
     @FXML
@@ -56,5 +55,7 @@ public class MainController extends Controller {
     	Object src = e.getSource();
     	if (src.equals(newTransBtn))
     		mainApp.show(Views.NEW_TRANS);
+    	else if (src.equals(logoutBtn))
+    		mainApp.show(Views.LOGIN);
     }
 }

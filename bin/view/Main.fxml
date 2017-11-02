@@ -61,17 +61,15 @@
 						<Insets />
 					</VBox.margin>
 				</HBox>
-				<TableView fx:id="personTable" prefHeight="450.0"
+				<TableView fx:id="transTable" prefHeight="700.0"
 					prefWidth="200.0">
 					<columns>
-						<TableColumn fx:id="firstNameColumn" prefWidth="180.0"
-							text="Date" />
-						<TableColumn fx:id="lastNameColumn" prefWidth="198.0"
-							text="Transaction" />
-						<TableColumn prefWidth="221.0" text="Balance" />
+						<TableColumn fx:id="dateCol" prefWidth="180.0" text="Date" />
+						<TableColumn fx:id="amountCol" prefWidth="198.0" text="Transaction" />
+						<TableColumn fx:id="descripCol" prefWidth="221.0" text="Amount" />
 					</columns>
 					<VBox.margin>
-						<Insets top="5.0" />
+						<Insets top="10.0" left="30.0" right="30.0" bottom="10.0"/>
 					</VBox.margin>
 				</TableView>
 				<HBox prefHeight="100.0" prefWidth="200.0"

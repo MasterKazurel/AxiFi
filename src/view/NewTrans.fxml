@@ -91,7 +91,7 @@
 						</Label>
 					</children>
 				</HBox>
-				<Button fx:id="submitBtn" mnemonicParsing="false" text="Submit">
+				<Button fx:id="submitBtn" onAction="#handleAction" mnemonicParsing="false" text="Submit">
 					<VBox.margin>
 						<Insets left="450.0" top="200.0" />
 					</VBox.margin>
