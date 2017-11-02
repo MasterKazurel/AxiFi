@@ -14,11 +14,10 @@ public class LoginController extends Controller {
 	@FXML Button loginBtn;
 	@FXML ImageView logoImgView;
 	
-	
-
 	@FXML private void handleLogin(ActionEvent e) {
 		JOptionPane.showMessageDialog(null, "User: " + usernameFld.getText() + "\n" + 
 											"Password: " + passwordFld.getText());
 		mainApp.show(Views.MAIN);
 	}
+
 }

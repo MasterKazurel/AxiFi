@@ -18,7 +18,7 @@ public class MainApp extends Application {
 	public enum Views {
 		LOGIN("Login.fxml"),
 		MAIN("Main.fxml"),
-		TRANSACTION("NewTransaction.fxml");
+		NEW_TRANS("NewTrans.fxml");
 		private String val;
 		private Views(String val)
 		{ this.val = "/view/" + val; }
@@ -61,14 +61,26 @@ public class MainApp extends Application {
             // Load person overview.
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getURL(view.val));
-            AnchorPane Main = (AnchorPane) loader.load();
+            AnchorPane main = (AnchorPane) loader.load();
 
             // Set person overview into the center of root layout.
-            rootLayout.setCenter(Main);
+            rootLayout.setCenter(main);
             
             // Give the controller access to the main app.
             Controller controller = loader.getController();
             controller.setMainApp(this);
+            
+            switch(view) {
+	            case LOGIN:
+	            	primaryStage.setMaximized(false);
+	            	break;
+	            case MAIN:
+	            	primaryStage.setMaximized(true);
+	            	break;
+	            case NEW_TRANS:
+	            	primaryStage.setMaximized(false);
+	            	break;
+            }
             
         } catch (IOException e) {
             e.printStackTrace();

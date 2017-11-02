@@ -2,7 +2,7 @@ package control;
 
 import main.MainApp;
 
-public class Controller {
+public abstract class Controller {
 	protected MainApp mainApp;
 	
 	public void setMainApp(MainApp mainApp)

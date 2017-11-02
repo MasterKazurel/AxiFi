@@ -2,10 +2,13 @@ package control;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import main.MainApp.Views;
 import model.Person;
 
 public class MainController extends Controller {
@@ -16,7 +19,7 @@ public class MainController extends Controller {
 
     @FXML private Label firstNameLabel, lastNameLabel, streetLabel, 
     				postalCodeLabel, cityLabel, birthdayLabel;
-    
+    @FXML Button newAccBtn, delAccBtn, logoutBtn, newTransBtn;
     private ObservableList<Person> personData = FXCollections.observableArrayList();
 
     /**
@@ -46,5 +49,12 @@ public class MainController extends Controller {
         // Initialize the person table with the two columns.
         firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
         lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
+    }
+    
+    @FXML
+    private void handleAction (ActionEvent e) {
+    	Object src = e.getSource();
+    	if (src.equals(newTransBtn))
+    		mainApp.show(Views.NEW_TRANS);
     }
 }

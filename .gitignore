@@ -1,5 +1,5 @@
 # Ant
-build
+/build/*
 
 # Eclipse
 .metadata
@@ -11,3 +11,6 @@ tmp/
 
 # Java
 //*.class
+
+# Whitelist
+!/build/build.xml

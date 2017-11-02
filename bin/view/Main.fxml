@@ -24,17 +24,17 @@
 				<HBox prefHeight="30.0" prefWidth="200.0"
 					style="-fx-background-color: #FFC300;">
 					<children>
-						<Button mnemonicParsing="false" text="Make a new account">
+						<Button fx:id="newAccBtn" onAction="#handleAction" mnemonicParsing="false" text="Create New Account">
 							<HBox.margin>
 								<Insets bottom="10.0" left="5.0" right="10.0" top="5.0" />
 							</HBox.margin>
 						</Button>
-						<Button mnemonicParsing="false" text="Delete an account">
+						<Button fx:id="delAccBtn" onAction="#handleAction" mnemonicParsing="false" text="Delete An Account">
 							<HBox.margin>
 								<Insets left="120.0" right="85.0" top="5.0" />
 							</HBox.margin>
 						</Button>
-						<Button mnemonicParsing="false" text="Log out">
+						<Button fx:id="logoutBtn" onAction="#handleAction" mnemonicParsing="false" text="Logout">
 							<HBox.margin>
 								<Insets left="80.0" right="5.0" top="5.0" />
 							</HBox.margin>
@@ -50,6 +50,7 @@
 								<MenuItem mnemonicParsing="false" text="Trish Duce" />
 								<MenuItem mnemonicParsing="false" text="Michael Cassens" />
 								<MenuItem mnemonicParsing="false" text="Oliver Serang" />
+								<MenuItem mnemonicParsing="false" text="Rob Smith" /> 
 							</items>
 							<HBox.margin>
 								<Insets left="5.0" />
@@ -109,7 +110,7 @@
 								<Insets bottom="5.0" left="5.0" top="5.0" />
 							</HBox.margin>
 						</SplitPane>
-						<Button mnemonicParsing="false" text="Make a new transaction">
+						<Button fx:id="newTransBtn" onAction="#handleAction" mnemonicParsing="false" text="Add Transaction">
 							<HBox.margin>
 								<Insets left="210.0" top="25.0" />
 							</HBox.margin>
