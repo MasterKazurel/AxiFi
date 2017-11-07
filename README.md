@@ -7,7 +7,7 @@ A financial tracking program.
 
 | OS        | Installer           |
 | ------------- |:-------------:|
-| Windows      | [AxiFi-1.0.zip](https://drive.google.com/file/d/0B6sC8KDRHN9Sd3cyVl9vT0lLbk0/view?usp=sharing) |
+| Windows      | [AxiFi-1.0.zip](https://drive.google.com/open?id=1SFM7bqRWnBe22p3wkULdCDlvGpXPU--p) |
 | MacOS      | Currently unavailable      |
 | Linux | Currently unavailable       |
 
