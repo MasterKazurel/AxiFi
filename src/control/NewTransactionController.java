@@ -1,7 +1,10 @@
 package control;
 
+import javax.swing.text.View;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
@@ -20,31 +23,40 @@ public class NewTransactionController extends Controller {
 	@FXML private TextField amountFld;
 	@FXML private Button submitBtn;
 	
-	@FXML private void handleAction(ActionEvent e) {
+	@FXML
+	private void switchTransType(ActionEvent e) {
 		Object src = e.getSource();
 		if (src.equals(depositItm)) {
 			transTypeMenu.setText(depositItm.getText());
-			showTransDetails(true);
-			paymentMenu.setVisible(true);
-			methodLbl.setVisible(true);
+			show(true, actualAmountLbl, actualAmountValLbl, 
+					amountHeldLbl, amountHeldValLbl,
+					paymentMenu, methodLbl);
 			actualAmountLbl.setText("Amount being deposited: ");
 		}
 		else if (src.equals(withdrawItm)) {
 			transTypeMenu.setText(withdrawItm.getText());
-			showTransDetails(true);
-			paymentMenu.setVisible(false);
-			methodLbl.setVisible(false);
+			show(true, actualAmountLbl, actualAmountValLbl);
+			show(false, paymentMenu, methodLbl,
+					amountHeldLbl, amountHeldValLbl);
 			actualAmountLbl.setText("Amount being withdrawn: ");
 		}
-		else if (src.equals(creditItm)) {
+	}
+	
+	@FXML
+	private void switchPayment(ActionEvent e) {
+		Object src = e.getSource();
+		if (src.equals(creditItm)) {
 			paymentMenu.setText(creditItm.getText());
 		}
 		else if (src.equals(checkItm)) {
 			paymentMenu.setText(checkItm.getText());
 		}
-		else if (src.equals(submitBtn)) {
-			mainApp.show(Views.MAIN);
-		}
+	}
+	
+	@FXML
+	private void submit(ActionEvent e) {
+		mainApp.show(Views.MAIN); // pass in new transaction object
+		mainApp.close(Views.NEW_TRANS);
 	}
 	
 	/**
@@ -53,13 +65,18 @@ public class NewTransactionController extends Controller {
      */
 	@FXML
 	public void initialize() {
-		showTransDetails(false);
+		show(false, actualAmountLbl, actualAmountValLbl, 
+					amountHeldLbl, amountHeldValLbl,
+					paymentMenu, methodLbl);
 	}
 	
-	private void showTransDetails(boolean show) {
-		actualAmountLbl.setVisible(show);
-		actualAmountValLbl.setVisible(show);
-		amountHeldLbl.setVisible(show);
-		amountHeldValLbl.setVisible(show);
+	private void show(boolean show, Node... nodes) {
+		for (Node n: nodes)
+			n.setVisible(show);
+	}
+
+	@Override
+	public void receiveData(Object... data) {
+		throw new UnsupportedOperationException();
 	}
 }

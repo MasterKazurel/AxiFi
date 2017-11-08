@@ -21,7 +21,7 @@
 		<VBox prefHeight="600.0" prefWidth="600.0"
 			style="-fx-background-color: #212F3C;">
 			<children>
-				<ImageView fx:id="logoImgView" fitHeight="150.0" fitWidth="225.0"
+				<ImageView fitHeight="150.0" fitWidth="225.0"
 					pickOnBounds="true" preserveRatio="true">
 					<image>
 						<Image url="@../resources/axifi-logo.png" />
@@ -41,19 +41,19 @@
 						<Blend />
 					</effect>
 				</Label>
-				<TextField fx:id="usernameFld" onAction="#handleLogin"
-					layoutX="200.0" prefWidth="300.0" promptText="Username">
+				<TextField fx:id="usernameFld" onAction="#login" layoutX="200.0"
+					prefWidth="300.0" promptText="Username">
 					<VBox.margin>
 						<Insets bottom="75.0" left="100.0" right="100.0" top="25.0" />
 					</VBox.margin>
 				</TextField>
-				<PasswordField fx:id="passwordFld" onAction="#handleLogin"
+				<PasswordField fx:id="passwordFld" onAction="#login"
 					promptText="Password">
 					<VBox.margin>
 						<Insets left="100.0" right="100.0" />
 					</VBox.margin>
 				</PasswordField>
-				<Button fx:id="loginBtn" onAction="#handleLogin" alignment="CENTER"
+				<Button fx:id="loginBtn" onAction="#login" alignment="CENTER"
 					contentDisplay="CENTER" mnemonicParsing="false" prefWidth="75.0"
 					text="Log in" textAlignment="CENTER">
 					<VBox.margin>

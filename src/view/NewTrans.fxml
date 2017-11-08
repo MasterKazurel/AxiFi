@@ -23,9 +23,9 @@
 				<MenuButton fx:id="transTypeMenu" alignment="CENTER"
 					mnemonicParsing="false" text="Type of transaction">
 					<items>
-						<MenuItem fx:id="depositItm" onAction="#handleAction"
+						<MenuItem fx:id="depositItm" onAction="#switchTransType"
 							mnemonicParsing="false" text="Deposit" />
-						<MenuItem fx:id="withdrawItm" onAction="#handleAction"
+						<MenuItem fx:id="withdrawItm" onAction="#switchTransType"
 							mnemonicParsing="false" text="Withdrawal" />
 					</items>
 					<VBox.margin>
@@ -50,9 +50,9 @@
 				<MenuButton fx:id="paymentMenu" mnemonicParsing="false"
 					text="Payment method">
 					<items>
-						<MenuItem fx:id="creditItm" onAction="#handleAction"
+						<MenuItem fx:id="creditItm" onAction="#switchPayment"
 							mnemonicParsing="false" text="Credit Card" />
-						<MenuItem fx:id="checkItm" onAction="#handleAction"
+						<MenuItem fx:id="checkItm" onAction="#switchPayment"
 							mnemonicParsing="false" text="Check" />
 					</items>
 					<VBox.margin>
@@ -91,7 +91,7 @@
 						</Label>
 					</children>
 				</HBox>
-				<Button fx:id="submitBtn" onAction="#handleAction" mnemonicParsing="false" text="Submit">
+				<Button fx:id="submitBtn" onAction="#submit" mnemonicParsing="false" text="Submit">
 					<VBox.margin>
 						<Insets left="450.0" top="200.0" />
 					</VBox.margin>

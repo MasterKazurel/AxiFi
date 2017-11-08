@@ -7,4 +7,6 @@ public abstract class Controller {
 	
 	public void setMainApp(MainApp mainApp)
 	{ this.mainApp = mainApp; }
+	
+	public abstract void receiveData(Object... data);
 }

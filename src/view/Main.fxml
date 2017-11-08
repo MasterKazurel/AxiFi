@@ -24,17 +24,17 @@
 				<HBox prefHeight="30.0" prefWidth="200.0"
 					style="-fx-background-color: #FFC300;">
 					<children>
-						<Button fx:id="newAccBtn" onAction="#handleAction" mnemonicParsing="false" text="Create New Account">
+						<Button fx:id="newAccBtn" onAction="#createAccount" mnemonicParsing="false" text="Create New Account">
 							<HBox.margin>
 								<Insets bottom="10.0" left="5.0" right="10.0" top="5.0" />
 							</HBox.margin>
 						</Button>
-						<Button fx:id="delAccBtn" onAction="#handleAction" mnemonicParsing="false" text="Delete An Account">
+						<Button fx:id="delAccBtn" onAction="#deleteAccount" mnemonicParsing="false" text="Delete An Account">
 							<HBox.margin>
 								<Insets left="120.0" right="85.0" top="5.0" />
 							</HBox.margin>
 						</Button>
-						<Button fx:id="logoutBtn" onAction="#handleAction" mnemonicParsing="false" text="Logout">
+						<Button fx:id="logoutBtn" onAction="#logout" mnemonicParsing="false" text="Logout">
 							<HBox.margin>
 								<Insets left="80.0" right="5.0" top="5.0" />
 							</HBox.margin>
@@ -108,7 +108,7 @@
 								<Insets bottom="5.0" left="5.0" top="5.0" />
 							</HBox.margin>
 						</SplitPane>
-						<Button fx:id="newTransBtn" onAction="#handleAction" mnemonicParsing="false" text="Add Transaction">
+						<Button fx:id="newTransBtn" onAction="#newTransaction" mnemonicParsing="false" text="Add Transaction">
 							<HBox.margin>
 								<Insets left="210.0" top="25.0" />
 							</HBox.margin>

@@ -10,7 +10,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import main.MainApp.Views;
+import model.Account;
 import model.Transaction;
 
 public class MainController extends Controller {
@@ -23,6 +26,7 @@ public class MainController extends Controller {
     				postalCodeLabel, cityLabel, birthdayLabel;
     @FXML Button newAccBtn, delAccBtn, logoutBtn, newTransBtn;
     
+    private Stage newTransStage;
     private List<Transaction> transactions;
 
     /**
@@ -51,11 +55,45 @@ public class MainController extends Controller {
     }
     
     @FXML
-    private void handleAction (ActionEvent e) {
-    	Object src = e.getSource();
-    	if (src.equals(newTransBtn))
-    		mainApp.show(Views.NEW_TRANS);
-    	else if (src.equals(logoutBtn))
-    		mainApp.show(Views.LOGIN);
+    private void createAccount(ActionEvent e) {
+    	// Create account UI and add to list
     }
+    
+    @FXML
+    private void deleteAccount(ActionEvent e) {
+    	// Clear account object from list
+    }
+    
+    @FXML
+    private void newTransaction(ActionEvent e) {
+    	mainApp.showInNewStage(Views.NEW_TRANS);
+    }
+    
+    @FXML
+    private void logout(ActionEvent e) {
+    	mainApp.close(Views.MAIN);
+    	mainApp.showInNewStage(Views.LOGIN);
+    }
+    
+    
+
+    /**
+     * Requires only one object of one of the following types:
+     * Account, Transaction.
+     * 
+     * @throws IllegalArgumentException
+     * - if the parameters do not conform to the requirements
+     * above
+     */
+	@Override
+	public void receiveData(Object... data) {
+		checkData(Transaction.class, data);
+		checkData(Account.class, data);
+	}
+	
+	private void checkData(Class<?> type, Object... data) {
+		if (!(data.length == 1 && type.isInstance(data[0])))
+			throw new IllegalArgumentException("Requires only one object of one of the following types: Account, Transaction.");
+	}
+    
 }
