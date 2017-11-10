@@ -3,6 +3,8 @@ package control;
 import java.util.ArrayList;
 import java.util.List;
 
+import application.Main.Stages;
+import application.Main.Views;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,13 +12,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import main.MainApp.Views;
+import javafx.scene.layout.BorderPane;
 import model.Account;
 import model.Transaction;
 
 public class MainController extends Controller {
+	@FXML private BorderPane root;
     @FXML private TableView<Transaction> transTable;
     
     @FXML private TableColumn<Transaction, String> dateCol, amountCol, 
@@ -26,22 +27,10 @@ public class MainController extends Controller {
     				postalCodeLabel, cityLabel, birthdayLabel;
     @FXML Button newAccBtn, delAccBtn, logoutBtn, newTransBtn;
     
-    private Stage newTransStage;
     private List<Transaction> transactions;
 
-    /**
-     * The constructor.
-     * The constructor is called before the initialize() method.
-     */
-    public MainController() {
-    }
-
-    /**
-     * Initializes the controller class. This method is automatically called
-     * after the fxml file has been loaded.
-     */
     @FXML
-    private void initialize() {
+	public void initialize() {
     	transactions = new ArrayList<Transaction>();
     	// Add some sample data
     	transactions.add(new Transaction("10/15/17", "T-shirts", "$100.00"));
@@ -66,16 +55,14 @@ public class MainController extends Controller {
     
     @FXML
     private void newTransaction(ActionEvent e) {
-    	mainApp.showInNewStage(Views.NEW_TRANS);
+    	main.show(Stages.NEW_TRANS, Views.NEW_TRANS);
     }
     
     @FXML
     private void logout(ActionEvent e) {
-    	mainApp.close(Views.MAIN);
-    	mainApp.showInNewStage(Views.LOGIN);
+    	main.show(Stages.LOGIN, Views.LOGIN);
+    	main.close(Stages.MAIN);
     }
-    
-    
 
     /**
      * Requires only one object of one of the following types:
@@ -87,12 +74,23 @@ public class MainController extends Controller {
      */
 	@Override
 	public void receiveData(Object... data) {
-		checkData(Transaction.class, data);
-		checkData(Account.class, data);
+		checkData(data, Account.class, Transaction.class);
+		transactions.add((Transaction)data[0]);
+		transTable.setItems(FXCollections.observableList(transactions));
 	}
 	
-	private void checkData(Class<?> type, Object... data) {
-		if (!(data.length == 1 && type.isInstance(data[0])))
+	private void checkData(Object[] data, Class<?>... types) {
+		boolean valid = false;
+		if (data.length != 1)
+			valid = false;
+		else for (Object d: data)
+			for (Class<?> type: types)
+				if (type.isInstance(d)) {
+					valid = true;
+					break;
+				}
+				
+		if (!valid)
 			throw new IllegalArgumentException("Requires only one object of one of the following types: Account, Transaction.");
 	}
     

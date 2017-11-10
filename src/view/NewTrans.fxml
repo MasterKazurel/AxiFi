@@ -12,7 +12,7 @@
 <?import javafx.scene.control.MenuButton?>
 
 
-<AnchorPane fx:controller="control.NewTransactionController"
+<AnchorPane fx:id="root" fx:controller="control.NewTransactionController"
 	prefHeight="600.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1"
 	xmlns="http://javafx.com/javafx/8.0.141">
 	<children>

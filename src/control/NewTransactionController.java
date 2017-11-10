@@ -1,7 +1,12 @@
 package control;
 
-import javax.swing.text.View;
+import java.net.URL;
+import java.util.ResourceBundle;
 
+import application.Main.Stages;
+import application.Main.Views;
+import javafx.animation.FadeTransition;
+import javafx.animation.Interpolator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -10,9 +15,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
-import main.MainApp.Views;
+import javafx.scene.layout.AnchorPane;
+import javafx.util.Duration;
+import model.Transaction;
 
 public class NewTransactionController extends Controller {
+	@FXML private AnchorPane root;
 	@FXML private MenuButton transTypeMenu;
 		@FXML private MenuItem depositItm, withdrawItm;
 	@FXML private MenuButton paymentMenu;
@@ -22,6 +30,13 @@ public class NewTransactionController extends Controller {
 				amountHeldLbl, amountHeldValLbl;
 	@FXML private TextField amountFld;
 	@FXML private Button submitBtn;
+	
+	@FXML
+	public void initialize() {
+		show(false, actualAmountLbl, actualAmountValLbl, 
+					amountHeldLbl, amountHeldValLbl,
+					paymentMenu, methodLbl);
+	}
 	
 	@FXML
 	private void switchTransType(ActionEvent e) {
@@ -55,19 +70,8 @@ public class NewTransactionController extends Controller {
 	
 	@FXML
 	private void submit(ActionEvent e) {
-		mainApp.show(Views.MAIN); // pass in new transaction object
-		mainApp.close(Views.NEW_TRANS);
-	}
-	
-	/**
-     * Initializes the controller class. This method is automatically called
-     * after the fxml file has been loaded.
-     */
-	@FXML
-	public void initialize() {
-		show(false, actualAmountLbl, actualAmountValLbl, 
-					amountHeldLbl, amountHeldValLbl,
-					paymentMenu, methodLbl);
+		main.sendData(Views.MAIN, new Transaction("10/01/17", "100.0", "shoes"));
+		main.close(Stages.NEW_TRANS);
 	}
 	
 	private void show(boolean show, Node... nodes) {

@@ -3,7 +3,7 @@
 
 # Eclipse
 .metadata
-.settings/
+.settings
 .recommenders
 bin/
 tmp/

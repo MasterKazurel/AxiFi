@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:controller="control.LoginController"
+<AnchorPane fx:id="root" fx:controller="control.LoginController"
 	prefHeight="600.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0"
 	AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
 	AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.141"
