@@ -2,6 +2,7 @@
 
 A financial tracking program.
 
+<<<<<<< HEAD
 ## Releases
 **Latest:** 
 
@@ -26,3 +27,28 @@ Once Maven finishes building, the new executable JAR will be in **/target/**.
 
 Alternatively, you can [install Maven](http://www.baeldung.com/install-maven-on-windows-linux-mac) and run 
 `mvn package` from the project's root directory.
+=======
+## Releases (hosted on Google Drive)
+**Latest:**
+
+| OS        | Installer           |
+| ------------- |:-------------:|
+| Windows      | [AxiFi-1.0.zip](https://drive.google.com/open?id=1SFM7bqRWnBe22p3wkULdCDlvGpXPU--p) |
+| MacOS      | Currently unavailable      |
+| Linux | Currently unavailable       |
+
+Previous releases:
+- None
+
+## Developers
+
+## Testing
+Can be run as a normal Java application in eclipse. The main method is in **MainApp.java**.
+
+### Deployment
+This project uses the  [e(fx)clipse](https://www.eclipse.org/efxclipse/index.html) Eclipse extension, and subsequently [Apache Ant](https://ant.apache.org/), to generate various installers for Windows (.exe), MacOS (.dmg), and Linux (.deb).
+
+After installing e(fx)clipse, the installer can be built by opening **build.fxbuild** and clicking "_Generate ant build.xml and run_" in the **Building_Exporting** section on the top right.
+
+This will generate the installers in **\build\deploy**.
+>>>>>>> cf6ff7618d32b98d99669c8af92131ba2e9f53f3

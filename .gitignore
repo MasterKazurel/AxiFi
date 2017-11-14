@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Eclipse
 /.metadata/
 /.settings/
@@ -11,3 +12,21 @@
 
 # Whitelist
 !/target/AxiFi*.jar
+=======
+# Ant
+/build/*
+
+# Eclipse
+.metadata
+.settings
+.recommenders
+bin/
+tmp/
+*.launch
+
+# Java
+//*.class
+
+# Whitelist
+!/build/build.xml
+>>>>>>> cf6ff7618d32b98d99669c8af92131ba2e9f53f3
