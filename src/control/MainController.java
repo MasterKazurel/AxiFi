@@ -5,7 +5,8 @@ import java.util.List;
 
 import application.Main.Stages;
 import application.Main.Views;
-import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -48,7 +49,7 @@ public class MainController extends Controller {
     
     @FXML
     private void deleteAccount(ActionEvent e) {
-    	main.sendData(Views.DEL_ACC, currAcc);
+    	main.sendData(Views.DEL_ACC, admin, currAcc);
     	main.show(Stages.DEL_ACC, Views.DEL_ACC);
     }
     
@@ -62,8 +63,61 @@ public class MainController extends Controller {
     	main.show(Stages.LOGIN, Views.LOGIN);
     	main.close(Stages.MAIN);
     }
-
-    /**
+	
+	private void showAccounts() {
+		admin.getUsers().addListener(new ListChangeListener<Profile>() {
+			@Override
+			public void onChanged(Change<? extends Profile> c) {
+				while (c.next())
+					if (c.wasRemoved()) {
+						accMenuBtn.getItems().remove(c.getFrom());
+						currAcc = admin.getUsers().get(0);
+						accMenuBtn.setText(admin.getUsers().get(0).getFullName());
+						updateTransactions();
+					}
+			}
+		});
+		addAccounts(admin.getUsers());
+		currAcc = admin.getUsers().get(0);
+		accMenuBtn.setText(admin.getUsers().get(0).getFullName());
+	}
+	
+	private void addAccounts(List<Profile> accs) {
+		// Add accounts
+		List<MenuItem> items = new ArrayList<MenuItem>();
+		accs.forEach(user -> {
+			MenuItem item = new MenuItem();
+			item.setText(user.getFullName());
+			item.setOnAction(e -> switchAccounts(user));
+			items.add(item);
+			user.getTransactions().addListener(new ListChangeListener<Transaction>() {
+				@Override
+				public void onChanged(Change<? extends Transaction> c) {
+					while (c.next())
+						if (c.wasAdded())
+							updateTransactions();
+				}
+			});
+		});
+		accMenuBtn.getItems().addAll(items);
+	}
+	
+	private void updateTransactions() {
+		// Add transactions
+		transTable.setItems(currAcc.getTransactions());
+		// Display columns
+		dateCol.setCellValueFactory(cellData -> cellData.getValue().getTime());
+        amountCol.setCellValueFactory(cellData -> cellData.getValue().getAmount());
+        descripCol.setCellValueFactory(cellData -> cellData.getValue().getDescription());
+	}
+	
+	private void switchAccounts(Profile user) {
+    	accMenuBtn.setText(user.getFullName());
+    	currAcc = user;
+    	updateTransactions();
+    }
+	
+	/**
      * Requires only one object of one of the following types:
      * Account, Transaction.
      * 
@@ -77,36 +131,17 @@ public class MainController extends Controller {
 		if (type.equals(CsAdmin.class)) {
 			admin = (CsAdmin)data[0];
 			Testing.fakeAdmin(admin); // shhhhh
-			// Add accounts
-			List<MenuItem> items = new ArrayList<MenuItem>();
-			admin.getUsers().forEach(user -> {
-				MenuItem item = new MenuItem();
-				item.setText(user.getFullName());
-				item.setOnAction(e -> switchAccounts(user));
-				items.add(item);
-			});
-			accMenuBtn.getItems().addAll(items);
+			showAccounts();
+			updateTransactions();
+		} else if (type.equals(Transaction.class)) {
+			currAcc.getTransactions().add((Transaction)data[0]);
 		} else
 			throw new IllegalArgumentException("Requires only one object of one of the following types: Account, Transaction.");
+		
 	}
-	
-	private void showTransactions() {
-		// Add transactions
-		transTable.setItems(FXCollections.observableList(currAcc.getTransactions()));
-		// Display columns
-		dateCol.setCellValueFactory(cellData -> cellData.getValue().getTime());
-        amountCol.setCellValueFactory(cellData -> cellData.getValue().getAmount());
-        descripCol.setCellValueFactory(cellData -> cellData.getValue().getDescription());
-	}
-	
-	private void switchAccounts(Profile user) {
-    	accMenuBtn.setText(user.getFullName());
-    	currAcc = user;
-    	showTransactions();
-    }
 	
 	private Class<?> checkData(Object[] data) {
-		if (data.length == 1 && Transaction.class.isInstance(data[0]))
+		if (data.length == 1 && data[0] instanceof Transaction)
 			return Transaction.class;
 		else if (data.length == 1 && data[0] instanceof CsAdmin)
 			return CsAdmin.class;

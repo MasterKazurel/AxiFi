@@ -58,7 +58,7 @@
 									</HBox.margin>
 								</Button>
 								<Button fx:id="delAccBtn" onAction="#deleteAccount"
-									mnemonicParsing="false" text="Delete An Account">
+									mnemonicParsing="false" text="Delete Account">
 									<HBox.margin>
 										<Insets left="120.0" right="85.0" top="5.0" />
 									</HBox.margin>

@@ -64,7 +64,7 @@ public class NewTransactionController extends Controller {
 	
 	@FXML
 	private void submit(ActionEvent e) {
-		main.sendData(Views.MAIN, new Transaction("10/01/17", "100.0", "shoes"));
+		main.sendData(Views.MAIN, new Transaction("10/01/17", amountFld.getText(), "shoes"));
 		main.close(Stages.NEW_TRANS);
 	}
 	

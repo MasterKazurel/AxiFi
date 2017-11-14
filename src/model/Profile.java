@@ -2,75 +2,82 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
-public class Profile {
-	private String firstName;
-	private String lastName;
-	private String password;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+public class Profile extends Observable {
+	private StringProperty firstName;
+	private StringProperty lastName;
+	private StringProperty password;
 	
-	private double balance;
+	private DoubleProperty balance;
+	private ObservableList<Transaction> transactionsObserver;
 	private List<Transaction> transactions;
 
 	public Profile(String firstName, String lastName, String password, double balance) {
 		super();
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.password = password;
-		this.balance = balance;
+		setFirstName(firstName);
+		setLastName(lastName);
+		setPassword(password);
+		setBalance(balance);
 		transactions = new ArrayList<Transaction>();
+		transactionsObserver = FXCollections.observableList(transactions);
 	}
 
 	public Profile(String firstName, String lastName, String password) {
 		super();
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.password = password;
-		this.balance = 0;
+		setFirstName(firstName);
+		setLastName(lastName);
+		setPassword(password);
+		setBalance(0);
 		transactions = new ArrayList<Transaction>();
+		transactionsObserver = FXCollections.observableList(transactions);
 	}
 
 	public String getFullName() {
-		return firstName + " " + lastName;
+		return firstName.getValue() + " " + lastName.getValue();
 	}
 	
 	public String getFirstName() {
-		return firstName;
+		return firstName.getValue();
 	}
 
 	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+		this.firstName = new SimpleStringProperty(firstName);
 	}
 
 	public String getLastName() {
-		return lastName;
+		return lastName.getValue();
 	}
 
 	public void setLastName(String lastName) {
-		this.lastName = lastName;
+		this.lastName = new SimpleStringProperty(lastName);
 	}
 
 	public String getPassword() {
-		return password;
+		return password.getValue();
 	}
 
 	public void setPassword(String password) {
-		this.password = password;
+		this.password = new SimpleStringProperty(password);
 	}
 
 	public double getBalance() {
-		return balance;
+		return balance.doubleValue();
 	}
 
 	public void setBalance(double balance) {
-		this.balance = balance;
+		this.balance = new SimpleDoubleProperty(balance);
 	}
 
-	public List<Transaction> getTransactions() {
-		return transactions;
-	}
-
-	public void setTransactions(List<Transaction> transactions) {
-		this.transactions = transactions;
+	public ObservableList<Transaction> getTransactions() {
+		return transactionsObserver;
 	}
 	
 }

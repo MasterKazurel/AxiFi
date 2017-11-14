@@ -20,7 +20,7 @@
          <top>
             <VBox prefHeight="93.0" prefWidth="400.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label text="Are you sure you want to delete this account?">
+                  <Label fx:id="promptLbl" text="" wrapText="true" textFill="#ff5733">
                      <VBox.margin>
                         <Insets left="45.0" top="45.0" />
                      </VBox.margin>
@@ -34,12 +34,12 @@
          <bottom>
             <HBox prefHeight="138.0" prefWidth="400.0" BorderPane.alignment="CENTER">
                <children>
-                  <Button mnemonicParsing="false" text="Delete">
+                  <Button fx:id="submitBtn" mnemonicParsing="false" text="Delete" onAction="#submit">
                      <HBox.margin>
                         <Insets left="100.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" text="Cancel">
+                  <Button fx:id="cancelBtn" mnemonicParsing="false" text="Cancel" onAction="#cancel">
                      <HBox.margin>
                         <Insets left="100.0" />
                      </HBox.margin>
@@ -52,10 +52,10 @@
                <children>
                   <Label text="Re-enter password to delete:">
                      <VBox.margin>
-                        <Insets left="125.0" top="45.0" />
+                        <Insets left="25.0" top="45.0" />
                      </VBox.margin>
                   </Label>
-                  <TextField promptText="Confirm password">
+                  <TextField fx:id="adminPwFld" promptText="Confirm password">
                      <VBox.margin>
                         <Insets left="25.0" right="25.0" top="5.0" />
                      </VBox.margin>
