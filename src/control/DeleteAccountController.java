@@ -1,12 +1,13 @@
 package control;
 
-import application.Main.Stages;
+import application.Manager.Stages;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import model.CsAdmin;
 import model.Profile;
+import view.Animations;
 
 public class DeleteAccountController extends Controller {
 	@FXML Label promptLbl;
@@ -22,7 +23,7 @@ public class DeleteAccountController extends Controller {
 	
 	@FXML
 	private void cancel() {
-		main.close(Stages.DEL_ACC);
+		manager.close(Stages.DEL_ACC);
 	}
 	
 	@FXML
@@ -30,7 +31,7 @@ public class DeleteAccountController extends Controller {
 		if (admin.getPassword().equals(adminPwFld.getText())) {
 			db.removeProfile(acc.getId());
 			admin.getUsers().remove(acc);
-			main.close(Stages.DEL_ACC);
+			manager.close(Stages.DEL_ACC);
 		}
 		else {
 			promptLbl.setText("Invalid password. ");

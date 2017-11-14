@@ -1,17 +1,15 @@
 package control;
 
-import application.Main.Stages;
-import application.Main.Views;
-import javafx.animation.TranslateTransition;
+import application.Manager.Stages;
+import application.Manager.Views;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.util.Duration;
 import model.CsAdmin;
+import view.Animations;
 
 public class LoginController extends Controller {
 	@FXML AnchorPane root;
@@ -28,9 +26,9 @@ public class LoginController extends Controller {
 	private void login(ActionEvent e) {
 		CsAdmin admin = authenticate(usernameFld.getText(), passwordFld.getText());
 		if (admin != null) {
-			main.sendData(Views.MAIN, admin);
-			main.show(Stages.MAIN, Views.MAIN);
-			main.close(Stages.LOGIN);
+			manager.show(Stages.MAIN, Views.MAIN);
+			manager.sendData(Views.MAIN, admin);
+			manager.close(Stages.LOGIN);
 		} else {
 			showError("Invalid Login. ");
 			Animations.shake(loginLbl);

@@ -3,10 +3,9 @@ package control;
 import java.util.ArrayList;
 import java.util.List;
 
-import application.Main.Stages;
-import application.Main.Views;
+import application.Manager.Stages;
+import application.Manager.Views;
 import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -48,8 +47,8 @@ public class MainController extends Controller {
     
     @FXML
     private void deleteAccount(ActionEvent e) {
-    	main.sendData(Views.DEL_ACC, admin, currAcc);
-    	main.show(Stages.DEL_ACC, Views.DEL_ACC);
+    	manager.show(Stages.DEL_ACC, Views.DEL_ACC);
+    	manager.sendData(Views.DEL_ACC, admin, currAcc);
     }
     @FXML
     private void makeAccount(ActionEvent e) {
@@ -59,13 +58,13 @@ public class MainController extends Controller {
     
     @FXML
     private void newTransaction(ActionEvent e) {
-    	main.show(Stages.NEW_TRANS, Views.NEW_TRANS);
+    	manager.show(Stages.NEW_TRANS, Views.NEW_TRANS);
     }
     
     @FXML
     private void logout(ActionEvent e) {
-    	main.show(Stages.LOGIN, Views.LOGIN);
-    	main.close(Stages.MAIN);
+    	manager.show(Stages.LOGIN, Views.LOGIN);
+    	manager.close(Stages.MAIN);
     }
 	
 	private void showAccounts() {
@@ -81,7 +80,8 @@ public class MainController extends Controller {
 					}
 			}
 		});
-		addAccounts(admin.getUsers());
+		if (accMenuBtn.getItems().isEmpty()) 
+			addAccounts(admin.getUsers());
 		currAcc = admin.getUsers().get(0);
 		accMenuBtn.setText(admin.getUsers().get(0).getFullName());
 	}
@@ -91,6 +91,7 @@ public class MainController extends Controller {
 		List<MenuItem> items = new ArrayList<MenuItem>();
 		accs.forEach(user -> {
 			MenuItem item = new MenuItem();
+			if (!accMenuBtn.getItems().contains(item));
 			item.setText(user.getFullName());
 			item.setOnAction(e -> switchAccounts(user));
 			items.add(item);

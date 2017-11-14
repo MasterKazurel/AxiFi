@@ -94,7 +94,7 @@
 	
 		<fx:application id="fxApplication"
 			name="AxiFi"
-			mainClass="main.MainApp"
+			mainClass="application.Main"
 		/>
 	
 		<mkdir dir="build/classes/META-INF" />
@@ -110,7 +110,7 @@
 			<manifest>
 				<attribute name="Implementation-Vendor" value="CyberDyne"/>
 				<attribute name="Implementation-Title" value="AxiFi"/>
-				<attribute name="Implementation-Version" value="1.0"/>
+				<attribute name="Implementation-Version" value="2.0"/>
 				<attribute name="JavaFX-Feature-Proxy" value="None"/>
 			</manifest>
 		</fx:jar>

@@ -1,7 +1,7 @@
 package control;
 
-import application.Main.Stages;
-import application.Main.Views;
+import application.Manager.Stages;
+import application.Manager.Views;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -64,8 +64,8 @@ public class NewTransactionController extends Controller {
 	
 	@FXML
 	private void submit(ActionEvent e) {
-		main.sendData(Views.MAIN, new Transaction("10/01/17", amountFld.getText(), "shoes"));
-		main.close(Stages.NEW_TRANS);
+		manager.sendData(Views.MAIN, new Transaction("10/01/17", amountFld.getText(), "shoes"));
+		manager.close(Stages.NEW_TRANS);
 	}
 	
 	private void show(boolean show, Node... nodes) {
