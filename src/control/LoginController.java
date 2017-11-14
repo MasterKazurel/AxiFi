@@ -1,8 +1,5 @@
 package control;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import application.Main.Stages;
 import application.Main.Views;
 import javafx.event.ActionEvent;
@@ -25,6 +22,7 @@ public class LoginController extends Controller {
 	@FXML
 	private void login(ActionEvent e) {
 		main.show(Stages.MAIN, Views.MAIN);
+		main.sendData(Views.MAIN, usernameFld.getText(), passwordFld.getText());
 		main.close(Stages.LOGIN);
 	}
 

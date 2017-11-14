@@ -1,12 +1,15 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Profile {
 	private String firstName;
 	private String lastName;
 	private String password;
 	
 	private double balance;
-	
+	private List<Transaction> transactions;
 
 	public Profile(String firstName, String lastName, String password, double balance) {
 		super();
@@ -14,6 +17,7 @@ public class Profile {
 		this.lastName = lastName;
 		this.password = password;
 		this.balance = balance;
+		transactions = new ArrayList<Transaction>();
 	}
 
 	public Profile(String firstName, String lastName, String password) {
@@ -22,6 +26,7 @@ public class Profile {
 		this.lastName = lastName;
 		this.password = password;
 		this.balance = 0;
+		transactions = new ArrayList<Transaction>();
 	}
 
 	public String getFirstName() {
@@ -54,6 +59,14 @@ public class Profile {
 
 	public void setBalance(double balance) {
 		this.balance = balance;
+	}
+
+	public List<Transaction> getTransactions() {
+		return transactions;
+	}
+
+	public void setTransactions(List<Transaction> transactions) {
+		this.transactions = transactions;
 	}
 	
 }

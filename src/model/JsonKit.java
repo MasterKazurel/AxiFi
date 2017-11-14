@@ -30,7 +30,7 @@ public class JsonKit {
 	public Profile loadProfile(String fileName) {
 		Profile profile = null;
 		try {
-	        JsonReader reader = Json.createReader(new FileReader("src/resources/" + fileName));
+	        JsonReader reader = Json.createReader(new FileReader("src/resources/" + fileName + ".json"));
 	        object = reader.readObject();
 	        reader.close();
 		} catch (IOException e) {
@@ -52,7 +52,7 @@ public class JsonKit {
 	
 	public void writeProfile(String fileName) {
 		try {
-			File f = new File("src/resources/" + fileName);
+			File f = new File("src/resources/" + fileName + ".json");
 			f.createNewFile();
 			PrintWriter out = new PrintWriter(f);
 			//Write the stringified json object to the file
@@ -64,7 +64,7 @@ public class JsonKit {
 	}
 
 	public void deleteProfile(String fileName) {
-		File f = new File("src/resources/" + fileName);
+		File f = new File("src/resources/" + fileName + ".json");
 		//Make sure this is real so no malicious file paths are entered
 		if(!f.isDirectory()) {
 			f.delete();
@@ -81,11 +81,11 @@ public class JsonKit {
 		.build();
 	}
 	
-	public CsAdmin openAdmin(String filepath) {
+	public CsAdmin openAdmin(String fileName) {
 		CsAdmin profile = null;
 		try {
 			//Begin reading the Json object from text
-	        JsonReader reader = Json.createReader(new FileReader(filepath));
+	        JsonReader reader = Json.createReader(new FileReader("src/resources/" + fileName + ".json"));
 	        object = reader.readObject();
 	        reader.close();
 	        
@@ -107,7 +107,7 @@ public class JsonKit {
 	
 	public void writeAdmin(String filepath) {
 		try {
-			PrintWriter out = new PrintWriter(filepath);
+			PrintWriter out = new PrintWriter("src/resources/" + filepath + ".json");
 			//Write the stringified json object to the file
 			out.write(object.toString());
 			out.close();
@@ -129,5 +129,12 @@ public class JsonKit {
 		return object.toString();
 	}
 
+	public static void main(String[] args) {
+		JsonKit jkit = new JsonKit();
+		CsAdmin admin = new CsAdmin("csadmin", "csci323", "Robyn", "Berg");
+		
+		jkit.buildAdmin(admin);
+		jkit.writeAdmin(admin.getLogin());
+	}
 	
 }

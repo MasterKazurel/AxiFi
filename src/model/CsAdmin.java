@@ -1,10 +1,14 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CsAdmin{
         private String login;
         private String firstName;
         private String lastName;
         private String Password;
+        private List<Transaction> transactions;
         
 		public CsAdmin(String login, String password, String firstName, String lastName) {
 			super();
@@ -12,6 +16,7 @@ public class CsAdmin{
 			Password = password;
 			this.firstName = firstName;
 			this.lastName = lastName;
+			setTransactions(new ArrayList<Transaction>());
 		}
 
 		public String getLogin() {
@@ -44,6 +49,14 @@ public class CsAdmin{
 
 		public void setPassword(String password) {
 			Password = password;
+		}
+
+		public List<Transaction> getTransactions() {
+			return transactions;
+		}
+
+		public void setTransactions(List<Transaction> transactions) {
+			this.transactions = transactions;
 		}                
 		
 }

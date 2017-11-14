@@ -1,8 +1,5 @@
 package control;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import application.Main.Stages;
 import application.Main.Views;
 import javafx.collections.FXCollections;
@@ -13,7 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
-import model.Account;
+import model.CsAdmin;
 import model.Transaction;
 
 public class MainController extends Controller {
@@ -27,21 +24,13 @@ public class MainController extends Controller {
     				postalCodeLabel, cityLabel, birthdayLabel;
     @FXML Button newAccBtn, delAccBtn, logoutBtn, newTransBtn;
     
-    private List<Transaction> transactions;
-
-    @FXML
+    private CsAdmin admin;
+    
+    @Override
 	public void initialize() {
-    	transactions = new ArrayList<Transaction>();
-    	// Add some sample data
-    	transactions.add(new Transaction("10/15/17", "T-shirts", "$100.00"));
-    	transactions.add(new Transaction("9/27/17", "Cups", "$50.00"));
-    	transactions.add(new Transaction("11/01/17", "Party hats", "$1000.00"));
-    	transTable.setItems(FXCollections.observableList(transactions));
-        // Initialize the person table with the two columns.
-        dateCol.setCellValueFactory(cellData -> cellData.getValue().getTime());
-        amountCol.setCellValueFactory(cellData -> cellData.getValue().getAmount());
-        descripCol.setCellValueFactory(cellData -> cellData.getValue().getDescription());
-    }
+		// TODO Auto-generated method stub
+		
+	}
     
     @FXML
     private void createAccount(ActionEvent e) {
@@ -74,23 +63,26 @@ public class MainController extends Controller {
      */
 	@Override
 	public void receiveData(Object... data) {
-		checkData(data, Account.class, Transaction.class);
-		transactions.add((Transaction)data[0]);
-		transTable.setItems(FXCollections.observableList(transactions));
+		Class<?> type = checkData(data);
+		if (type.equals(String.class)) {
+			admin = jkit.openAdmin((String)data[0]);
+			admin.getTransactions().add(new Transaction("10/01/17", "$100.00", "T-shirts"));
+			admin.getTransactions().add(new Transaction("10/23/17", "$23.00", "Cups"));
+			admin.getTransactions().add(new Transaction("11/02/17", "$1000.00", "Party hats"));
+			transTable.setItems(FXCollections.observableList(admin.getTransactions()));
+			dateCol.setCellValueFactory(cellData -> cellData.getValue().getTime());
+	        amountCol.setCellValueFactory(cellData -> cellData.getValue().getAmount());
+	        descripCol.setCellValueFactory(cellData -> cellData.getValue().getDescription());
+		} else 
+			throw new IllegalArgumentException("Requires only one object of one of the following types: Account, Transaction.");
 	}
 	
-	private void checkData(Object[] data, Class<?>... types) {
-		boolean valid = false;
-		if (data.length != 1)
-			valid = false;
-		else for (Object d: data)
-			for (Class<?> type: types)
-				if (type.isInstance(d)) {
-					valid = true;
-					break;
-				}
-				
-		if (!valid)
+	private Class<?> checkData(Object[] data) {
+		if (data.length == 1 && Transaction.class.isInstance(data[0]))
+			return Transaction.class;
+		else if (data.length == 2 && data[0] instanceof String && data[1] instanceof String)
+			return String.class;
+		else
 			throw new IllegalArgumentException("Requires only one object of one of the following types: Account, Transaction.");
 	}
     
