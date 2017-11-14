@@ -1,35 +1,20 @@
 package control;
 
-import java.io.File;
-
-import application.Main;
+import application.Manager;
 import javafx.fxml.FXML;
-import model.DatabaseKit;
+import model.JsonKit;
 
 public abstract class Controller {
-	protected Main main;
-	protected DatabaseKit db;
+	protected Manager manager;
+	protected JsonKit jkit;
 	private Object userData;
 	
-	private String database = "data.db";
-	
 	public Controller() {
-		db = new DatabaseKit();
-		File dbFile = new File(database);
-		//If it's not there initialize a new one and build its schema
-		if(dbFile.exists()) {
-			db.initDatabase(database);
-		}
-		else {
-			//Rebuild the schema
-			db.initDatabase(database);
-			db.buildSchema();
-			db.insertAdmin("csadmin", "csci323");
-		}
+		jkit = new JsonKit();
 	}
 	
-	public void setMainApp(Main main)
-	{ this.main = main; }
+	public void setManager(Manager main)
+	{ this.manager = main; }
 	
 	public void setUserData(Object obj)
 	{ this.userData = obj; }

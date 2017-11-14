@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 
 import javax.json.Json;
@@ -83,16 +84,12 @@ public class JsonKit {
 	
 	public CsAdmin openAdmin(String fileName) {
 		CsAdmin profile = null;
-		try {
-			//Begin reading the Json object from text
-	        JsonReader reader = Json.createReader(new FileReader("src/resources/" + fileName + ".json"));
-	        object = reader.readObject();
-	        reader.close();
-	        
-		} catch (IOException e) {
-			System.out.println("Could not find file: " + fileName + ".json");
-			return profile;
-		}
+		//Begin reading the Json object from text
+		InputStream is = System.class.getResourceAsStream("/resources/" + fileName + ".json");
+		if (is == null) return null;
+		JsonReader reader = Json.createReader(is);
+		object = reader.readObject();
+		reader.close();
 		
 		String login, fname, lname, passwd;
 		
