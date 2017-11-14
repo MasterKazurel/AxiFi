@@ -16,7 +16,7 @@ public class CsAdmin{
 			Password = password;
 			this.firstName = firstName;
 			this.lastName = lastName;
-			setTransactions(new ArrayList<Transaction>());
+			transactions = new ArrayList<Transaction>();
 		}
 
 		public String getLogin() {

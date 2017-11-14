@@ -30,7 +30,7 @@
 						<Insets left="175.0" right="175.0" top="25.0" />
 					</VBox.margin>
 				</ImageView>
-				<Label alignment="CENTER" text="Please log in " textFill="#ff5733">
+				<Label fx:id="loginLbl" alignment="CENTER" text="Please log in " textFill="#ff5733">
 					<font>
 						<Font name="Rockwell" size="24.0" />
 					</font>
