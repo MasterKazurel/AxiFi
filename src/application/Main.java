@@ -19,13 +19,15 @@ public class Main extends Application {
 	public enum Stages {
 		MAIN,
 		LOGIN,
-		NEW_TRANS;
+		NEW_TRANS,
+		DEL_ACC;
 	}
 	
 	public enum Views {
 		LOGIN("Login.fxml"),
 		MAIN("Main.fxml"),
-		NEW_TRANS("NewTrans.fxml");
+		NEW_TRANS("NewTrans.fxml"),
+		DEL_ACC("DeleteAcct.fxml");
 		private String val;
 		private Views(String val)
 		{ this.val = "/view/" + val; }
@@ -70,6 +72,14 @@ public class Main extends Application {
 					transStage.initStyle(StageStyle.UNDECORATED);
 					transStage.setUserData(Stages.LOGIN);
 					stages[ct] = transStage;
+					ct++;
+					break;
+				case DEL_ACC:
+					Stage delAcctStage = new Stage();
+					delAcctStage.setMaximized(false);
+					delAcctStage.initStyle(StageStyle.UNDECORATED);
+					delAcctStage.setUserData(Stages.DEL_ACC);
+					stages[ct] = delAcctStage;
 					ct++;
 					break;
 			}

@@ -1,12 +1,7 @@
 package control;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import application.Main.Stages;
 import application.Main.Views;
-import javafx.animation.FadeTransition;
-import javafx.animation.Interpolator;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -16,7 +11,6 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.util.Duration;
 import model.Transaction;
 
 public class NewTransactionController extends Controller {
