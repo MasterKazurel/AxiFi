@@ -64,8 +64,8 @@ public class MainController extends Controller {
 	@Override
 	public void receiveData(Object... data) {
 		Class<?> type = checkData(data);
-		if (type.equals(String.class)) {
-			admin = jkit.openAdmin((String)data[0]);
+		if (type.equals(CsAdmin.class)) {
+			admin = (CsAdmin)data[0];
 			admin.getTransactions().add(new Transaction("10/01/17", "$100.00", "T-shirts"));
 			admin.getTransactions().add(new Transaction("10/23/17", "$23.00", "Cups"));
 			admin.getTransactions().add(new Transaction("11/02/17", "$1000.00", "Party hats"));
@@ -80,8 +80,8 @@ public class MainController extends Controller {
 	private Class<?> checkData(Object[] data) {
 		if (data.length == 1 && Transaction.class.isInstance(data[0]))
 			return Transaction.class;
-		else if (data.length == 2 && data[0] instanceof String && data[1] instanceof String)
-			return String.class;
+		else if (data.length == 1 && data[0] instanceof CsAdmin)
+			return CsAdmin.class;
 		else
 			throw new IllegalArgumentException("Requires only one object of one of the following types: Account, Transaction.");
 	}

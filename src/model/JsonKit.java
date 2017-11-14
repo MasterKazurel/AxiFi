@@ -90,7 +90,8 @@ public class JsonKit {
 	        reader.close();
 	        
 		} catch (IOException e) {
-			System.out.println(e.getCause());
+			System.out.println("Could not find file: " + fileName + ".json");
+			return profile;
 		}
 		
 		String login, fname, lname, passwd;
@@ -100,7 +101,7 @@ public class JsonKit {
 		lname = object.getString("lastName");
 		passwd = object.getString("password");
 		
-		profile = new CsAdmin(login, fname, lname, passwd);
+		profile = new CsAdmin(login, passwd, fname, lname);
 		
 		return profile;
 	}
