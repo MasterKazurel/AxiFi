@@ -9,7 +9,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -21,9 +23,22 @@ public class Manager {
 	private List<Stage> stagesBack;
 	private ObservableList<Pane> views;
 	private List<Pane> viewsBack;
+	
+	private Styles currentStyle;
+	
+	public enum Styles {
+		DARK("DarkTheme.css"),
+		LIGHT("LightTheme.css");
+		
+		private String val;
+
+		private Styles(String val) {
+			this.val = "/view/" + val;
+		}
+	}
 
 	public enum Stages {
-		MAIN, 
+		MAIN,
 		LOGIN, 
 		NEW_TRANS, 
 		DEL_ACC;
@@ -44,6 +59,7 @@ public class Manager {
 /*----------------------------------------------------------------------------------------------------*/
 
 	public Manager(Stage primaryStage) {
+		currentStyle = Styles.DARK;
 		stagesBack = new ArrayList<Stage>();
 		stages = FXCollections.observableList(stagesBack);
 		viewsBack = new ArrayList<Pane>();
@@ -56,32 +72,45 @@ public class Manager {
 	private void addStages(Stage mainStage) {
 		for (Stages s : Stages.values())
 			switch (s) {
-			case MAIN:
-				mainStage.setTitle("AxiFi");
-				mainStage.setUserData(Stages.MAIN);
-				mainStage.setMaximized(true);
-				stages.add(mainStage);
-				break;
-			case LOGIN:
-				Stage loginStage = new Stage();
-				loginStage.setMaximized(false);
-				loginStage.setUserData(Stages.LOGIN);
-				stages.add(loginStage);
-				break;
-			case NEW_TRANS:
-				Stage transStage = new Stage();
-				transStage.setMaximized(false);
-				transStage.initStyle(StageStyle.UNDECORATED);
-				transStage.setUserData(Stages.LOGIN);
-				stages.add(transStage);
-				break;
-			case DEL_ACC:
-				Stage delAcctStage = new Stage();
-				delAcctStage.setMaximized(false);
-				delAcctStage.initStyle(StageStyle.UNDECORATED);
-				delAcctStage.setUserData(Stages.DEL_ACC);
-				stages.add(delAcctStage);
-				break;
+				case MAIN:
+					mainStage.setTitle("AxiFi");
+					mainStage.setUserData(Stages.MAIN);
+					mainStage.setMaximized(true);
+					stages.add(mainStage);
+					break;
+				case LOGIN:
+					Stage loginStage = new Stage();
+					loginStage.setMaximized(false);
+					loginStage.initStyle(StageStyle.TRANSPARENT);
+					loginStage.setUserData(Stages.LOGIN);
+					loginStage.setResizable(false);
+					loginStage.requestFocus();
+					loginStage.sizeToScene();
+					stages.add(loginStage);
+					break;
+				case NEW_TRANS:
+					Stage transStage = new Stage();
+					transStage.setMaximized(false);
+					transStage.initStyle(StageStyle.TRANSPARENT);
+					transStage.sceneProperty().addListener((obs, oldValue, newValue) -> {
+						if (newValue != null) transStage.getScene().setFill(Color.TRANSPARENT);
+					});
+					transStage.setAlwaysOnTop(true);
+					transStage.sizeToScene();
+					transStage.setUserData(Stages.NEW_TRANS);
+					transStage.initOwner(mainStage);
+					stages.add(transStage);
+					break;
+				case DEL_ACC:
+					Stage delAcctStage = new Stage();
+					delAcctStage.setMaximized(false);
+					delAcctStage.initStyle(StageStyle.TRANSPARENT);
+					delAcctStage.setUserData(Stages.DEL_ACC);
+					delAcctStage.setAlwaysOnTop(true);
+					delAcctStage.sizeToScene();
+					delAcctStage.initOwner(mainStage);
+					stages.add(delAcctStage);
+					break;
 			}
 	}
 
@@ -108,14 +137,19 @@ public class Manager {
 	 */
 	public void show(Stages stageID, Views viewID, boolean reload) {
 		Stage stg = getStage(stageID);
-
-		if (reload || getView(viewID) == null)
+		
+		Pane view = getView(viewID);
+		view.setVisible(false);
+		if (reload || view == null)
 			loadView(viewID);
 		if (stg.getScene() == null)
-			stg.setScene(new Scene(getView(viewID)));
+			stg.setScene(new Scene(view));
 		else
-			stg.getScene().setRoot(getView(viewID));
-			
+			stg.getScene().setRoot(view);
+		
+		view.setVisible(true);
+		view.getStylesheets().clear();
+		view.getStylesheets().add(currentStyle.val);
 		stg.show();
 	}
 	
@@ -132,12 +166,14 @@ public class Manager {
 	public void show(Stages stageID, Views viewID) {
 		Stage stg = getStage(stageID);
 
-		loadView(viewID);
+		Pane view = loadView(viewID);
 		if (stg.getScene() == null)
-			stg.setScene(new Scene(getView(viewID)));
+			stg.setScene(new Scene(view));
 		else
-			stg.getScene().setRoot(getView(viewID));
+			stg.getScene().setRoot(view);
 			
+		view.getStylesheets().clear();
+		view.getStylesheets().add(currentStyle.val);
 		stg.show();
 	}
 
@@ -147,13 +183,20 @@ public class Manager {
 	public void close(Stages stageID) {
 		getStage(stageID).close();
 	}
+	
+	/**
+	 * Switches the css stylesheet of all views to the specified css {@code fileName}.
+	 */
+	public void setStyle(Styles stylesheet) {
+		currentStyle = stylesheet;
+	}
 
 /*----------------------------------------------------------------------------------------------------*/
 
 	/**
 	 * Loads the specified view.
 	 */
-	private void loadView(Views viewID) {
+	private Pane loadView(Views viewID) {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(System.class.getResource(viewID.val));
 		Pane view = null;
@@ -169,6 +212,7 @@ public class Manager {
 		controller.setUserData(viewID);
 		controller.setManager(this);
 		addController(controller);
+		return view;
 	}
 
 	/*

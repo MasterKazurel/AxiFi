@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -12,58 +19,63 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" fx:controller="control.LoginController"
-	prefHeight="600.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0"
-	AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-	AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.141"
-	xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="root" stylesheets="@DarkTheme.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.LoginController">
 	<children>
-		<VBox prefHeight="600.0" prefWidth="600.0"
-			style="-fx-background-color: #212F3C;">
+		<VBox alignment="CENTER" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 			<children>
-				<ImageView fitHeight="150.0" fitWidth="225.0"
-					pickOnBounds="true" preserveRatio="true">
+            <HBox fx:id="titleBox" alignment="TOP_RIGHT">
+               <children>
+                  <Button fx:id="minBtn" mnemonicParsing="false" onAction="#minimize" prefHeight="30.0" prefWidth="30.0" styleClass="sleek-button" text="–">
+                     <font>
+                        <Font />
+                     </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="exitBtn" mnemonicParsing="false" onAction="#exit" prefHeight="30.0" prefWidth="30.0" styleClass="sleek-button" text="x">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin></Button>
+               </children>
+            </HBox>
+				<ImageView fitHeight="150.0" fitWidth="225.0" opacity="0.59" pickOnBounds="true" preserveRatio="true" styleClass="centered-image">
 					<image>
-						<Image url="@../resources/axifi-logo.png" />
+						<Image url="@../resources/axifi-logo2.png" />
 					</image>
 					<VBox.margin>
-						<Insets left="175.0" right="175.0" top="25.0" />
+						<Insets right="18.0" top="25.0" />
 					</VBox.margin>
+               <effect>
+                  <Bloom threshold="1.0" />
+               </effect>
 				</ImageView>
-				<Label fx:id="loginLbl" alignment="CENTER" text="Please log in " textFill="#ff5733">
+				<Label fx:id="loginLbl" alignment="CENTER" prefWidth="590.0" styleClass="label-header" text="Please log in " textFill="#ff5733">
 					<font>
 						<Font name="Rockwell" size="24.0" />
 					</font>
-					<padding>
-						<Insets left="225.0" right="200.0" top="25.0" />
-					</padding>
-					<effect>
-						<Blend />
-					</effect>
+               <VBox.margin>
+                  <Insets top="25.0" />
+               </VBox.margin>
 				</Label>
-				<TextField fx:id="usernameFld" onAction="#login" layoutX="200.0"
-					prefWidth="300.0" promptText="Username">
+				<TextField fx:id="usernameFld" layoutX="200.0" onAction="#login" prefWidth="300.0" promptText="Username">
 					<VBox.margin>
-						<Insets bottom="75.0" left="100.0" right="100.0" top="25.0" />
+						<Insets bottom="25.0" left="100.0" right="100.0" top="25.0" />
 					</VBox.margin>
 				</TextField>
-				<PasswordField fx:id="passwordFld" onAction="#login"
-					promptText="Password">
+				<PasswordField fx:id="passwordFld" onAction="#login" promptText="Password">
 					<VBox.margin>
-						<Insets left="100.0" right="100.0" />
+						<Insets left="100.0" right="100.0" top="25.0" />
 					</VBox.margin>
 				</PasswordField>
-				<Button fx:id="loginBtn" onAction="#login" alignment="CENTER"
-					contentDisplay="CENTER" mnemonicParsing="false" prefWidth="75.0"
-					text="Log in" textAlignment="CENTER">
-					<VBox.margin>
-						<Insets bottom="25.0" left="260.0" right="100.0" top="25.0" />
-					</VBox.margin>
+				<Button fx:id="loginBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#login" prefHeight="33.0" prefWidth="121.0" text="Log in" textAlignment="CENTER">
+               <VBox.margin>
+                  <Insets top="50.0" />
+               </VBox.margin>
 				</Button>
-				<ImageView fitHeight="100.0" fitWidth="100.0"
-					pickOnBounds="true" preserveRatio="true">
+				<ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" styleClass="centered-image">
 					<VBox.margin>
-						<Insets left="243.0" right="243.0" top="100.0" />
+						<Insets bottom="10.0" top="100.0" />
 					</VBox.margin>
 					<image>
 						<Image url="@../resources/cyberdyne.png" />

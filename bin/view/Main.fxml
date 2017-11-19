@@ -1,21 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="root" prefHeight="650.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.MainController">
+<BorderPane fx:id="root" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.MainController">
+	<top>
+		<MenuBar BorderPane.alignment="CENTER">
+			<menus>
+				<Menu mnemonicParsing="false" text="File">
+					<items>
+						<MenuItem mnemonicParsing="false" text="Close" />
+					</items>
+				</Menu>
+				<Menu mnemonicParsing="false" text="Edit">
+					<items>
+						<MenuItem mnemonicParsing="false" text="Delete" />
+					</items>
+				</Menu>
+				<Menu mnemonicParsing="false" text="Help">
+					<items>
+						<MenuItem mnemonicParsing="false" text="About" />
+					</items>
+				</Menu>
+			</menus>
+		</MenuBar>
+	</top>
 	<center>
 		<AnchorPane minHeight="600.0" minWidth="600.0" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
 			<children>
@@ -23,28 +49,31 @@
 					<children>
 						<HBox prefHeight="30.0" prefWidth="200.0">
 							<children>
-								<Button fx:id="newAccBtn" mnemonicParsing="false" onAction="#makeAccount" prefHeight="27.0" prefWidth="179.0" text="Create New Account">
+								<Button fx:id="newAccBtn" mnemonicParsing="false" onAction="#createAccount" text="Create New Account">
 									<HBox.margin>
-										<Insets bottom="10.0" left="5.0" right="10.0" top="5.0" />
+										<Insets bottom="10.0" left="30.0" right="10.0" top="10.0" />
 									</HBox.margin>
 								</Button>
-								<Button fx:id="delAccBtn" mnemonicParsing="false" onAction="#deleteAccount" prefHeight="27.0" prefWidth="154.0" text="Delete Account">
+								<Button fx:id="delAccBtn" mnemonicParsing="false" onAction="#deleteAccount" text="Delete Account">
 									<HBox.margin>
-										<Insets left="120.0" right="85.0" top="5.0" />
+										<Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
 									</HBox.margin>
 								</Button>
-								<Button fx:id="logoutBtn" mnemonicParsing="false" onAction="#logout" prefHeight="27.0" prefWidth="112.0" text="Logout">
+								<Button fx:id="logoutBtn" mnemonicParsing="false" onAction="#logout" text="Logout">
 									<HBox.margin>
-										<Insets left="80.0" right="5.0" top="5.0" />
+										<Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
 									</HBox.margin>
 								</Button>
 							</children>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
 						</HBox>
 						<HBox prefHeight="25.0" prefWidth="200.0">
 							<children>
 								<MenuButton fx:id="accMenuBtn" mnemonicParsing="false" text="Select an account" textOverrun="CLIP">
 									<HBox.margin>
-										<Insets left="5.0" />
+										<Insets left="30.0" top="5.0" />
 									</HBox.margin>
 								</MenuButton>
 							</children>
@@ -52,7 +81,7 @@
 								<Insets />
 							</VBox.margin>
 						</HBox>
-						<TableView fx:id="transTable" prefHeight="550.0" prefWidth="200.0">
+						<TableView fx:id="transTable" prefHeight="800.0" prefWidth="500.0">
 							<columns>
 								<TableColumn fx:id="dateCol" prefWidth="180.0" text="Date" />
 								<TableColumn fx:id="amountCol" prefWidth="198.0" text="Transaction" />
@@ -62,35 +91,11 @@
 								<Insets bottom="10.0" left="30.0" right="30.0" top="10.0" />
 							</VBox.margin>
 						</TableView>
-						<HBox prefHeight="58.0" prefWidth="600.0" style="-fx-background-color: #FFC300;">
+						<HBox>
 							<children>
-								<SplitPane orientation="VERTICAL" prefHeight="80.0" prefWidth="227.0">
-									<items>
-										<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="55.0" prefWidth="225.0">
-											<children>
-                                    <Label layoutX="-6.0" layoutY="-1.0" prefHeight="27.0" prefWidth="225.0" text="Overall Balance:">
-                                       <padding>
-                                          <Insets left="10.0" top="10.0" />
-                                       </padding>
-                                    </Label>
-                                    <Label layoutX="-6.0" layoutY="26.0" prefHeight="20.0" prefWidth="230.0" text="Held for fees: ">
-                                       <padding>
-                                          <Insets left="10.0" top="10.0" />
-                                       </padding>
-                                    </Label>
-											</children>
-                                 <padding>
-                                    <Insets top="20.0" />
-                                 </padding>
-										</AnchorPane>
-									</items>
+								<Button fx:id="newTransBtn" mnemonicParsing="false" onAction="#newTransaction" snapToPixel="false" text="Add Transaction">
 									<HBox.margin>
-										<Insets bottom="5.0" left="5.0" top="5.0" />
-									</HBox.margin>
-								</SplitPane>
-								<Button fx:id="newTransBtn" mnemonicParsing="false" onAction="#newTransaction" text="Add Transaction">
-									<HBox.margin>
-										<Insets bottom="25.0" left="175.0" top="20.0" />
+										<Insets bottom="20.0" left="150.0" right="20.0" top="25.0" />
 									</HBox.margin>
 								</Button>
 							</children>
@@ -100,22 +105,44 @@
 			</children>
 		</AnchorPane>
 	</center>
-   <top>
-      <MenuBar BorderPane.alignment="CENTER">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-                  <MenuItem fx:id="print" mnemonicParsing="false" onAction="#print" text="Print" />
-              <MenuItem fx:id="exit" mnemonicParsing="false" onAction="#exit" text="Exit" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem fx:id="userGuide" mnemonicParsing="false" text="User Guide" />
-                  <MenuItem fx:id="codes" mnemonicParsing="false" onAction="#codes" text="Account Codes" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
-   </top>
+   <bottom>
+      <VBox styleClass="area" BorderPane.alignment="CENTER">
+         <children>
+            <HBox styleClass="area">
+               <children>
+                  <Label prefHeight="18.0" prefWidth="118.0" styleClass="label-bright" text="Overall Balance:">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label styleClass="label-bright">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+               <padding>
+                  <Insets top="5.0" />
+               </padding>
+            </HBox>
+            <HBox styleClass="area">
+               <children>
+                  <Label styleClass="label-bright" text="Held for fees:">
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="3.0" />
+                     </padding>
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label styleClass="label-bright">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </bottom>
 </BorderPane>
