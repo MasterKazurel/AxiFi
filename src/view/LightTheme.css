@@ -1,0 +1,244 @@
+
+/*---- Color Definitions ------------------------------------*/
+* {
+	-white: rgb(255,242,227);
+	-light-gray: derive(-white, -10%);
+	-gray: derive(-light-gray, -20%);
+	-dark-gray: derive(-gray, -40%);
+	-darker-gray: derive(-gray, -60%);
+}
+
+/*---- Root ------------------------------------*/
+.root, #root {
+	-fx-background-color: -gray;
+	-fx-border-color: -darker-gray;
+	-fx-border-width: 5px;
+}
+
+
+/*---- MISC Classes -----------------------------------------*/
+
+.area {
+	-fx-background-color: -dark-gray;
+	-fx-border-radius: 5.0px;
+	-fx-background-radius: 5.0px;
+}
+
+
+/*---- Labels -----------------------------------------*/
+
+.label {
+    -fx-font-size: 11.0pt;
+    -fx-font-family: "Segoe UI Light";
+    -fx-text-fill: -darker-gray;
+    -fx-opacity: 0.6;
+}
+
+.label-bright {
+    -fx-font-size: 11.0pt;
+    -fx-font-family: "Segoe UI Light";
+    -fx-text-fill: -darker-gray;
+    -fx-opacity: 1.0;
+}
+
+.label-header {
+    -fx-font-size: 24.0pt;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-text-fill: -darker-gray;
+    -fx-opacity: 1.0;
+}
+
+
+/*---- TableView -----------------------------------------*/
+
+.table-view {
+    -fx-background-color: -dark-gray;
+}
+
+.table-view .arrow {
+	-fx-mark-color: -white;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header, .table-view .filler {
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header .label {
+    -fx-font-size: 14.0pt;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-text-fill: -white;
+    -fx-alignment: center;
+    -fx-opacity: 1.0;
+}
+
+.table-view .table-row-cell {
+	-fx-background-color: -white;
+	-fx-border-color: -dark-gray;
+	-fx-border-width: 1px;
+}
+
+.table-view .table-row-cell:filled {
+	-fx-background-color: -light-gray;
+}
+
+.table-view:focused .table-row-cell:filled:focused:selected {
+    -fx-background-color: -gray;
+}
+
+.table-view .table-cell {
+	-fx-font-size: 12.0pt;
+	-fx-text-fill: -darker-gray;
+}
+
+
+/*---- SplitPane -----------------------------------------*/
+
+.split-pane:horizontal > .split-pane-divider {
+    -fx-border-color: transparent -gray transparent -gray;
+    -fx-background-color: transparent, -dark-gray;
+}
+
+.split-pane {
+    -fx-padding: 1.0 0.0 0.0 0.0;
+}
+
+
+/*---- Menus -----------------------------------------*/
+
+.menu-bar {
+    -fx-background-color: -dark-gray;
+}
+
+.menu-bar .label {
+    -fx-font-size: 12.0pt;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-text-fill: -white;
+    -fx-opacity: 0.9;
+}
+
+.context-menu, .context-menu .menu-item {
+    -fx-background-color: -dark-gray;
+    -fx-text-fill: -white;
+}
+
+.menu-button {
+	-fx-background-color: -darker-gray;
+}
+
+.menu-button .label {
+	-fx-text-fill: -white;
+}
+
+.menu-item .label {
+	-fx-text-fill: -white;
+}
+
+.menu-item:focused {
+     -fx-background-color: -darker-gray;
+}
+
+.menu-item:focused .label {
+    -fx-text-fill: -white;
+}
+
+
+/*---- DatePicker -----------------------------------------*/
+
+.date-picker, .date-cell, .date-cell .label {
+	-fx-background-color: -gray;
+	-fx-text-fill: -white;
+}
+
+.date-picker > .arrow-button {
+	-fx-background-color: -dark-gray;
+}
+
+.date-picker > .arrow-button:hover {
+	-fx-background-color: -dark-gray;
+}
+
+.date-picker-popup > .month-year-pane {
+	-fx-background-color: -dark-gray;
+}
+
+/*---- TextField -----------------------------------------*/
+
+.text-field {
+    -fx-font-size: 12.0pt;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-text-fill: -darker-gray;
+    -fx-background-color: -white;
+}
+
+
+/*---- Buttons -----------------------------------------*/
+
+/* 
+ * Metro style Push Button
+ * Author: Pedro Duque Vieira
+ * http://pixelduke.wordpress.com/2012/10/23/jmetro-windows-8-controls-on-java/
+ */
+.button {
+    -fx-padding: 5.0 22.0 5.0 22.0;   
+    -fx-border-color: -light-gray;
+    -fx-border-width: 2.0;
+    -fx-border-radius: 5.0px;
+    -fx-background-radius: 7px;
+    -fx-background-color: -darker-gray;
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+    -fx-font-size: 11.0pt;
+    -fx-text-fill: -white;
+    -fx-background-insets: 0.0 0.0 0.0 0.0, 0.0, 1.0, 2.0;
+}
+
+.button:hover {
+    -fx-background-color: -gray;
+}
+
+.button:pressed, .button:default:hover:pressed {
+  -fx-background-color: -white;
+  -fx-text-fill: -gray;
+}
+
+.button:focused {
+    -fx-border-color: -dark-gray, -dark-gray;
+}
+
+.button:disabled, .button:default:disabled {
+    -fx-opacity: 0.4;
+    -fx-background-color: -gray;
+    -fx-text-fill: -white;
+}
+
+.button:default {
+    -fx-background-color: -fx-focus-color;
+    -fx-text-fill: -white;
+}
+
+.button:default:hover {
+    -fx-background-color: derive(-fx-focus-color,-30.0%);
+}
+
+.sleek-button {
+	-fx-padding: 0.0 0.0 0.0 0.0;
+    -fx-background-color: -gray;
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+    -fx-border-style: none;
+    -fx-border-width: 0.0;
+    -fx-font-size: 15.0pt;
+    -fx-text-fill: gray;
+}
+
+.sleek-button:hover {
+	-fx-text-fill: -white;
+	-fx-background-color: -gray;
+}
+
+.sleek-button:pressed, .sleek-button:default:hover:pressed {
+	-fx-text-fill: black;
+	-fx-background-color: -gray;
+}
