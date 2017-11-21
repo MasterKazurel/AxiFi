@@ -7,11 +7,20 @@
 
 <AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.DeleteAccountController">
    <children>
-      <VBox alignment="CENTER" layoutX="7.0" layoutY="14.0" prefHeight="250.0" prefWidth="400.0">
+      <VBox alignment="CENTER" layoutX="7.0" layoutY="14.0" prefHeight="250.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
+            <HBox fx:id="titleBox" alignment="TOP_RIGHT">
+               <children>
+                  <Button fx:id="exitBtn" mnemonicParsing="false" onAction="#exit" prefHeight="30.0" prefWidth="30.0" styleClass="sleek-button" text="x">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
             <Label fx:id="promptLbl" alignment="CENTER" prefWidth="350.0" text="Please re-enter password to confirm" textAlignment="CENTER" wrapText="true">
                <VBox.margin>
-                  <Insets bottom="10.0" top="50.0" />
+                  <Insets bottom="10.0" top="25.0" />
                </VBox.margin>
             </Label>
             <TextField fx:id="adminPwFld">
@@ -26,7 +35,7 @@
                         <Insets right="25.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="cancelBtn" mnemonicParsing="false" onAction="#cancel" text="Cancel">
+                  <Button fx:id="cancelBtn" mnemonicParsing="false" onAction="#exit" text="Cancel">
                      <HBox.margin>
                         <Insets left="25.0" />
                      </HBox.margin>

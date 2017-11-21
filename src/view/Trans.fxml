@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
@@ -15,10 +17,23 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.MenuButton?>
 
-<AnchorPane fx:id="root" prefHeight="600.0" prefWidth="600.0" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.NewTransactionController">
+<<<<<<< HEAD:src/view/Trans.fxml
+<AnchorPane fx:id="root" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.TransactionController">
+=======
+<AnchorPane fx:id="root" styleClass="rounded-pane" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.TransactionController">
+>>>>>>> Transaction UI Additions and CSS tweaks:src/view/Trans.fxml
 	<children>
 		<VBox alignment="CENTER" prefHeight="600.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 			<children>
+				<HBox fx:id="titleBox" alignment="TOP_RIGHT">
+					<children>
+						<Button fx:id="exitBtn" mnemonicParsing="false" onAction="#exit" prefHeight="30.0" prefWidth="30.0" styleClass="sleek-button" text="x">
+							<HBox.margin>
+								<Insets />
+							</HBox.margin>
+						</Button>
+					</children>
+				</HBox>
 				<MenuButton fx:id="transTypeMenu" alignment="CENTER" mnemonicParsing="false" text="Type of transaction">
 					<items>
 						<MenuItem fx:id="depositItm" mnemonicParsing="false" onAction="#switchTransType" text="Deposit" />
@@ -28,26 +43,31 @@
 						<Insets top="25.0" />
 					</VBox.margin>
 				</MenuButton>
-            <Label text="Date">
+				<Label text="Date">
                <VBox.margin>
                   <Insets top="25.0" />
-               </VBox.margin>
-            </Label>
-            <DatePicker>
-               <VBox.margin>
-                  <Insets top="10.0" />
-               </VBox.margin>
-            </DatePicker>
+               </VBox.margin></Label>
+						<DatePicker fx:id="datePicker" />
 				<Label fx:id="amountLbl" text="Amount">
 					<VBox.margin>
-						<Insets top="50.0" />
+						<Insets top="25.0" />
 					</VBox.margin>
 				</Label>
-				<TextField fx:id="amountFld">
+						<TextField fx:id="amountFld">
+               <VBox.margin>
+                  <Insets left="200.0" right="200.0" />
+               </VBox.margin>
+            </TextField>
+				<Label fx:id="amountLbl1" text="Description">
 					<VBox.margin>
-						<Insets left="100.0" right="100.0" top="10.0" />
+						<Insets top="25.0" />
 					</VBox.margin>
-				</TextField>
+				</Label>
+						<TextField fx:id="descFld">
+               <VBox.margin>
+                  <Insets left="100.0" right="100.0" />
+               </VBox.margin>
+            </TextField>
 				<Label fx:id="methodLbl" text="Method">
 					<VBox.margin>
 						<Insets top="40.0" />
@@ -75,6 +95,9 @@
 							</HBox.margin>
 						</Label>
 					</children>
+               <VBox.margin>
+                  <Insets top="25.0" />
+               </VBox.margin>
 				</HBox>
 				<HBox alignment="CENTER" prefHeight="150.0" prefWidth="200.0">
 					<children>
@@ -90,11 +113,33 @@
 						</Label>
 					</children>
 				</HBox>
-				<Button fx:id="submitBtn" mnemonicParsing="false" onAction="#submit" text="Submit">
+            <Label fx:id="msgLbl" text="Label" wrapText="true">
+               <VBox.margin>
+                  <Insets top="100.0" />
+               </VBox.margin>
+            </Label>
+				<HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+					<children>
+						<Button fx:id="submitBtn" mnemonicParsing="false" onAction="#submit" text="Submit">
+							<HBox.margin>
+								<Insets right="75.0" />
+							</HBox.margin>
+						</Button>
+						<Button fx:id="delBtn" mnemonicParsing="false" onAction="#delete" style="-fx-background-color: red; -fx-text-fill: black;" text="Delete">
+							<HBox.margin>
+								<Insets right="0.0" />
+							</HBox.margin>
+						</Button>
+						<Button fx:id="cancelBtn" mnemonicParsing="false" onAction="#exit" text="Cancel">
+							<HBox.margin>
+								<Insets left="75.0" />
+							</HBox.margin>
+						</Button>
+					</children>
 					<VBox.margin>
-						<Insets left="450.0" top="200.0" />
+						<Insets bottom="10.0" top="25.0" />
 					</VBox.margin>
-				</Button>
+				</HBox>
 			</children>
 		</VBox>
 	</children>

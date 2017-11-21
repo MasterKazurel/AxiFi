@@ -1,27 +1,30 @@
 
 /*---- Color Definitions ------------------------------------*/
 * {
-	-slate-gray: grey;
-	-dark-slate-gray: derive(-slate-gray, -15%);
-	-slate-black: #32393d;
-	-dark-slate-black: derive(-slate-black, -20%);
-	-darker-slate-black: derive(-slate-black, -50%);
-}
-
-/*---- Root ------------------------------------*/
-.root, #root {
-	-fx-background-color: -slate-black;
-	-fx-border-color: -darker-slate-black;
-	-fx-border-width: 5px;
+	-fx-base: #32393d;
+	-fx-background: #32393d;
+	-fx-tertiary: whitesmoke;
+	-fx-tertiary-dark: derive(whitesmoke, -50%);
+	-fx-secondary: grey;
+	-fx-secondary-dark: derive(-fx-secondary, -15%);
+	-fx-primary: #32393d;
+	-fx-primary-dark: derive(-fx-primary, -20%);
+	-fx-primary-darker: derive(-fx-primary, -50%);
 }
 
 
 /*---- MISC Classes -----------------------------------------*/
 
 .area {
-	-fx-background-color: -dark-slate-black;
-	-fx-border-radius: 5.0px;
-	-fx-background-radius: 5.0px;
+	-fx-background-color: -fx-primary-dark;
+}
+
+/*---- Root ------------------------------------*/
+.root, #root {
+	-fx-background-color: -fx-primary;
+	-fx-border-color: -fx-primary-darker;
+	-fx-border-width: 5px;
+	-fx-background-radius: 5px;
 }
 
 
@@ -30,33 +33,29 @@
 .label {
     -fx-font-size: 11.0pt;
     -fx-font-family: "Segoe UI Light";
-    -fx-text-fill: whitesmoke;
+    -fx-text-fill: -fx-tertiary;
     -fx-opacity: 0.6;
 }
 
 .label-bright {
     -fx-font-size: 11.0pt;
     -fx-font-family: "Segoe UI Light";
-    -fx-text-fill: white;
+    -fx-text-fill: -fx-tertiary;
     -fx-opacity: 1.0;
 }
 
 .label-header {
     -fx-font-size: 24.0pt;
     -fx-font-family: "Segoe UI Semibold";
-    -fx-text-fill: whitesmoke;
+    -fx-text-fill: -fx-tertiary;
     -fx-opacity: 1.0;
 }
 
 
 /*---- TableView -----------------------------------------*/
 
-.table-view {
-    -fx-background-color: -dark-slate-black;
-}
-
 .table-view .arrow {
-	-fx-mark-color: -slate-gray;
+	-fx-mark-color: -fx-secondary;
 }
 
 .table-view .column-header-background {
@@ -64,42 +63,42 @@
 }
 
 .table-view .column-header, .table-view .filler {
-    -fx-background-color: transparent;
+    -fx-background-color: -fx-primary-dark;
 }
 
 .table-view .column-header .label {
     -fx-font-size: 14.0pt;
     -fx-font-family: "Segoe UI Semibold";
-    -fx-text-fill: whitesmoke;
+    -fx-text-fill: -fx-tertiary;
     -fx-alignment: center;
     -fx-opacity: 1.0;
 }
 
 .table-view .table-row-cell {
-	-fx-background-color: -slate-gray;
-	-fx-border-color: -dark-slate-black;
+	-fx-background-color: -fx-secondary;
+	-fx-border-color: -fx-primary-dark;
 	-fx-border-width: 1px;
 }
 
 .table-view .table-row-cell:filled {
-	-fx-background-color: -dark-slate-gray;
+	-fx-background-color: -fx-secondary-dark;
 }
 
 .table-view:focused .table-row-cell:filled:focused:selected {
-    -fx-background-color: -slate-black;
+    -fx-background-color: derive(-fx-secondary, 15%);
 }
 
 .table-view .table-cell {
 	-fx-font-size: 12.0pt;
-	-fx-text-fill: whitesmoke;
+	-fx-text-fill: -fx-tertiary;
 }
 
 
 /*---- SplitPane -----------------------------------------*/
 
 .split-pane:horizontal > .split-pane-divider {
-    -fx-border-color: transparent -slate-black transparent -slate-black;
-    -fx-background-color: transparent, -dark-slate-black;
+    -fx-border-color: transparent -fx-primary transparent -fx-primary;
+    -fx-background-color: transparent, -fx-primary-dark;
 }
 
 .split-pane {
@@ -110,59 +109,61 @@
 /*---- Menus -----------------------------------------*/
 
 .menu-bar {
-    -fx-background-color: -dark-slate-black;
+    -fx-background-color: -fx-primary-dark;
 }
 
 .menu-bar .label {
     -fx-font-size: 12.0pt;
     -fx-font-family: "Segoe UI Semibold";
-    -fx-text-fill: whitesmoke;
+    -fx-text-fill: -fx-tertiary;
     -fx-opacity: 0.9;
 }
 
 .context-menu, .context-menu .menu-item {
-    -fx-background-color: -dark-slate-black;
-    -fx-text-fill: whitesmoke;
+    -fx-background-color: -fx-primary-dark;
+    -fx-text-fill: -fx-tertiary;
 }
 
 .menu-button {
-	-fx-background-color: -darker-slate-black;
+	-fx-background-color: -fx-primary-darker;
+	-fx-border-color: -fx-tertiary;
+	-fx-text-fill: -fx-tertiary;
+    -fx-border-width: 2.0;
+    -fx-border-radius: 5.0px;
+    -fx-background-radius: 5.0px;
 }
 
 .menu-button .label {
-	-fx-text-fill: whitesmoke;
+	-fx-text-fill: white;
+	-fx-opacity: 1.0;
 }
 
-.menu-item .label {
-	-fx-text-fill: whitesmoke;
+.menu-item:hover .label {
+	-fx-opacity: 0.6;
 }
 
 .menu-item:focused {
-     -fx-background-color: gray;
-}
-
-.menu-item:focused .label {
-    -fx-text-fill: whitesmoke;
+     -fx-background-color: -fx-background;
 }
 
 
 /*---- DatePicker -----------------------------------------*/
 
 .date-picker, .date-cell, .date-cell .label {
-	-fx-background-color: -slate-black;
-	-fx-text-fill: whitesmoke;
+	
+	-fx-text-fill: -fx-tertiary;
 }
 
 .date-picker > .arrow-button {
-	-fx-background-color: -dark-slate-black;
+	-fx-background-color: -fx-primary-dark;
 }
 
 .date-picker > .arrow-button:hover {
-	-fx-background-color: -dark-slate-black;
+	-fx-background-color: -fx-primary-dark;
 }
 
 .date-picker-popup > .month-year-pane {
-	-fx-background-color: -dark-slate-black;
+	-fx-background-color: -fx-primary-dark;
 }
 
 /*---- TextField -----------------------------------------*/
@@ -170,8 +171,12 @@
 .text-field {
     -fx-font-size: 12.0pt;
     -fx-font-family: "Segoe UI Semibold";
-    -fx-text-fill: whitesmoke;
-    -fx-background-color: -slate-gray;
+    -fx-text-fill: -fx-tertiary;
+    -fx-background-color: -fx-secondary;
+}
+
+.text-field:focused {
+	-fx-hightlight-fill: -fx-secondary-dark;
 }
 
 
@@ -184,39 +189,38 @@
  */
 .button {
     -fx-padding: 5.0 22.0 5.0 22.0;   
-    -fx-border-color: whitesmoke;
+    -fx-border-color: -fx-tertiary;
     -fx-border-width: 2.0;
     -fx-border-radius: 5.0px;
     -fx-background-radius: 5.0px;
-    -fx-background-color: black;
+    -fx-background-color: -fx-primary-darker;
     -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
     -fx-font-size: 11.0pt;
-    -fx-text-fill: whitesmoke;
+    -fx-text-fill: -fx-tertiary;
     -fx-background-insets: 0.0 0.0 0.0 0.0, 0.0, 1.0, 2.0;
 }
 
 .button:hover {
-    -fx-background-color: -slate-black;
+	-fx-background-color: -fx-primary;
 }
 
 .button:pressed, .button:default:hover:pressed {
-  -fx-background-color: whitesmoke;
-  -fx-text-fill: -slate-black;
+  -fx-background-color: -fx-tertiary;
+  -fx-text-fill: -fx-primary;
 }
 
 .button:focused {
-    -fx-border-color: whitesmoke, whitesmoke;
+    -fx-border-color: -fx-tertiary-dark;
 }
 
 .button:disabled, .button:default:disabled {
     -fx-opacity: 0.4;
-    -fx-background-color: -slate-black;
-    -fx-text-fill: whitesmoke;
+    -fx-text-fill: -fx-tertiary;
 }
 
 .button:default {
     -fx-background-color: -fx-focus-color;
-    -fx-text-fill: whitesmoke;
+    -fx-text-fill: -fx-tertiary;
 }
 
 .button:default:hover {
@@ -224,9 +228,8 @@
 }
 
 .sleek-button {
+	-fx-background-color: -fx-primary;
 	-fx-padding: 0.0 0.0 0.0 0.0;
-    -fx-background-color: -slate-black;
-    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
     -fx-border-style: none;
     -fx-border-width: 0.0;
     -fx-font-size: 15.0pt;
@@ -234,11 +237,10 @@
 }
 
 .sleek-button:hover {
-	-fx-text-fill: whitesmoke;
-	-fx-background-color: -slate-black;
+	-fx-text-fill: -fx-tertiary;
 }
 
 .sleek-button:pressed, .sleek-button:default:hover:pressed {
+	-fx-background-color: -fx-background;
 	-fx-text-fill: black;
-	-fx-background-color: -slate-black;
 }
