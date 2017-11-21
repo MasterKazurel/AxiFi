@@ -9,7 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.text.TextAlignment;
+import javafx.scene.layout.HBox;
 import model.CsAdmin;
 import model.Profile;
 import view.Animations;
@@ -17,6 +17,7 @@ import view.Animations;
 public class DeleteAccountController extends Controller {
 
 	@FXML AnchorPane root;
+	@FXML HBox titleBox;
 	@FXML Label promptLbl;
 	@FXML TextField adminPwFld;
 	@FXML Button delBtn, cancelBtn;
@@ -28,10 +29,17 @@ public class DeleteAccountController extends Controller {
 		root.sceneProperty().addListener((obs, oldScene, newScene) -> {
 			if (newScene != null) Animations.fadeIn(root);
 		});
+		setupStageDrag(titleBox, Stages.DEL_ACC);
+	}
+	
+	@Override
+	protected void setupValidation() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	@FXML
-	private void cancel() {
+	private void exit() {
 		manager.close(Stages.DEL_ACC);
 	}
 	
@@ -41,11 +49,13 @@ public class DeleteAccountController extends Controller {
 			db.removeProfile(acc.getId());
 			admin.getUsers().remove(acc);
 			manager.close(Stages.DEL_ACC);
-		}
-		else {
-			promptLbl.setText("Invalid password. ");
-			Animations.shake(promptLbl);
-		}
+		} else showError("Invalid password. ");
+	}
+	
+	private void showError(String msg) {
+		promptLbl.setText(msg);
+		promptLbl.setStyle("-fx-text-fill: red; " + promptLbl.getStyle());
+		Animations.shake(promptLbl);
 	}
 
 	@Override

@@ -17,13 +17,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.MenuButton?>
 
-<<<<<<< HEAD:src/view/Trans.fxml
 <AnchorPane fx:id="root" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.TransactionController">
-=======
-<AnchorPane fx:id="root" styleClass="rounded-pane" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.TransactionController">
->>>>>>> Transaction UI Additions and CSS tweaks:src/view/Trans.fxml
 	<children>
-		<VBox alignment="CENTER" prefHeight="600.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+		<VBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 			<children>
 				<HBox fx:id="titleBox" alignment="TOP_RIGHT">
 					<children>
@@ -43,7 +39,7 @@
 						<Insets top="25.0" />
 					</VBox.margin>
 				</MenuButton>
-				<Label text="Date">
+				<Label fx:id="dateLbl" text="Date">
                <VBox.margin>
                   <Insets top="25.0" />
                </VBox.margin></Label>
@@ -58,7 +54,7 @@
                   <Insets left="200.0" right="200.0" />
                </VBox.margin>
             </TextField>
-				<Label fx:id="amountLbl1" text="Description">
+				<Label fx:id="descLbl" text="Description">
 					<VBox.margin>
 						<Insets top="25.0" />
 					</VBox.margin>
@@ -82,7 +78,7 @@
 						<Insets top="5.0" />
 					</VBox.margin>
 				</MenuButton>
-				<HBox alignment="CENTER" prefHeight="150.0" prefWidth="200.0">
+				<HBox alignment="CENTER">
 					<children>
 						<Label fx:id="actualAmountLbl" prefHeight="20.0" prefWidth="200.0" text="">
 							<HBox.margin>
@@ -96,10 +92,10 @@
 						</Label>
 					</children>
                <VBox.margin>
-                  <Insets top="25.0" />
+                  <Insets />
                </VBox.margin>
 				</HBox>
-				<HBox alignment="CENTER" prefHeight="150.0" prefWidth="200.0">
+				<HBox alignment="CENTER">
 					<children>
 						<Label fx:id="amountHeldLbl" prefHeight="20.0" prefWidth="200.0" text="Amount held for fees:">
 							<HBox.margin>
@@ -112,13 +108,16 @@
 							</HBox.margin>
 						</Label>
 					</children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
 				</HBox>
-            <Label fx:id="msgLbl" text="Label" wrapText="true">
+            <Label fx:id="msgLbl" text="Label" textAlignment="CENTER" wrapText="true">
                <VBox.margin>
                   <Insets top="100.0" />
                </VBox.margin>
             </Label>
-				<HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+				<HBox alignment="CENTER">
 					<children>
 						<Button fx:id="submitBtn" mnemonicParsing="false" onAction="#submit" text="Submit">
 							<HBox.margin>

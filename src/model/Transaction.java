@@ -1,59 +1,58 @@
 package model;
 
+import java.time.LocalDate;
+import java.util.Observable;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class Transaction {
-	private int id; //id is used as the primary key for Transaction data
-	private int userId; //userId is used as a foreign key determining who the transaction is applied to
-	private StringProperty type; //This is the type of the transaction
-	private StringProperty time;
-	private StringProperty amount;
-	private StringProperty description;
+public class Transaction extends Observable {
 	
-	public Transaction(String time, String amount, String description) {
+	private LocalDate time;
+	private double amount;
+	private String description;
+	
+	
+	public Transaction(LocalDate time, double amount, String description) {
 		super();
-		this.time = new SimpleStringProperty(time);
-		this.amount = new SimpleStringProperty(amount);
-		this.description = new SimpleStringProperty(description);
+		this.time = time;
+		this.amount = amount;
+		this.description = description;
+	}
+
+	public StringProperty getTimeProperty() {
+		return new SimpleStringProperty(time.toString());
 	}
 	
-	public Transaction(int id, int userId, String purpose, String type, double amount) {
-		this.id = id;
-		this.userId = userId;
-		this.description = new SimpleStringProperty(purpose);
-		this.type = new SimpleStringProperty(type);
-		this.amount = new SimpleStringProperty(Double.toString(amount));
-	}
-	
-	public Transaction(String purpose, String type, double amount) {
-		this.description = new SimpleStringProperty(purpose);
-		this.type = new SimpleStringProperty(type);
-		this.amount = new SimpleStringProperty(Double.toString(amount));
-	}
-	
-	public StringProperty getTime() {
+	public LocalDate getTime() {
 		return time;
 	}
 
-	public void setTime(StringProperty time) {
+	public void setTime(LocalDate time) {
 		this.time = time;
 	}
 
-	public StringProperty getAmount() {
+	public StringProperty getAmountProperty() {
+		return new SimpleStringProperty(String.valueOf(amount));
+	}
+	
+	public double getAmount() {
 		return amount;
 	}
 
-	public void setAmount(StringProperty amount) {
+	public void setAmount(double amount) {
 		this.amount = amount;
 	}
 
-	public StringProperty getDescription() {
+	public StringProperty getDescriptionProperty() {
+		return new SimpleStringProperty(description);
+	}
+	
+	public String getDescription() {
 		return description;
 	}
 
-	public void setDescription(StringProperty description) {
+	public void setDescription(String description) {
 		this.description = description;
 	}
 

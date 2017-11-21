@@ -22,25 +22,18 @@ public class LoginController extends Controller {
 	@FXML TextField usernameFld, passwordFld;
 	@FXML Button loginBtn, minBtn, exitBtn;
 	
-	private double dx = 0.0, dy = 0.0; // for stage dragging
-	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		root.sceneProperty().addListener((obs, oldValue, newValue) -> {
 			if (newValue != null) usernameFld.requestFocus();
 		});
-		setupStageDrag();
+		setupStageDrag(titleBox, Stages.LOGIN);
 	}
 	
-	private void setupStageDrag() {
-		titleBox.setOnMousePressed(e -> {
-			dx = manager.getStage(Stages.LOGIN).getX() - e.getScreenX();
-			dy = manager.getStage(Stages.LOGIN).getY() - e.getScreenY();
-		});
-		titleBox.setOnMouseDragged(e -> {
-			manager.getStage(Stages.LOGIN).setX(e.getScreenX() + dx);
-			manager.getStage(Stages.LOGIN).setY(e.getScreenY() + dy);
-		});
+	@Override
+	protected void setupValidation() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	@FXML
@@ -50,10 +43,7 @@ public class LoginController extends Controller {
 			manager.show(Stages.MAIN, Views.MAIN);
 			manager.sendData(Views.MAIN, admin);
 			manager.close(Stages.LOGIN);
-		} else {
-			showError("Invalid Login. ");
-			Animations.shake(loginLbl);
-		}
+		} else showError("Invalid Login. ");
 	}
 	
 	@FXML
@@ -83,6 +73,7 @@ public class LoginController extends Controller {
 	private void showError(String msg) {
 		loginLbl.setText(msg);
 		loginLbl.setStyle("-fx-text-fill: red; " + loginLbl.getStyle());
+		Animations.shake(loginLbl);
 	}
 
 	@Override

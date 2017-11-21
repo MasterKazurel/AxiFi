@@ -9,7 +9,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -40,14 +39,14 @@ public class Manager {
 	public enum Stages {
 		MAIN,
 		LOGIN, 
-		NEW_TRANS, 
+		TRANS, 
 		DEL_ACC;
 	}
 
 	public enum Views {
 		LOGIN("Login.fxml"), 
 		MAIN("Main.fxml"), 
-		NEW_TRANS("NewTrans.fxml"), 
+		TRANS("Trans.fxml"), 
 		DEL_ACC("DeleteAcct.fxml");
 		private String val;
 
@@ -88,16 +87,15 @@ public class Manager {
 					loginStage.sizeToScene();
 					stages.add(loginStage);
 					break;
-				case NEW_TRANS:
+				case TRANS:
 					Stage transStage = new Stage();
 					transStage.setMaximized(false);
 					transStage.initStyle(StageStyle.TRANSPARENT);
 					transStage.sceneProperty().addListener((obs, oldValue, newValue) -> {
 						if (newValue != null) transStage.getScene().setFill(Color.TRANSPARENT);
 					});
-					transStage.setAlwaysOnTop(true);
 					transStage.sizeToScene();
-					transStage.setUserData(Stages.NEW_TRANS);
+					transStage.setUserData(Stages.TRANS);
 					transStage.initOwner(mainStage);
 					stages.add(transStage);
 					break;
@@ -106,7 +104,6 @@ public class Manager {
 					delAcctStage.setMaximized(false);
 					delAcctStage.initStyle(StageStyle.TRANSPARENT);
 					delAcctStage.setUserData(Stages.DEL_ACC);
-					delAcctStage.setAlwaysOnTop(true);
 					delAcctStage.sizeToScene();
 					delAcctStage.initOwner(mainStage);
 					stages.add(delAcctStage);
