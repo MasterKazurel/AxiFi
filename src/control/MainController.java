@@ -52,6 +52,10 @@ public class MainController extends Controller {
     	main.sendData(Views.DEL_ACC, admin, currAcc);
     	main.show(Stages.DEL_ACC, Views.DEL_ACC);
     }
+    private void makeAccount(ActionEvent e) {/*
+    	main.sendData(Views.NEW_ACC, admin, currAcc);
+    	main.show(Stages.NEW_ACC, Views.NEW_ACC);*/
+    }
     
     @FXML
     private void newTransaction(ActionEvent e) {
