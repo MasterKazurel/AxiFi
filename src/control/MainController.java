@@ -31,7 +31,7 @@ public class MainController extends Controller {
     @FXML private Label firstNameLabel, lastNameLabel, streetLabel, 
     				postalCodeLabel, cityLabel, birthdayLabel;
     @FXML MenuButton accMenuBtn;
-    @FXML Button newAccBtn, delAccBtn, logoutBtn, newTransBtn;
+    @FXML Button newAccBtn, delAccBtn, logoutBtn, newTransBtn, codesBtn;
     
     private CsAdmin admin;
     private Profile currAcc;
@@ -41,10 +41,9 @@ public class MainController extends Controller {
 		// TODO Auto-generated method stub
 		
 	}
-    
     @FXML
-    private void createAccount(ActionEvent e) {
-    	// Create account UI and add to list
+    private void codes(ActionEvent e) {
+    	main.show(Stages.CODES, Views.CODES);
     }
     
     @FXML

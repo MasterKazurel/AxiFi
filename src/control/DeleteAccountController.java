@@ -11,7 +11,7 @@ import model.Profile;
 public class DeleteAccountController extends Controller {
 	@FXML Label promptLbl;
 	@FXML TextField adminPwFld;
-	@FXML Button submitBtn, cancelBtn;
+	@FXML private Button submitBtn, cancelBtn;
 	private CsAdmin admin;
 	private Profile acc;
 	

@@ -21,7 +21,8 @@ public class Main extends Application {
 		LOGIN,
 		NEW_TRANS,
 		DEL_ACC,
-		NEW_ACC;
+		NEW_ACC,
+		CODES;
 	}
 	
 	public enum Views {
@@ -29,7 +30,9 @@ public class Main extends Application {
 		MAIN("Main.fxml"),
 		NEW_TRANS("NewTrans.fxml"),
 		DEL_ACC("DeleteAcct.fxml"),
-		NEW_ACC("MakeAcct.fxml");
+		NEW_ACC("MakeAcct.fxml"),
+		CODES("Codes.fxml");
+		
 		private String val;
 		private Views(String val)
 		{ this.val = "/view/" + val; }
@@ -91,6 +94,15 @@ public class Main extends Application {
 					newAccStage.initStyle(StageStyle.UNDECORATED);
 					newAccStage.setUserData(Stages.NEW_ACC);
 					stages[ct] = newAccStage;
+					ct++;
+					break;
+					
+				case CODES:
+					Stage codesStage = new Stage();
+					codesStage.setMaximized(false);
+					codesStage.initStyle(StageStyle.UNDECORATED);
+					codesStage.setUserData(Stages.CODES);
+					stages[ct] = codesStage;
 					ct++;
 					break;
 			}

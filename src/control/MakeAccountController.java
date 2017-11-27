@@ -11,7 +11,7 @@ import model.Profile;
 public class MakeAccountController extends Controller {
 	@FXML Label promptLbl;
 	@FXML TextField adminPwFld;
-	@FXML Button submitBtn, cancelBtn;
+	@FXML private Button submitBtn, cancelBtn;
 	private CsAdmin admin;
 	private Profile acc;
 	
@@ -22,7 +22,7 @@ public class MakeAccountController extends Controller {
 	
 	@FXML
 	private void cancel() {
-		//main.close(Stages.NEW_ACC);
+		main.close(Stages.NEW_ACC);
 	}
 	
 	@FXML
@@ -30,7 +30,7 @@ public class MakeAccountController extends Controller {
 		if (!admin.getUsers().contains(acc.getFullName())) {
 			jkit.writeProfile(acc.getFullName());
 			admin.getUsers().add(acc);
-			//main.close(Stages.NEW_ACC);
+			main.close(Stages.NEW_ACC);
 		}
 		else {
 			promptLbl.setText("Account already exists. ");
