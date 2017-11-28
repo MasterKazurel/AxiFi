@@ -32,18 +32,14 @@ public class LoginController extends Controller {
 	
 	@Override
 	protected void setupValidation() {
-		// TODO Auto-generated method stub
 		
 	}
 	
 	@FXML
 	private void login(ActionEvent e) {
-		CsAdmin admin = authenticate(usernameFld.getText(), passwordFld.getText());
-		if (admin != null) {
-			manager.show(Stages.MAIN, Views.MAIN);
-			manager.sendData(Views.MAIN, admin);
-			manager.close(Stages.LOGIN);
-		} else showError("Invalid Login. ");
+		CsAdmin admin = authenticate();
+		if (admin != null)
+			manager.showSendDateClose(Stages.MAIN, Views.MAIN, Stages.LOGIN, admin);
 	}
 	
 	@FXML
@@ -56,24 +52,20 @@ public class LoginController extends Controller {
 		manager.getStage(Stages.LOGIN).setIconified(true);
 	}
 	
-	private CsAdmin authenticate(String username, String password) {
-		boolean secPass = db.adminLogin(username, password); //If it's true things were correct
-		CsAdmin admin = db.queryAdmin(username, password);
-		if (secPass) {
+	private CsAdmin authenticate() {
+		CsAdmin admin = jkit.openAdmin(usernameFld.getText());
+		validations = new Validation<?>[] {
+			new Validation<TextField>(loginLbl, usernameFld, fld -> admin == null || 
+					!fld.getText().equals(admin.getLogin()), "Invalid login."),
+			new Validation<TextField>(loginLbl, passwordFld, fld -> admin == null ||
+					!passwordFld.getText().equals(admin.getPassword()), "Invalid login.")
+		};
+		if (Validation.run(validations))
 			return admin;
-		}
-		else if (admin == null) {
-			return admin;
-		}
 		else {
+			Animations.shake(manager.getStage(Stages.LOGIN));
 			return null;
 		}
-	}
-	
-	private void showError(String msg) {
-		loginLbl.setText(msg);
-		loginLbl.setStyle("-fx-text-fill: red; " + loginLbl.getStyle());
-		Animations.shake(loginLbl);
 	}
 
 	@Override

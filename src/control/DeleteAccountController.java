@@ -27,7 +27,11 @@ public class DeleteAccountController extends Controller {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		root.sceneProperty().addListener((obs, oldScene, newScene) -> {
-			if (newScene != null) Animations.fadeIn(root);
+			if (newScene != null) {
+				Animations.fadeIn(root).onFinishedProperty().set(e -> {
+					cancelBtn.requestFocus();
+				});
+			}
 		});
 		setupStageDrag(titleBox, Stages.DEL_ACC);
 	}
@@ -55,7 +59,7 @@ public class DeleteAccountController extends Controller {
 	private void showError(String msg) {
 		promptLbl.setText(msg);
 		promptLbl.setStyle("-fx-text-fill: red; " + promptLbl.getStyle());
-		Animations.shake(promptLbl);
+		Animations.shake(manager.getStage(Stages.DEL_ACC));
 	}
 
 	@Override
@@ -63,7 +67,13 @@ public class DeleteAccountController extends Controller {
 		// TODO Auto-generated method stub
 		admin = (CsAdmin) data[0];
 		acc = (Profile) data[1];
-		promptLbl.setText("Are you sure you want to delete " + acc.getFullName() + "'s account? (Warning: all account data will be lost!)");
+		if (acc.getTransactions().isEmpty())
+			promptLbl.setText("Are you sure you want to delete " + acc.getFullName() + "'s account? (Warning: all account data will be lost!)");
+		else {
+			promptLbl.setText("Cannot delete account with transaction data. ");
+			adminPwFld.setVisible(false);
+			delBtn.setVisible(false);
+		}
 	}
 
 }
