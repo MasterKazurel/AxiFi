@@ -92,12 +92,17 @@ public class MainController extends Controller {
     
     @FXML
     private void createAccount(ActionEvent e) {
-    	// Create account UI and add to list
+    	manager.showSendData(Stages.NEW_ACC, Views.NEW_ACC, admin);
     }
     
     @FXML
     private void deleteAccount(ActionEvent e) {
     	manager.showSendData(Stages.DEL_ACC, Views.DEL_ACC, admin, currAcc);
+    }
+    
+    @FXML
+    private void showCodes(ActionEvent e) {
+    	manager.show(Stages.CODES, Views.CODES);
     }
     
     @FXML

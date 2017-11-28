@@ -58,7 +58,7 @@ public class TransactionController extends Controller {
 	        if (!newValue.matches("\"[0-9]{1,13}(\\\\.[0-9]*)?\""))
 	            amountFld.setText(newValue.replaceAll("[^\\d]", ""));
 		});
-		
+		setMode(Modes.NEW);
 		setupValidation();
 		setupStageDrag(titleBox, Stages.TRANS);
 	}
@@ -134,16 +134,19 @@ public class TransactionController extends Controller {
 	private void submit(ActionEvent e) {
 		switch (mode) {
 			case NEW:
-				if (Validation.run(validations))
+				if (Validation.run(validations)) {
 					manager.sendData(Views.MAIN, new Transaction(datePicker.getValue(), 
 						Double.parseDouble(amountFld.getText()), 
 						descFld.getText()));
+					manager.close(Stages.TRANS);
+				}
 				break;
 			case EDIT_SINGLE:
 				if (Validation.run(validations)) {
 					selection().setTime(datePicker.getValue());
 					selection().setAmount(Double.parseDouble(amountFld.getText()));
 					selection().setDescription(descFld.getText());
+					manager.close(Stages.TRANS);
 				}
 				break;
 			case EDIT_MULTI:
@@ -155,10 +158,11 @@ public class TransactionController extends Controller {
 					if (new Validation<TextField>(descFld, fld -> fld.getText().trim().isEmpty()).test())
 						tran.setDescription(descFld.getText());
 				}
+				selection.getTableView().refresh();
+				manager.close(Stages.TRANS);
 				break;
 		}
-		selection.getTableView().refresh();
-		manager.close(Stages.TRANS);
+		
 	}
 	
 	@FXML

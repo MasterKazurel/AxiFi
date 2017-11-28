@@ -13,7 +13,8 @@ import view.Animations;
 public class Validation<N extends Node> {
 	private Label lbl;
 	private String origTxt,
-					origStyle;
+					origLblStyle,
+					origNStyle;
 	private N n;
 	private List<Predicate<N>> tests;
 	private List<String> errorMsgs;
@@ -21,7 +22,8 @@ public class Validation<N extends Node> {
 	Validation(Label lbl, N n, Predicate<N> test, String errorMsg) {
 		this.lbl = lbl;
 		origTxt = lbl.getText();
-		origStyle = lbl.getStyle();
+		origLblStyle = lbl.getStyle();
+		origNStyle = n.getStyle();
 		this.n = n;
 		this.tests = new ArrayList<Predicate<N>>(Arrays.asList(test));
 		this.errorMsgs = new ArrayList<String>(Arrays.asList(errorMsg));
@@ -46,7 +48,7 @@ public class Validation<N extends Node> {
 					showError(errorMsgs.get(i));
 				pass = false;
 			} else if (errorMsgs != null) 
-				clearLbl();
+				clearError();
 		return pass;
 	}
 	
@@ -56,14 +58,16 @@ public class Validation<N extends Node> {
 			lbl.setText("");
 		}
 		lbl.setText(msg);
-		lbl.setStyle("-fx-text-fill: #ff0000; font-weight: bold;" + lbl.getStyle()); 
+		lbl.setStyle("-fx-text-fill: #ff0000; font-weight: bold;" + lbl.getStyle());
+		n.setStyle("-fx-border-color: #ff0000; " + n.getStyle());
 		Animations.shake(lbl);
 		Toolkit.getDefaultToolkit().beep();
 	}
 	
-	private void clearLbl() {
+	private void clearError() {
 		lbl.setText(origTxt);
-		lbl.getStyleClass().remove("error");
+		lbl.setStyle(origLblStyle);
+		n.setStyle(origNStyle);
 	}
 	
 	static void setupOnFocusLost(Validation<?>... vs) {
@@ -79,7 +83,7 @@ public class Validation<N extends Node> {
 		for (Validation<?> v: vs)
 			if (!v.test())
 				pass = false;
-			else v.clearLbl();
+			else v.clearError();
 		return pass;
 	}
 }

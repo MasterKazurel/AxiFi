@@ -17,32 +17,23 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.MenuButton?>
 
-<AnchorPane fx:id="root" stylesheets="@DarkTheme.css"
-	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="control.TransactionController">
+<AnchorPane fx:id="root" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.TransactionController">
 	<children>
-		<VBox alignment="CENTER" AnchorPane.bottomAnchor="0.0"
-			AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-			AnchorPane.topAnchor="0.0">
+		<VBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 			<children>
-				<HBox fx:id="titleBox" alignment="TOP_RIGHT">
+				<HBox fx:id="titleBox" alignment="CENTER_RIGHT">
 					<children>
-						<Button fx:id="exitBtn" mnemonicParsing="false" onAction="#exit"
-							prefHeight="30.0" prefWidth="30.0" styleClass="sleek-button"
-							text="x">
+						<Button fx:id="exitBtn" mnemonicParsing="false" onAction="#exit" prefHeight="30.0" prefWidth="30.0" styleClass="sleek-button" text="x">
 							<HBox.margin>
 								<Insets />
 							</HBox.margin>
 						</Button>
 					</children>
 				</HBox>
-				<MenuButton fx:id="transTypeMenu" alignment="CENTER"
-					mnemonicParsing="false" text="Type of transaction">
+				<MenuButton fx:id="transTypeMenu" alignment="CENTER" mnemonicParsing="false" text="Type of transaction">
 					<items>
-						<MenuItem fx:id="depositItm" mnemonicParsing="false"
-							onAction="#switchTransType" text="Deposit" />
-						<MenuItem fx:id="withdrawItm" mnemonicParsing="false"
-							onAction="#switchTransType" text="Withdrawal" />
+						<MenuItem fx:id="depositItm" mnemonicParsing="false" onAction="#switchTransType" text="Deposit" />
+						<MenuItem fx:id="withdrawItm" mnemonicParsing="false" onAction="#switchTransType" text="Withdrawal" />
 					</items>
 					<VBox.margin>
 						<Insets top="25.0" />
@@ -79,13 +70,10 @@
 						<Insets top="40.0" />
 					</VBox.margin>
 				</Label>
-				<MenuButton fx:id="paymentMenu" mnemonicParsing="false"
-					text="Payment method">
+				<MenuButton fx:id="paymentMenu" mnemonicParsing="false" text="Payment method">
 					<items>
-						<MenuItem fx:id="creditItm" mnemonicParsing="false"
-							onAction="#switchPayment" text="Credit Card" />
-						<MenuItem fx:id="checkItm" mnemonicParsing="false"
-							onAction="#switchPayment" text="Check" />
+						<MenuItem fx:id="creditItm" mnemonicParsing="false" onAction="#switchPayment" text="Credit Card" />
+						<MenuItem fx:id="checkItm" mnemonicParsing="false" onAction="#switchPayment" text="Check" />
 					</items>
 					<VBox.margin>
 						<Insets top="5.0" />
@@ -93,14 +81,12 @@
 				</MenuButton>
 				<HBox alignment="CENTER">
 					<children>
-						<Label fx:id="actualAmountLbl" prefHeight="20.0" prefWidth="200.0"
-							text="">
+						<Label fx:id="actualAmountLbl" prefHeight="20.0" prefWidth="200.0" text="">
 							<HBox.margin>
 								<Insets top="35.0" />
 							</HBox.margin>
 						</Label>
-						<Label fx:id="actualAmountValLbl" prefHeight="20.0"
-							prefWidth="50.0" text="0.0">
+						<Label fx:id="actualAmountValLbl" prefHeight="20.0" prefWidth="50.0" text="0.0">
 							<HBox.margin>
 								<Insets top="35.0" />
 							</HBox.margin>
@@ -112,14 +98,12 @@
 				</HBox>
 				<HBox alignment="CENTER">
 					<children>
-						<Label fx:id="amountHeldLbl" prefHeight="20.0" prefWidth="200.0"
-							text="Amount held for fees:">
+						<Label fx:id="amountHeldLbl" prefHeight="20.0" prefWidth="200.0" text="Amount held for fees:">
 							<HBox.margin>
 								<Insets top="35.0" />
 							</HBox.margin>
 						</Label>
-						<Label fx:id="amountHeldValLbl" prefHeight="20.0" prefWidth="50.0"
-							text="0.0">
+						<Label fx:id="amountHeldValLbl" prefHeight="20.0" prefWidth="50.0" text="0.0">
 							<HBox.margin>
 								<Insets top="35.0" />
 							</HBox.margin>
@@ -129,28 +113,24 @@
 						<Insets />
 					</VBox.margin>
 				</HBox>
-				<Label fx:id="msgLbl" text="Label" textAlignment="CENTER"
-					wrapText="true">
+				<Label fx:id="msgLbl" text="Label" textAlignment="CENTER" wrapText="true">
 					<VBox.margin>
 						<Insets top="100.0" />
 					</VBox.margin>
 				</Label>
 				<HBox alignment="CENTER">
 					<children>
-						<Button fx:id="submitBtn" mnemonicParsing="false" onAction="#submit"
-							text="Submit">
+						<Button fx:id="submitBtn" mnemonicParsing="false" onAction="#submit" text="Submit">
 							<HBox.margin>
 								<Insets right="75.0" />
 							</HBox.margin>
 						</Button>
-						<Button fx:id="delBtn" mnemonicParsing="false" onAction="#delete"
-							style="-fx-background-color: red; -fx-text-fill: black;" text="Delete">
+						<Button fx:id="delBtn" mnemonicParsing="false" onAction="#delete" style="-fx-background-color: red; -fx-text-fill: black;" text="Delete">
 							<HBox.margin>
 								<Insets right="0.0" />
 							</HBox.margin>
 						</Button>
-						<Button fx:id="cancelBtn" mnemonicParsing="false" onAction="#exit"
-							text="Cancel">
+						<Button fx:id="cancelBtn" mnemonicParsing="false" onAction="#exit" text="Cancel">
 							<HBox.margin>
 								<Insets left="75.0" />
 							</HBox.margin>
