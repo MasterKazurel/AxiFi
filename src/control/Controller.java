@@ -11,13 +11,7 @@ public abstract class Controller implements Initializable {
 	protected JsonKit jkit;
 	private double dx, dy;
 	private Object userData;
-	protected Modes mode;
 	protected Validation<?>[] validations;
-	
-	protected enum Modes {
-		NEW,
-		EDIT;
-	}
 	
 	public Controller() {
 		jkit = new JsonKit();

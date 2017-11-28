@@ -1,27 +1,31 @@
 
 /*---- Color Definitions ------------------------------------*/
 * {
-	-white: rgb(255,242,227);
-	-light-gray: derive(-white, -10%);
-	-gray: derive(-light-gray, -20%);
-	-dark-gray: derive(-gray, -40%);
-	-darker-gray: derive(-gray, -60%);
-}
-
-/*---- Root ------------------------------------*/
-.root, #root {
-	-fx-background-color: -gray;
-	-fx-border-color: -darker-gray;
-	-fx-border-width: 5px;
+	
+	-fx-tertiary: black;
+	-fx-tertiary-dark: derive(-fx-tertiary, -50%);
+	-fx-tertiary-darker: derive(-fx-tertiary-dark, -100%);
+	-fx-secondary: #F0FFEB;
+	-fx-secondary-dark: derive(-fx-secondary, -15%);
+	-fx-secondary-darker: derive(-fx-secondary-dark, -30%);
+	-fx-primary: white;
+	-fx-primary-dark: derive(-fx-primary, -10%);
+	-fx-primary-darker: derive(-fx-primary, -20%);
 }
 
 
 /*---- MISC Classes -----------------------------------------*/
 
 .area {
-	-fx-background-color: -dark-gray;
-	-fx-border-radius: 5.0px;
-	-fx-background-radius: 5.0px;
+	-fx-background-color: -fx-primary-dark;
+}
+
+/*---- Root ------------------------------------*/
+.root, #root {
+	-fx-background-color: -fx-primary;
+	-fx-border-color: -fx-primary-darker;
+	-fx-border-width: 2px;
+	-fx-background-radius: 5px;
 }
 
 
@@ -30,21 +34,21 @@
 .label {
     -fx-font-size: 11.0pt;
     -fx-font-family: "Segoe UI Light";
-    -fx-text-fill: -darker-gray;
+    -fx-text-fill: -fx-tertiary;
     -fx-opacity: 0.6;
 }
 
 .label-bright {
     -fx-font-size: 11.0pt;
     -fx-font-family: "Segoe UI Light";
-    -fx-text-fill: -darker-gray;
+    -fx-text-fill: -fx-tertiary;
     -fx-opacity: 1.0;
 }
 
 .label-header {
     -fx-font-size: 24.0pt;
     -fx-font-family: "Segoe UI Semibold";
-    -fx-text-fill: -darker-gray;
+    -fx-text-fill: -fx-tertiary;
     -fx-opacity: 1.0;
 }
 
@@ -52,11 +56,12 @@
 /*---- TableView -----------------------------------------*/
 
 .table-view {
-    -fx-background-color: -dark-gray;
+	-fx-selection-bar: derive(-fx-secondary, 20%);
+	-fx-selection-bar-non-focused: derive(-fx-secondary, 20%);
 }
 
 .table-view .arrow {
-	-fx-mark-color: -white;
+	-fx-mark-color: -fx-secondary;
 }
 
 .table-view .column-header-background {
@@ -64,42 +69,53 @@
 }
 
 .table-view .column-header, .table-view .filler {
-    -fx-background-color: transparent;
+    -fx-background-color: -fx-primary-darker;
 }
 
 .table-view .column-header .label {
     -fx-font-size: 14.0pt;
     -fx-font-family: "Segoe UI Semibold";
-    -fx-text-fill: -white;
+    -fx-text-fill: -fx-tertiary;
     -fx-alignment: center;
     -fx-opacity: 1.0;
 }
 
 .table-view .table-row-cell {
-	-fx-background-color: -white;
-	-fx-border-color: -dark-gray;
+	-fx-background-color: -fx-secondary;
+	-fx-border-color: -fx-primary-dark;
 	-fx-border-width: 1px;
 }
 
 .table-view .table-row-cell:filled {
-	-fx-background-color: -light-gray;
+	-fx-background-color: -fx-secondary-dark;
 }
 
+/* When the table-row-cell is selected and focused */
 .table-view:focused .table-row-cell:filled:focused:selected {
-    -fx-background-color: -gray;
+    -fx-background-color: -fx-selection-bar;
+}
+
+/* When the table-row-cell is selected and focused */
+.table-view:focused .table-row-cell:filled:selected {
+    -fx-background-color: -fx-selection-bar;
+}
+
+/* When the table-row-cell is selected and focused */
+.table-view .table-row-cell:filled:selected {
+    -fx-background-color: -fx-selection-bar;
 }
 
 .table-view .table-cell {
 	-fx-font-size: 12.0pt;
-	-fx-text-fill: -darker-gray;
+	-fx-text-fill: -fx-tertiary;
 }
 
 
 /*---- SplitPane -----------------------------------------*/
 
 .split-pane:horizontal > .split-pane-divider {
-    -fx-border-color: transparent -gray transparent -gray;
-    -fx-background-color: transparent, -dark-gray;
+    -fx-border-color: transparent -fx-primary transparent -fx-primary;
+    -fx-background-color: transparent, -fx-primary-dark;
 }
 
 .split-pane {
@@ -107,62 +123,23 @@
 }
 
 
-/*---- Menus -----------------------------------------*/
-
-.menu-bar {
-    -fx-background-color: -dark-gray;
-}
-
-.menu-bar .label {
-    -fx-font-size: 12.0pt;
-    -fx-font-family: "Segoe UI Semibold";
-    -fx-text-fill: -white;
-    -fx-opacity: 0.9;
-}
-
-.context-menu, .context-menu .menu-item {
-    -fx-background-color: -dark-gray;
-    -fx-text-fill: -white;
-}
-
-.menu-button {
-	-fx-background-color: -darker-gray;
-}
-
-.menu-button .label {
-	-fx-text-fill: -white;
-}
-
-.menu-item .label {
-	-fx-text-fill: -white;
-}
-
-.menu-item:focused {
-     -fx-background-color: -darker-gray;
-}
-
-.menu-item:focused .label {
-    -fx-text-fill: -white;
-}
-
-
 /*---- DatePicker -----------------------------------------*/
 
 .date-picker, .date-cell, .date-cell .label {
-	-fx-background-color: -gray;
-	-fx-text-fill: -white;
+	
+	-fx-text-fill: -fx-tertiary;
 }
 
 .date-picker > .arrow-button {
-	-fx-background-color: -dark-gray;
+	-fx-background-color: -fx-primary-dark;
 }
 
 .date-picker > .arrow-button:hover {
-	-fx-background-color: -dark-gray;
+	-fx-background-color: -fx-primary-dark;
 }
 
 .date-picker-popup > .month-year-pane {
-	-fx-background-color: -dark-gray;
+	-fx-background-color: -fx-primary-dark;
 }
 
 /*---- TextField -----------------------------------------*/
@@ -170,8 +147,30 @@
 .text-field {
     -fx-font-size: 12.0pt;
     -fx-font-family: "Segoe UI Semibold";
-    -fx-text-fill: -darker-gray;
-    -fx-background-color: -white;
+    -fx-text-fill: -fx-tertiary;
+    -fx-background-color: -fx-secondary;
+}
+
+.text-field:focused {
+	-fx-highlight-text-fill: -fx-tertiary-darker;
+	-fx-highlight-fill: -fx-secondary-darker;
+}
+
+/*---- Menus -----------------------------------------*/
+
+.menu-bar {
+    -fx-background-color: -fx-primary-dark;
+}
+
+.menu-bar .label {
+    -fx-font-size: 12.0pt;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-text-fill: -fx-tertiary;
+}
+
+.context-menu, .context-menu .menu-item {
+    -fx-background-color: -fx-primary-dark;
+    -fx-text-fill: -fx-tertiary;
 }
 
 
@@ -182,63 +181,70 @@
  * Author: Pedro Duque Vieira
  * http://pixelduke.wordpress.com/2012/10/23/jmetro-windows-8-controls-on-java/
  */
-.button {
+.button,  .menu-button, .menu-item {
     -fx-padding: 5.0 22.0 5.0 22.0;   
-    -fx-border-color: -light-gray;
-    -fx-border-width: 2.0;
-    -fx-border-radius: 5.0px;
-    -fx-background-radius: 7px;
-    -fx-background-color: -darker-gray;
+    -fx-border-width: 1px;
+    -fx-border-radius: 3.0px;
+    -fx-background-radius: 5.0px;
+    -fx-background-color: -fx-primary-darker;
+    -fx-border-color: -fx-primary-darker;
     -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
     -fx-font-size: 11.0pt;
-    -fx-text-fill: -white;
+    -fx-text-fill: -fx-tertiary;
     -fx-background-insets: 0.0 0.0 0.0 0.0, 0.0, 1.0, 2.0;
 }
 
-.button:hover {
-    -fx-background-color: -gray;
+.menu-button, .menu-item {
+	-fx-padding: 0.0;
+	-fx-background-insets: 0.0;
 }
 
-.button:pressed, .button:default:hover:pressed {
-  -fx-background-color: -white;
-  -fx-text-fill: -gray;
+.menu-button .label, .menu-item .label {
+	-fx-text-fill: -fx-tertiary;
 }
 
-.button:focused {
-    -fx-border-color: -dark-gray, -dark-gray;
+.button:hover, .button:focused,
+.menu-button:hover, .menu-button:focused {
+	-fx-background-color: -fx-primary;
 }
 
-.button:disabled, .button:default:disabled {
+.button:pressed, .button:default:hover:pressed,
+.menu-button:pressed, .menu-button:default:hover:pressed {
+  -fx-background-color: -fx-tertiary-dark;
+  -fx-border-color: -fx-tertiary-dark;
+  -fx-text-fill: -fx-primary;
+}
+
+.button:disabled, .button:default:disabled,
+.menu-button:disabled, .menu-button:default:disabled {
     -fx-opacity: 0.4;
-    -fx-background-color: -gray;
-    -fx-text-fill: -white;
+    -fx-text-fill: -fx-tertiary;
 }
 
-.button:default {
+.button:default, .menu-button:default {
     -fx-background-color: -fx-focus-color;
-    -fx-text-fill: -white;
+    -fx-text-fill: -fx-tertiary;
 }
 
-.button:default:hover {
+.button:default:hover, .menu-button:default:hover {
     -fx-background-color: derive(-fx-focus-color,-30.0%);
 }
 
 .sleek-button {
+	-fx-background-color: -fx-primary;
 	-fx-padding: 0.0 0.0 0.0 0.0;
-    -fx-background-color: -gray;
-    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
     -fx-border-style: none;
     -fx-border-width: 0.0;
     -fx-font-size: 15.0pt;
     -fx-text-fill: gray;
 }
 
-.sleek-button:hover {
-	-fx-text-fill: -white;
-	-fx-background-color: -gray;
+.sleek-button:hover, .sleek-button:focused {
+	-fx-text-fill: -fx-tertiary;
+	-fx-border-width: 0.0;
 }
 
 .sleek-button:pressed, .sleek-button:default:hover:pressed {
+	-fx-background-color: -fx-background;
 	-fx-text-fill: black;
-	-fx-background-color: -gray;
 }

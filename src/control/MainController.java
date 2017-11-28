@@ -9,18 +9,15 @@ import application.Manager.Stages;
 import application.Manager.Views;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.util.Callback;
 import model.CsAdmin;
 import model.Profile;
 import model.Testing;
@@ -43,14 +40,15 @@ public class MainController extends Controller {
     
     @Override
 	public void initialize(URL location, ResourceBundle resources) {
-    	EventHandler<MouseEvent> clickListener = e -> {
-    		TableRow<Transaction> row = (TableRow<Transaction>) e.getTarget();
-    		if (!row.isEmpty())
-    			editTransaction();
-    	};
-    	table.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-    		if (newSelection != null || oldSelection != null)
-    			editTransaction();
+    	table.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+    	table.setOnKeyPressed(keyEvt -> {
+    		switch (keyEvt.getCode()) {
+    			case DELETE:
+    				
+    				break;
+    			default:
+    				break;
+    		}
     	});
 	}
     
@@ -99,8 +97,7 @@ public class MainController extends Controller {
     
     @FXML
     private void deleteAccount(ActionEvent e) {
-    	manager.show(Stages.DEL_ACC, Views.DEL_ACC);
-    	manager.sendData(Views.DEL_ACC, admin, currAcc);
+    	manager.showSendData(Stages.DEL_ACC, Views.DEL_ACC, admin, currAcc);
     }
     
     @FXML
@@ -108,15 +105,14 @@ public class MainController extends Controller {
     	manager.show(Stages.TRANS, Views.TRANS);
     }
     
-    private void editTransaction() {
-    	manager.show(Stages.TRANS, Views.TRANS);
-    	manager.sendData(Views.TRANS, table);
+    @FXML
+    private void editTransactions() {
+    	manager.showSendData(Stages.TRANS, Views.TRANS, table.getSelectionModel());
     }
     
     @FXML
     private void logout(ActionEvent e) {
-    	manager.show(Stages.LOGIN, Views.LOGIN);
-    	manager.close(Stages.MAIN);
+    	manager.showClose(Stages.LOGIN, Views.LOGIN, Stages.MAIN);
     }
 	
 	private void showAccounts() {
@@ -143,6 +139,18 @@ public class MainController extends Controller {
 		}
 	}
 	
+	private void switchAccounts(Profile user) {
+		if (user != null) {
+	    	accMenuBtn.setText(user.getFullName());
+	    	currAcc = user;
+	    	showTransactions();
+		} else {
+			accMenuBtn.setText("Select an account");
+			currAcc = null;
+			showTransactions();
+		}
+    }
+	
 	private void addAccounts(List<Profile> accs) {
 		// Add accounts
 		List<MenuItem> items = new ArrayList<MenuItem>();
@@ -164,17 +172,5 @@ public class MainController extends Controller {
 	        descripCol.setCellValueFactory(cellData -> cellData.getValue().getDescriptionProperty());
 		} else table.getItems().clear();
 	}
-	
-	private void switchAccounts(Profile user) {
-		if (user != null) {
-	    	accMenuBtn.setText(user.getFullName());
-	    	currAcc = user;
-	    	showTransactions();
-		} else {
-			accMenuBtn.setText("Select an account");
-			currAcc = null;
-			showTransactions();
-		}
-    }
 
 }

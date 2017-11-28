@@ -153,12 +153,8 @@ public class Manager {
 	/**
 	 * Shows the specified view (and reloads it) on the given stage.
 	 * 
-	 * @param stageID
-	 *            - the stage to show the view in
-	 * @param viewID
-	 *            - the view to show
-	 * 
-	 * 
+	 * @param stageID - the stage to show the view in
+	 * @param viewID - the view to show
 	 */
 	public void show(Stages stageID, Views viewID) {
 		Stage stg = getStage(stageID);
@@ -172,6 +168,48 @@ public class Manager {
 		view.getStylesheets().clear();
 		view.getStylesheets().add(currentStyle.val);
 		stg.show();
+	}
+	
+	/**
+	 * Opens specified view ({@code openViewID}) on the specified stage ({@code openStageID})
+	 * and sends {@code data} to that view's controller.
+	 * 
+	 * @param openStageID - the stage to show the view on
+	 * @param openViewID - the view to show
+	 * @param closeStageID - the stage to close
+	 * @param data - the data to send the view's controller
+	 */
+	public void showSendData(Stages stageID, Views viewID, Object... data) {
+		show(stageID, viewID);
+		sendData(viewID, data);
+	}
+	
+	/**
+	 * Opens specified view ({@code openViewID}) on the specified stage ({@code openStageID}),
+	 * sends {@code data} to that view's controller, and closes specified stage ({@code closeStageID}).
+	 * 
+	 * @param openStageID - the stage to show the view on
+	 * @param openViewID - the view to show
+	 * @param closeStageID - the stage to close
+	 * @param data - the data to send the view's controller
+	 */
+	public void showSendDateClose(Stages openStageID, Views openViewID, Stages closeStageID, Object... data) {
+		show(openStageID, openViewID) ;
+		sendData(openViewID, data);
+		close(closeStageID);
+	}
+	
+	/**
+	 * Opens specified view ({@code openViewID}) on the specified stage ({@code openStageID})
+	 * and closes specified stage ({@code closeStageID}).
+	 * 
+	 * @param openStageID - the stage to show the view on
+	 * @param openViewID - the view to show
+	 * @param closeStageID - the stage to close
+	 */
+	public void showClose(Stages openStageID, Views openViewID, Stages closeStageID) {
+		close(closeStageID);
+		show(openStageID, openViewID);
 	}
 
 	/**
@@ -205,19 +243,11 @@ public class Manager {
 		view.setUserData(viewID);
 		addView(view);
 
-		Controller controller = loader.<Controller>getController();
+		Controller controller = loader.getController();
 		controller.setUserData(viewID);
 		controller.setManager(this);
 		addController(controller);
 		return view;
-	}
-
-	/*
-	 * Returns true if no scene set... OR there is a scene set who's view isn't the
-	 * view to switch to
-	 */
-	private boolean viewNeedsSwitching(Scene scene, Pane view) {
-		return scene == null || (scene != null && !scene.getRoot().equals(view));
 	}
 
 	/*----------------------------------------------------------------------------------------------------*/

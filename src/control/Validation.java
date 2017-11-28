@@ -1,5 +1,6 @@
 package control;
 
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.function.Predicate;
 
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import view.Animations;
 
 public class Validation<N extends Node> {
 	private Label lbl;
@@ -25,19 +27,26 @@ public class Validation<N extends Node> {
 		this.errorMsgs = new ArrayList<String>(Arrays.asList(errorMsg));
 	}
 	
+	Validation(N n, Predicate<N> test) {
+		this.n = n;
+		this.tests = new ArrayList<Predicate<N>>(Arrays.asList(test));
+	}
+	
 	Validation<N> add(Predicate<N> test, String errorMsg) {
 		tests.add(test);
 		errorMsgs.add(errorMsg);
-		return this;
+		return this; //chaining
 	}
 	
 	boolean test() {
 		boolean pass = true;
 		for (int i = 0; i < tests.size(); i++)
 			if (tests.get(i).test(n)) {
-				showError(errorMsgs.get(i));
+				if (errorMsgs != null)
+					showError(errorMsgs.get(i));
 				pass = false;
-			} else clearLbl();
+			} else if (errorMsgs != null) 
+				clearLbl();
 		return pass;
 	}
 	
@@ -47,13 +56,14 @@ public class Validation<N extends Node> {
 			lbl.setText("");
 		}
 		lbl.setText(msg);
-		lbl.setStyle("-fx-text-fill: red; "); 
+		lbl.setStyle("-fx-text-fill: #ff0000; font-weight: bold;" + lbl.getStyle()); 
+		Animations.shake(lbl);
+		Toolkit.getDefaultToolkit().beep();
 	}
 	
 	private void clearLbl() {
 		lbl.setText(origTxt);
-		lbl.setStyle(origStyle);
-		System.out.println(origTxt);
+		lbl.getStyleClass().remove("error");
 	}
 	
 	static void setupOnFocusLost(Validation<?>... vs) {
@@ -67,7 +77,7 @@ public class Validation<N extends Node> {
 	static boolean run(Validation<?>... vs) {
 		boolean pass = true;
 		for (Validation<?> v: vs)
-			if (!v.test()) 
+			if (!v.test())
 				pass = false;
 			else v.clearLbl();
 		return pass;

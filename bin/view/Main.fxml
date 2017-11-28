@@ -81,7 +81,7 @@
 								<Insets />
 							</VBox.margin>
 						</HBox>
-						<TableView fx:id="table" prefHeight="800.0" prefWidth="500.0" editable="true">
+						<TableView fx:id="table" editable="true" prefHeight="800.0" prefWidth="500.0">
 							<columns>
 								<TableColumn fx:id="dateCol" prefWidth="180.0" text="Date" />
 								<TableColumn fx:id="amountCol" prefWidth="198.0" text="Amount" />
@@ -91,13 +91,18 @@
 								<Insets bottom="10.0" left="30.0" right="30.0" top="10.0" />
 							</VBox.margin>
 						</TableView>
-						<HBox>
+						<HBox alignment="BOTTOM_LEFT">
 							<children>
 								<Button fx:id="newTransBtn" mnemonicParsing="false" onAction="#newTransaction" snapToPixel="false" text="Add Transaction">
 									<HBox.margin>
-										<Insets bottom="20.0" left="150.0" right="20.0" top="25.0" />
+										<Insets left="25.0" right="25.0" />
 									</HBox.margin>
 								</Button>
+                        <Button mnemonicParsing="false" onAction="#editTransactions" text="Edit Transaction(s)">
+                           <HBox.margin>
+                              <Insets left="25.0" right="25.0" />
+                           </HBox.margin>
+                        </Button>
 							</children>
 						</HBox>
 					</children>
