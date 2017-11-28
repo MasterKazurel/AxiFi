@@ -10,7 +10,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -38,16 +37,20 @@ public class Manager {
 
 	public enum Stages {
 		MAIN,
+		NEW_ACC,
 		LOGIN, 
 		TRANS, 
-		DEL_ACC;
+		DEL_ACC,
+		CODES;
 	}
 
 	public enum Views {
 		LOGIN("Login.fxml"), 
+		NEW_ACC("MakeAcct.fxml"),
 		MAIN("Main.fxml"), 
 		TRANS("Trans.fxml"), 
-		DEL_ACC("DeleteAcct.fxml");
+		DEL_ACC("DeleteAcct.fxml"),
+		CODES("Codes.fxml");
 		private String val;
 
 		private Views(String val) {
@@ -77,6 +80,16 @@ public class Manager {
 					mainStage.setMaximized(true);
 					stages.add(mainStage);
 					break;
+				case NEW_ACC:
+					Stage accStage = new Stage();
+					accStage.setMaximized(false);
+					accStage.initStyle(StageStyle.TRANSPARENT);
+					accStage.setUserData(Stages.NEW_ACC);
+					accStage.setResizable(false);
+					accStage.sizeToScene();
+					accStage.initOwner(mainStage);
+					stages.add(accStage);
+					break;
 				case LOGIN:
 					Stage loginStage = new Stage();
 					loginStage.setMaximized(false);
@@ -91,9 +104,6 @@ public class Manager {
 					Stage transStage = new Stage();
 					transStage.setMaximized(false);
 					transStage.initStyle(StageStyle.TRANSPARENT);
-					transStage.sceneProperty().addListener((obs, oldValue, newValue) -> {
-						if (newValue != null) transStage.getScene().setFill(Color.TRANSPARENT);
-					});
 					transStage.sizeToScene();
 					transStage.setUserData(Stages.TRANS);
 					transStage.initOwner(mainStage);
@@ -107,6 +117,15 @@ public class Manager {
 					delAcctStage.sizeToScene();
 					delAcctStage.initOwner(mainStage);
 					stages.add(delAcctStage);
+					break;
+				case CODES:
+					Stage codeStage = new Stage();
+					codeStage.setMaximized(false);
+					codeStage.initStyle(StageStyle.TRANSPARENT);
+					codeStage.sizeToScene();
+					codeStage.setUserData(Stages.CODES);
+					codeStage.initOwner(mainStage);
+					stages.add(codeStage);
 					break;
 			}
 	}

@@ -106,7 +106,7 @@
 
 .table-view .table-cell {
 	-fx-font-size: 12.0pt;
-	-fx-text-fill: -fx-tertiary;
+	-fx-text-fill: -fx-primary-darker;
 }
 
 

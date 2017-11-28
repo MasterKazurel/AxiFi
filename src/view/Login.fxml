@@ -41,7 +41,7 @@
             </HBox>
 				<ImageView fitHeight="150.0" fitWidth="225.0" opacity="0.59" pickOnBounds="true" preserveRatio="true" styleClass="centered-image">
 					<image>
-						<Image url="@../resources/axifi-logo2.png" />
+						<Image url="@../resources/axifi-logo.png" />
 					</image>
 					<VBox.margin>
 						<Insets right="18.0" top="25.0" />

@@ -3,7 +3,6 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
-
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -46,9 +45,35 @@ public class Profile extends Observable {
 		transactions = new ArrayList<Transaction>();
 		transactionsObserver = FXCollections.observableList(transactions);
 	}
+	
+	public Profile(String fullName, String password, double balance) {
+		super();
+		setFullName(fullName);
+		setPassword(password);
+		setBalance(balance);
+		transactions = new ArrayList<Transaction>();
+		transactionsObserver = FXCollections.observableList(transactions);
+	}
+
+	public Profile(String fullName, String password) {
+		super();
+		setFullName(fullName);
+		setPassword(password);
+		setBalance(0);
+		transactions = new ArrayList<Transaction>();
+		transactionsObserver = FXCollections.observableList(transactions);
+	}
 
 	public String getFullName() {
 		return firstName.getValue() + " " + lastName.getValue();
+	}
+	
+	public void setFullName(String fullName) {
+		String[] names = fullName.split("\\s+");
+		if (names.length == 2) {
+			firstName.setValue(names[0]);
+			lastName.setValue(names[1]);
+		} else throw new IllegalArgumentException();
 	}
 	
 	public String getFirstName() {

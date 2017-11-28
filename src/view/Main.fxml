@@ -51,17 +51,17 @@
 							<children>
 								<Button fx:id="newAccBtn" mnemonicParsing="false" onAction="#createAccount" text="Create New Account">
 									<HBox.margin>
-										<Insets bottom="10.0" left="30.0" right="10.0" top="10.0" />
+										<Insets bottom="10.0" left="30.0" right="15.0" top="10.0" />
 									</HBox.margin>
 								</Button>
 								<Button fx:id="delAccBtn" mnemonicParsing="false" onAction="#deleteAccount" text="Delete Account">
 									<HBox.margin>
-										<Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+										<Insets bottom="10.0" left="15.0" right="20.0" top="10.0" />
 									</HBox.margin>
 								</Button>
 								<Button fx:id="logoutBtn" mnemonicParsing="false" onAction="#logout" text="Logout">
 									<HBox.margin>
-										<Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+										<Insets bottom="10.0" left="20.0" right="15.0" top="10.0" />
 									</HBox.margin>
 								</Button>
 							</children>
@@ -69,16 +69,21 @@
                         <Insets top="10.0" />
                      </padding>
 						</HBox>
-						<HBox prefHeight="25.0" prefWidth="200.0">
+						<HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="200.0">
 							<children>
 								<MenuButton fx:id="accMenuBtn" mnemonicParsing="false" text="Select an account" textOverrun="CLIP">
 									<HBox.margin>
-										<Insets left="30.0" top="5.0" />
+										<Insets left="30.0" right="15.0" />
 									</HBox.margin>
 								</MenuButton>
+                        <Button fx:id="logoutBtn1" mnemonicParsing="false" onAction="#showCodes" text="Codes">
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                        </Button>
 							</children>
 							<VBox.margin>
-								<Insets />
+								<Insets top="5.0" />
 							</VBox.margin>
 						</HBox>
 						<TableView fx:id="table" editable="true" prefHeight="800.0" prefWidth="500.0">
