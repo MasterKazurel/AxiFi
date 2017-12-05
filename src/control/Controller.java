@@ -6,13 +6,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
-import model.JsonKit;
+import model.DatabaseKit;
 import view.Animations;
 
 public abstract class Controller implements Initializable {
 	
 	protected Manager manager;
-	protected JsonKit jkit;
+	protected DatabaseKit db;
 	private double dx, dy;
 	private Object userData;
 	protected Validation<?>[] validations;
@@ -20,7 +20,7 @@ public abstract class Controller implements Initializable {
 /*--- PUBLIC ---------------------------------------------------------------------------*/
 	
 	public Controller() {
-		jkit = new JsonKit();
+		
 	}
 	
 	public void setManager(Manager main)

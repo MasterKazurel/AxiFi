@@ -42,15 +42,8 @@ public class LoginController extends Controller {
 /*--- HELPERS ---------------------------------------------------------------------------*/	
 	
 	private CsAdmin authenticate() {
-		CsAdmin admin = jkit.openAdmin(usernameFld.getText());
-		validations = new Validation<?>[] {
-			new Validation<TextField>(loginLbl, usernameFld, fld -> admin == null || 
-					!fld.getText().equals(admin.getLogin()), "Invalid login."),
-			new Validation<TextField>(loginLbl, passwordFld, fld -> admin == null ||
-					!passwordFld.getText().equals(admin.getPassword()), "Invalid login.")
-		};
-		if (Validation.run(validations))
-			return admin;
+		if (new Validation<TextField>(loginLbl, usernameFld, fld -> !db.adminLogin(fld.getText(), passwordFld.getText()), "Invalid login.").test())
+			return db.queryAdmin(usernameFld.getText(), passwordFld.getText());
 		else {
 			Animations.shake(manager.getStage(Stages.LOGIN));
 			return null;
