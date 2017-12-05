@@ -12,15 +12,16 @@ import view.Animations;
 public abstract class Controller implements Initializable {
 	
 	protected Manager manager;
-	protected DatabaseKit db;
+	protected final static DatabaseKit db;
 	private double dx, dy;
 	private Object userData;
 	protected Validation<?>[] validations;
 	
 /*--- PUBLIC ---------------------------------------------------------------------------*/
 	
-	public Controller() {
-		
+	static {
+		db = new DatabaseKit();
+		db.initDatabase("data.db");
 	}
 	
 	public void setManager(Manager main)

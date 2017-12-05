@@ -3,8 +3,6 @@ package control;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.ResourceBundle;
 
 import application.Manager.Stages;
@@ -22,7 +20,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import model.CsAdmin;
 import model.Profile;
-import model.Testing;
 import model.Transaction;
 
 public class MainController extends Controller {
@@ -66,12 +63,19 @@ public class MainController extends Controller {
     				break;
     		}
     	});
+    	root.sceneProperty().addListener((obs, oldScene, newScene) -> {
+    		if (newScene != null) {
+    			admin = db.getAdmin();
+	    		showAccounts();
+				showTransactions();
+    		}
+    	});
     	setupFadeIn(root);
 	}
     
     /**
      * Requires only one object of one of the following types:
-     * Account, Transaction.
+     * Transaction.
      * 
      * @throws IllegalArgumentException
      * - if the parameters do not conform to the requirements
@@ -80,15 +84,10 @@ public class MainController extends Controller {
 	@Override
 	public void receiveData(Object... data) {
 		Class<?> type = checkData(data);
-		if (type.equals(CsAdmin.class)) {
-			admin = (CsAdmin)data[0];
-			Testing.fakeAdmin(admin); // shhhhh
-			showAccounts();
-			showTransactions();
-		} else if (type.equals(Transaction.class)) {
+		if (type.equals(Transaction.class)) {
 			currAcc.getTransactions().add((Transaction)data[0]);
 		} else
-			throw new IllegalArgumentException("Requires only one object of one of the following types: Account, Transaction.");
+			throw new IllegalArgumentException("Requires only one object of one of the following types: Transaction.");
 	}
 	
 /*--- HELPERS ---------------------------------------------------------------------------*/	
@@ -97,10 +96,8 @@ public class MainController extends Controller {
     private Class<?> checkData(Object[] data) {
 		if (data.length == 1 && data[0] instanceof Transaction)
 			return Transaction.class;
-		else if (data.length == 1 && data[0] instanceof CsAdmin)
-			return CsAdmin.class;
 		else
-			throw new IllegalArgumentException("Requires only one object of one of the following types: Account, Transaction.");
+			throw new IllegalArgumentException("Requires only one object of one of the following types: Transaction.");
 	}
 	
     // Add accounts to menu button and setup changelisteners

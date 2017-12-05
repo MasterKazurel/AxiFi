@@ -62,4 +62,9 @@ public class CsAdmin extends Observable {
 			return usersObserver;
 		}
 		
+		public void setUsers(List<Profile> users) {
+			this.users = users;
+			this.usersObserver = FXCollections.observableList(users);
+		}
+		
 }

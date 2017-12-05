@@ -20,7 +20,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="root" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.MainController">
+<BorderPane fx:id="root" stylesheets="@DarkTheme.css"
+	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="control.MainController">
 	<top>
 		<MenuBar BorderPane.alignment="CENTER">
 			<menus>
@@ -43,95 +45,111 @@
 		</MenuBar>
 	</top>
 	<center>
-		<AnchorPane minHeight="600.0" minWidth="600.0" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+		<AnchorPane minHeight="600.0" minWidth="600.0" prefHeight="600.0"
+			prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
 			<children>
-				<VBox layoutX="236.0" layoutY="200.0" prefHeight="600.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+				<VBox layoutX="236.0" layoutY="200.0" prefHeight="600.0"
+					prefWidth="600.0" AnchorPane.bottomAnchor="0.0"
+					AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+					AnchorPane.topAnchor="0.0">
 					<children>
 						<HBox prefHeight="30.0" prefWidth="200.0">
 							<children>
-								<Button fx:id="newAccBtn" mnemonicParsing="false" onAction="#createAccount" text="Create New Account">
+								<Button fx:id="newAccBtn" mnemonicParsing="false"
+									onAction="#createAccount" text="Create New Account">
 									<HBox.margin>
 										<Insets bottom="10.0" left="30.0" right="15.0" top="10.0" />
 									</HBox.margin>
-                           <tooltip>
-                              <Tooltip text="Create a new account" />
-                           </tooltip>
+									<tooltip>
+										<Tooltip text="Create a new account" />
+									</tooltip>
 								</Button>
-								<Button fx:id="delAccBtn" mnemonicParsing="false" onAction="#deleteAccount" text="Delete Account">
+								<Button fx:id="delAccBtn" mnemonicParsing="false"
+									onAction="#deleteAccount" text="Delete Account">
 									<HBox.margin>
 										<Insets bottom="10.0" left="15.0" right="20.0" top="10.0" />
 									</HBox.margin>
-                           <tooltip>
-                              <Tooltip text="Delete account if there are no transactions" />
-                           </tooltip>
+									<tooltip>
+										<Tooltip text="Delete account if there are no transactions" />
+									</tooltip>
 								</Button>
-								<Button fx:id="logoutBtn" mnemonicParsing="false" onAction="#logout" text="Logout">
+								<Button fx:id="logoutBtn" mnemonicParsing="false"
+									onAction="#logout" text="Logout">
 									<HBox.margin>
 										<Insets bottom="10.0" left="20.0" right="15.0" top="10.0" />
 									</HBox.margin>
-                           <tooltip>
-                              <Tooltip text="Log out of your account" />
-                           </tooltip>
+									<tooltip>
+										<Tooltip text="Log out of your account" />
+									</tooltip>
 								</Button>
 							</children>
-                     <padding>
-                        <Insets top="10.0" />
-                     </padding>
+							<padding>
+								<Insets top="10.0" />
+							</padding>
 						</HBox>
 						<HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="200.0">
 							<children>
-								<MenuButton fx:id="accMenuBtn" mnemonicParsing="false" text="Select an account" textOverrun="CLIP">
+								<MenuButton fx:id="accMenuBtn" mnemonicParsing="false"
+									text="Select an account" textOverrun="CLIP">
 									<HBox.margin>
 										<Insets left="30.0" right="15.0" />
 									</HBox.margin>
-                           <tooltip>
-                              <Tooltip text="Select account to view transactions" />
-                           </tooltip>
+									<tooltip>
+										<Tooltip text="Select account to view transactions" />
+									</tooltip>
 								</MenuButton>
-                        <Button fx:id="logoutBtn1" mnemonicParsing="false" onAction="#showCodes" text="Codes">
-                           <HBox.margin>
-                              <Insets left="15.0" />
-                           </HBox.margin>
-                           <tooltip>
-                              <Tooltip text="View transactions codes" />
-                           </tooltip>
-                        </Button>
+								<Button fx:id="logoutBtn1" mnemonicParsing="false"
+									onAction="#showCodes" text="Codes">
+									<HBox.margin>
+										<Insets left="15.0" />
+									</HBox.margin>
+									<tooltip>
+										<Tooltip text="View transactions codes" />
+									</tooltip>
+								</Button>
 							</children>
 							<VBox.margin>
 								<Insets top="5.0" />
 							</VBox.margin>
 						</HBox>
-						<TableView fx:id="table" editable="true" prefHeight="800.0" prefWidth="500.0">
+						<TableView fx:id="table" editable="true" prefHeight="800.0"
+							prefWidth="500.0">
 							<columns>
 								<TableColumn fx:id="dateCol" prefWidth="180.0" text="Date" />
-								<TableColumn fx:id="amountCol" prefWidth="198.0" text="Amount" />
-								<TableColumn fx:id="descripCol" prefWidth="221.0" text="Description" />
+								<TableColumn fx:id="amountCol" prefWidth="198.0"
+									text="Amount" />
+								<TableColumn fx:id="descripCol" prefWidth="221.0"
+									text="Description" />
 							</columns>
 							<VBox.margin>
 								<Insets bottom="10.0" left="30.0" right="30.0" top="10.0" />
 							</VBox.margin>
-                     <tooltip>
-                        <Tooltip text="View transaction data" />
-                     </tooltip>
+							<tooltip>
+								<Tooltip text="View transaction data" />
+							</tooltip>
 						</TableView>
 						<HBox alignment="BOTTOM_LEFT">
 							<children>
-								<Button fx:id="newTransBtn" mnemonicParsing="false" onAction="#newTransaction" snapToPixel="false" text="Add Transaction">
+								<Button fx:id="newTransBtn" mnemonicParsing="false"
+									onAction="#newTransaction" snapToPixel="false" text="Add Transaction">
 									<HBox.margin>
 										<Insets bottom="10.0" left="25.0" right="25.0" />
 									</HBox.margin>
-                           <tooltip>
-                              <Tooltip text="Create a new transaction and add it to the currently selected account" />
-                           </tooltip>
+									<tooltip>
+										<Tooltip
+											text="Create a new transaction and add it to the currently selected account" />
+									</tooltip>
 								</Button>
-                        <Button mnemonicParsing="false" onAction="#editTransactions" text="Edit Transaction(s)">
-                           <HBox.margin>
-                              <Insets bottom="10.0" left="25.0" right="25.0" />
-                           </HBox.margin>
-                           <tooltip>
-                              <Tooltip text="Edit transaction data or delete transaction in single edit mode or multi edit mode." />
-                           </tooltip>
-                        </Button>
+								<Button mnemonicParsing="false" onAction="#editTransactions"
+									text="Edit Transaction(s)">
+									<HBox.margin>
+										<Insets bottom="10.0" left="25.0" right="25.0" />
+									</HBox.margin>
+									<tooltip>
+										<Tooltip
+											text="Edit transaction data or delete transaction in single edit mode or multi edit mode." />
+									</tooltip>
+								</Button>
 							</children>
 						</HBox>
 					</children>
@@ -139,44 +157,45 @@
 			</children>
 		</AnchorPane>
 	</center>
-   <bottom>
-      <VBox styleClass="area" BorderPane.alignment="CENTER">
-         <children>
-            <HBox styleClass="area">
-               <children>
-                  <Label prefHeight="18.0" prefWidth="118.0" styleClass="label-bright" text="Overall Balance:">
-                     <HBox.margin>
-                        <Insets left="10.0" />
-                     </HBox.margin>
-                  </Label>
-                  <Label styleClass="label-bright">
-                     <HBox.margin>
-                        <Insets left="10.0" />
-                     </HBox.margin>
-                  </Label>
-               </children>
-               <padding>
-                  <Insets top="5.0" />
-               </padding>
-            </HBox>
-            <HBox styleClass="area">
-               <children>
-                  <Label styleClass="label-bright" text="Held for fees:">
-                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="3.0" />
-                     </padding>
-                     <HBox.margin>
-                        <Insets left="5.0" />
-                     </HBox.margin>
-                  </Label>
-                  <Label styleClass="label-bright">
-                     <HBox.margin>
-                        <Insets left="10.0" />
-                     </HBox.margin>
-                  </Label>
-               </children>
-            </HBox>
-         </children>
-      </VBox>
-   </bottom>
+	<bottom>
+		<VBox styleClass="area" BorderPane.alignment="CENTER">
+			<children>
+				<HBox styleClass="area">
+					<children>
+						<Label prefHeight="18.0" prefWidth="118.0" styleClass="label-bright"
+							text="Overall Balance:">
+							<HBox.margin>
+								<Insets left="10.0" />
+							</HBox.margin>
+						</Label>
+						<Label styleClass="label-bright">
+							<HBox.margin>
+								<Insets left="10.0" />
+							</HBox.margin>
+						</Label>
+					</children>
+					<padding>
+						<Insets top="5.0" />
+					</padding>
+				</HBox>
+				<HBox styleClass="area">
+					<children>
+						<Label styleClass="label-bright" text="Held for fees:">
+							<padding>
+								<Insets bottom="5.0" left="5.0" right="5.0" top="3.0" />
+							</padding>
+							<HBox.margin>
+								<Insets left="5.0" />
+							</HBox.margin>
+						</Label>
+						<Label styleClass="label-bright">
+							<HBox.margin>
+								<Insets left="10.0" />
+							</HBox.margin>
+						</Label>
+					</children>
+				</HBox>
+			</children>
+		</VBox>
+	</bottom>
 </BorderPane>

@@ -169,8 +169,8 @@ public class TransactionController extends Controller {
 			case NEW:
 				if (Validation.run(validations)) {
 					manager.sendData(Views.MAIN, new Transaction(datePicker.getValue(), 
-						Double.parseDouble(amountFld.getText()), 
-						descFld.getText()));
+							descFld.getText(),
+							Double.parseDouble(amountFld.getText())));
 					manager.close(Stages.TRANS);
 				}
 				break;

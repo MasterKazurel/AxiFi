@@ -19,16 +19,7 @@ public class Profile extends Observable {
 	private DoubleProperty balance;
 	private ObservableList<Transaction> transactionsObserver;
 	private List<Transaction> transactions;
-
-	public Profile(String firstName, String lastName, String password, double balance) {
-		super();
-		setFirstName(firstName);
-		setLastName(lastName);
-		setPassword(password);
-		setBalance(balance);
-		transactions = new ArrayList<Transaction>();
-		transactionsObserver = FXCollections.observableList(transactions);
-	}
+	
 	public Profile(int id, String firstName, String lastName, double balance) {
 		this.id = id;
 		setFirstName(firstName);
@@ -37,27 +28,10 @@ public class Profile extends Observable {
 		transactions = new ArrayList<Transaction>();
 		transactionsObserver = FXCollections.observableList(transactions);
 	}
-	public Profile(String firstName, String lastName, String password) {
+	
+	public Profile(int id, String firstName, String lastName, String password) {
 		setFirstName(firstName);
 		setLastName(lastName);
-		setPassword(password);
-		setBalance(0);
-		transactions = new ArrayList<Transaction>();
-		transactionsObserver = FXCollections.observableList(transactions);
-	}
-	
-	public Profile(String fullName, String password, double balance) {
-		super();
-		setFullName(fullName);
-		setPassword(password);
-		setBalance(balance);
-		transactions = new ArrayList<Transaction>();
-		transactionsObserver = FXCollections.observableList(transactions);
-	}
-
-	public Profile(String fullName, String password) {
-		super();
-		setFullName(fullName);
 		setPassword(password);
 		setBalance(0);
 		transactions = new ArrayList<Transaction>();
@@ -117,6 +91,11 @@ public class Profile extends Observable {
 
 	public ObservableList<Transaction> getTransactions() {
 		return transactionsObserver;
+	}
+	
+	public void setTransactions(List<Transaction> ts) {
+		this.transactions = ts;
+		this.transactionsObserver = FXCollections.observableList(transactions);
 	}
 	
 }
