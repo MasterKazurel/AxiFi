@@ -37,6 +37,14 @@ public class Profile extends Observable {
 		transactions = new ArrayList<Transaction>();
 		transactionsObserver = FXCollections.observableList(transactions);
 	}
+	
+	public Profile(String firstName, String lastName) {
+		setFirstName(firstName);
+		setLastName(lastName);
+		setBalance(0);
+		transactions = new ArrayList<Transaction>();
+		transactionsObserver = FXCollections.observableList(transactions);
+	}
 
 	public String getFullName() {
 		return firstName.getValue() + " " + lastName.getValue();
