@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import model.CsAdmin;
@@ -20,12 +21,16 @@ public class DeleteAccountController extends Controller {
 	@FXML HBox titleBox;
 	@FXML Label promptLbl;
 	@FXML TextField adminPwFld;
-	@FXML Button delBtn, cancelBtn;
+	@FXML Button delBtn, cancelBtn, exitBtn;
 	private CsAdmin admin;
 	private Profile acc;
 	
+/*--- SETUP ---------------------------------------------------------------------------*/
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		setupStageClose(root, Stages.DEL_ACC);
+		setupStageDrag(titleBox, Stages.DEL_ACC);
 		root.sceneProperty().addListener((obs, oldScene, newScene) -> {
 			if (newScene != null) {
 				Animations.fadeIn(root).onFinishedProperty().set(e -> {
@@ -33,14 +38,31 @@ public class DeleteAccountController extends Controller {
 				});
 			}
 		});
-		setupStageDrag(titleBox, Stages.DEL_ACC);
 	}
 	
 	@Override
-	protected void setupValidation() {
-		// TODO Auto-generated method stub
-		
+	public void receiveData(Object... data) {
+		admin = (CsAdmin) data[0];
+		acc = (Profile) data[1];
+		if (acc.getTransactions().isEmpty())
+			promptLbl.setText("Are you sure you want to delete " + acc.getFullName() + "'s account? (Warning: all account data will be lost!)");
+		else {
+			promptLbl.setText("Cannot delete account with transaction data. ");
+			adminPwFld.setVisible(false);
+			delBtn.setVisible(false);
+		}
 	}
+	
+/*--- HELPERS ---------------------------------------------------------------------------*/
+	
+	// 
+	private void showError(String msg) {
+		promptLbl.setText(msg);
+		promptLbl.setStyle("-fx-text-fill: red; " + promptLbl.getStyle());
+		Animations.shake(manager.getStage(Stages.DEL_ACC));
+	}
+	
+/*--- FXML ---------------------------------------------------------------------------*/
 	
 	@FXML
 	private void exit() {
@@ -54,26 +76,6 @@ public class DeleteAccountController extends Controller {
 			admin.getUsers().remove(acc);
 			manager.close(Stages.DEL_ACC);
 		} else showError("Invalid password. ");
-	}
-	
-	private void showError(String msg) {
-		promptLbl.setText(msg);
-		promptLbl.setStyle("-fx-text-fill: red; " + promptLbl.getStyle());
-		Animations.shake(manager.getStage(Stages.DEL_ACC));
-	}
-
-	@Override
-	public void receiveData(Object... data) {
-		// TODO Auto-generated method stub
-		admin = (CsAdmin) data[0];
-		acc = (Profile) data[1];
-		if (acc.getTransactions().isEmpty())
-			promptLbl.setText("Are you sure you want to delete " + acc.getFullName() + "'s account? (Warning: all account data will be lost!)");
-		else {
-			promptLbl.setText("Cannot delete account with transaction data. ");
-			adminPwFld.setVisible(false);
-			delBtn.setVisible(false);
-		}
 	}
 
 }

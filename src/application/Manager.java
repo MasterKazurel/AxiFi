@@ -16,10 +16,11 @@ import javafx.stage.StageStyle;
 public class Manager {
 
 	private ObservableList<Controller> controllers;
-	private List<Controller> controllersBack;
 	private ObservableList<Stage> stages;
-	private List<Stage> stagesBack;
 	private ObservableList<Pane> views;
+	
+	private List<Controller> controllersBack;
+	private List<Stage> stagesBack;
 	private List<Pane> viewsBack;
 	
 	private Styles currentStyle;
@@ -46,7 +47,7 @@ public class Manager {
 
 	public enum Views {
 		LOGIN("Login.fxml"), 
-		NEW_ACC("MakeAcct.fxml"),
+		NEW_ACC("NewAcct.fxml"),
 		MAIN("Main.fxml"), 
 		TRANS("Trans.fxml"), 
 		DEL_ACC("DeleteAcct.fxml"),
@@ -58,7 +59,7 @@ public class Manager {
 		}
 	}
 
-/*----------------------------------------------------------------------------------------------------*/
+/*------- SETUP ---------------------------------------------------------------------------------------*/
 
 	public Manager(Stage primaryStage) {
 		currentStyle = Styles.DARK;
@@ -130,7 +131,7 @@ public class Manager {
 			}
 	}
 
-/*----------------------------------------------------------------------------------------------------*/
+/*------- PUBLIC INTERFACE --------------------------------------------------------------------------------------*/
 		
 	/**
 	 * Passes data to the specified view's controller.
@@ -212,7 +213,7 @@ public class Manager {
 	 * @param closeStageID - the stage to close
 	 * @param data - the data to send the view's controller
 	 */
-	public void showSendDateClose(Stages openStageID, Views openViewID, Stages closeStageID, Object... data) {
+	public void showSendDataClose(Stages openStageID, Views openViewID, Stages closeStageID, Object... data) {
 		show(openStageID, openViewID) ;
 		sendData(openViewID, data);
 		close(closeStageID);
@@ -235,7 +236,9 @@ public class Manager {
 	 * Closes the specified stage.
 	 */
 	public void close(Stages stageID) {
-		getStage(stageID).close();
+		Stage stg = getStage(stageID);
+		stg.centerOnScreen();
+		stg.close();
 	}
 	
 	/**
@@ -269,7 +272,7 @@ public class Manager {
 		return view;
 	}
 
-	/*----------------------------------------------------------------------------------------------------*/
+	/*----------------------------------------------------------*/
 
 	/**
 	 * Returns the {@code Stage} with the specified {@code stageID}.

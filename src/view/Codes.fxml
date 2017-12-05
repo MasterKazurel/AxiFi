@@ -13,6 +13,11 @@
    <children>
       <VBox alignment="CENTER">
          <children>
+            <HBox fx:id="titleBox" alignment="CENTER_RIGHT">
+               <children>
+                  <Button fx:id="exitBtn" mnemonicParsing="false" onAction="#exit" prefHeight="30.0" prefWidth="30.0" styleClass="sleek-button" text="x" />
+               </children>
+            </HBox>
             <Label text="Codes Cheat Sheet" />
             <HBox prefHeight="400.0" prefWidth="400.0">
                <children>
@@ -23,7 +28,7 @@
                   <Insets bottom="75.0" left="15.0" right="15.0" top="75.0" />
                </VBox.margin>
             </HBox>
-            <Button fx:id="closeBtn" mnemonicParsing="false" onAction="#close" text="Close">
+            <Button fx:id="closeBtn" mnemonicParsing="false" onAction="#exit" text="Close">
                <VBox.margin>
                   <Insets bottom="10.0" />
                </VBox.margin>

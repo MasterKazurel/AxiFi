@@ -5,7 +5,7 @@
 	-fx-tertiary: black;
 	-fx-tertiary-dark: derive(-fx-tertiary, -50%);
 	-fx-tertiary-darker: derive(-fx-tertiary-dark, -100%);
-	-fx-secondary: #F0FFEB;
+	-fx-secondary: #CFCFCF;
 	-fx-secondary-dark: derive(-fx-secondary, -15%);
 	-fx-secondary-darker: derive(-fx-secondary-dark, -30%);
 	-fx-primary: white;

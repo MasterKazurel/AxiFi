@@ -7,18 +7,40 @@ import application.Manager.Stages;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import model.CsAdmin;
 import model.Profile;
 
-public class MakeAccountController extends Controller {
+public class NewAccountController extends Controller {
+	
+	@FXML AnchorPane root;
 	@FXML Label nameLbl, fundsLbl;
+	@FXML HBox titleBox;
 	@FXML TextField nameFld, fundsFld;
 	
 	private CsAdmin admin;
 	
+/*--- SETUP ---------------------------------------------------------------------------*/
+	
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		setupStageDrag(titleBox, Stages.NEW_ACC);
+		setupStageClose(root, Stages.NEW_ACC);
+		setupFadeIn(root);
+	}
+	
+	@Override
+	public void receiveData(Object... data) {
+		admin = (CsAdmin) data[0];
+	}
+	
+/*--- FXML ---------------------------------------------------------------------------*/
+	
 	@FXML
-	private void cancel() {
+	private void exit() {
 		manager.close(Stages.NEW_ACC);
+		setupStageDrag(titleBox, Stages.NEW_ACC);
 	}
 	
 	@FXML
@@ -31,23 +53,6 @@ public class MakeAccountController extends Controller {
 			admin.getUsers().add(acc);
 			manager.close(Stages.NEW_ACC);
 		}
-	}
-
-	@Override
-	public void receiveData(Object... data) {
-		admin = (CsAdmin) data[0];
-	}
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	protected void setupValidation() {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
