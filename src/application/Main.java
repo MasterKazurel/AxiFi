@@ -1,7 +1,7 @@
 package application;
 
 import java.io.IOException;
-
+import java.awt.print.*;
 import control.Controller;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -60,7 +60,7 @@ public class Main extends Application {
 				case MAIN:
 					mainStage.setTitle("AxiFi");
 					mainStage.setUserData(Stages.MAIN);
-					mainStage.setMaximized(true);
+					//mainStage.setMaximized(true);
 					stages[ct] = mainStage;
 					ct++;
 					break;
@@ -75,7 +75,7 @@ public class Main extends Application {
 					Stage transStage = new Stage();
 					transStage.setMaximized(false);
 					transStage.initStyle(StageStyle.UNDECORATED);
-					transStage.setUserData(Stages.LOGIN);
+					transStage.setUserData(Stages.NEW_TRANS);
 					stages[ct] = transStage;
 					ct++;
 					break;
@@ -117,8 +117,8 @@ public class Main extends Application {
 			FXMLLoader loader = new FXMLLoader();
             loader.setLocation(
             		//From Karl: This seems to only work on my system if getClass().getResource(view.val) is used...
-            		//System.class.getResource(view.val)
-            		getClass().getResource(view.val)
+            		System.class.getResource(view.val)
+            		//getClass().getResource(view.val)
             );
 			Pane main = null;
 			try {

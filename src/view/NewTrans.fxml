@@ -3,99 +3,118 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.layout.VBox?>
 
-
-<AnchorPane fx:id="root" fx:controller="control.NewTransactionController"
-	prefHeight="600.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1"
-	xmlns="http://javafx.com/javafx/8.0.141">
+<AnchorPane fx:id="root" prefHeight="400.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.NewTransactionController">
 	<children>
-		<VBox prefHeight="600.0" prefWidth="600.0"
-			AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-			AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+		<VBox prefHeight="600.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 			<children>
-				<MenuButton fx:id="transTypeMenu" alignment="CENTER"
-					mnemonicParsing="false" text="Type of transaction">
+				<MenuButton fx:id="transTypeMenu" alignment="CENTER" mnemonicParsing="false" text="Type of transaction">
 					<items>
-						<MenuItem fx:id="depositItm" onAction="#switchTransType"
-							mnemonicParsing="false" text="Deposit" />
-						<MenuItem fx:id="withdrawItm" onAction="#switchTransType"
-							mnemonicParsing="false" text="Withdrawal" />
+						<MenuItem fx:id="depositItm" mnemonicParsing="false" onAction="#switchTransType" text="Deposit" />
+						<MenuItem fx:id="withdrawItm" mnemonicParsing="false" onAction="#switchTransType" text="Withdrawal" />
 					</items>
 					<VBox.margin>
-						<Insets left="225.0" top="25.0" />
+						<Insets left="135.0" top="25.0" />
 					</VBox.margin>
 				</MenuButton>
 				<Label fx:id="amountLbl" text="Amount">
 					<VBox.margin>
-						<Insets left="275.0" top="25.0" />
+						<Insets left="180.0" top="10.0" />
 					</VBox.margin>
 				</Label>
-				<TextField fx:id="amountFld">
+				<TextField fx:id="amountFld" prefWidth="100.0">
 					<VBox.margin>
-						<Insets left="100.0" right="100.0" top="10.0" />
+						<Insets left="100.0" right="100.0" top="7.0" />
 					</VBox.margin>
 				</TextField>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <VBox prefHeight="47.0" prefWidth="299.0">
+                     <children>
+                        <Label fx:id="amountLbl1" text="Account Code:">
+                           <VBox.margin>
+                              <Insets left="160.0" />
+                           </VBox.margin>
+                        </Label>
+                        <TextField fx:id="accountFld" prefWidth="100.0">
+                           <VBox.margin>
+                              <Insets left="100.0" top="5.0" />
+                           </VBox.margin>
+                        </TextField>
+                     </children>
+                  </VBox>
+                  <Button fx:id="codesBtn" mnemonicParsing="false" onAction="#codes" text="View codes">
+                     <HBox.margin>
+                        <Insets left="5.0" top="22.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
 				<Label fx:id="methodLbl" text="Method">
 					<VBox.margin>
-						<Insets left="275.0" top="40.0" />
+						<Insets left="180.0" top="10.0" />
 					</VBox.margin>
 				</Label>
-				<MenuButton fx:id="paymentMenu" mnemonicParsing="false"
-					text="Payment method">
+				<MenuButton fx:id="paymentMenu" mnemonicParsing="false" text="Payment method">
 					<items>
-						<MenuItem fx:id="creditItm" onAction="#switchPayment"
-							mnemonicParsing="false" text="Credit Card" />
-						<MenuItem fx:id="checkItm" onAction="#switchPayment"
-							mnemonicParsing="false" text="Check" />
+						<MenuItem fx:id="creditItm" mnemonicParsing="false" onAction="#switchPayment" text="Credit Card" />
+						<MenuItem fx:id="checkItm" mnemonicParsing="false" onAction="#switchPayment" text="Check" />
 					</items>
 					<VBox.margin>
-						<Insets left="230.0" top="5.0" />
+						<Insets left="140.0" top="5.0" />
 					</VBox.margin>
 				</MenuButton>
-				<HBox prefHeight="150.0" prefWidth="200.0">
+				<HBox prefHeight="89.0" prefWidth="600.0">
 					<children>
-						<Label fx:id="actualAmountLbl" prefHeight="20.0" prefWidth="200.0"
-							text="">
+						<Label fx:id="actualAmountLbl" prefHeight="20.0" prefWidth="200.0" text="Actual amount:">
 							<HBox.margin>
-								<Insets left="150.0" top="35.0" />
+								<Insets left="90.0" top="35.0" />
 							</HBox.margin>
 						</Label>
-						<Label fx:id="actualAmountValLbl" prefHeight="20.0"
-							prefWidth="50.0" text="0.0">
+						<Label fx:id="actualAmountValLbl" prefHeight="20.0" prefWidth="50.0" text="0.0">
 							<HBox.margin>
 								<Insets top="35.0" />
 							</HBox.margin>
 						</Label>
 					</children>
 				</HBox>
-				<HBox prefHeight="150.0" prefWidth="200.0">
+				<HBox prefHeight="209.0" prefWidth="600.0">
 					<children>
-						<Label fx:id="amountHeldLbl" prefHeight="20.0" prefWidth="200.0"
-							text="Amount held for fees:">
+						<Label fx:id="amountHeldLbl" prefHeight="20.0" prefWidth="200.0" text="Amount held for fees:">
 							<HBox.margin>
-								<Insets left="150.0" top="35.0"/>
+								<Insets left="90.0" top="35.0" />
 							</HBox.margin>
 						</Label>
-						<Label fx:id="amountHeldValLbl" prefHeight="20.0" prefWidth="50.0"
-							text="0.0">
+						<Label fx:id="amountHeldValLbl" prefHeight="20.0" prefWidth="50.0" text="0.0">
 							<HBox.margin>
 								<Insets top="35.0" />
 							</HBox.margin>
 						</Label>
 					</children>
 				</HBox>
-				<Button fx:id="submitBtn" onAction="#submit" mnemonicParsing="false" text="Submit">
-					<VBox.margin>
-						<Insets left="450.0" top="200.0" />
-					</VBox.margin>
-				</Button>
+            <HBox prefHeight="230.0" prefWidth="600.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#close" text="Cancel">
+                     <HBox.margin>
+                        <Insets left="100.0" />
+                     </HBox.margin>
+                  </Button>
+      				<Button fx:id="submitBtn" mnemonicParsing="false" onAction="#submit" text="Submit">
+                     <HBox.margin>
+                        <Insets left="100.0" right="50.0" />
+                     </HBox.margin>
+      				</Button>
+               </children>
+               <VBox.margin>
+                  <Insets top="30.0" />
+               </VBox.margin>
+            </HBox>
 			</children>
 		</VBox>
 	</children>

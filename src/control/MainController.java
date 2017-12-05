@@ -31,6 +31,7 @@ public class MainController extends Controller {
     @FXML private Label firstNameLabel, lastNameLabel, streetLabel, 
     				postalCodeLabel, cityLabel, birthdayLabel;
     @FXML MenuButton accMenuBtn;
+    @FXML MenuItem codes;
     @FXML Button newAccBtn, delAccBtn, logoutBtn, newTransBtn, codesBtn;
     
     private CsAdmin admin;
