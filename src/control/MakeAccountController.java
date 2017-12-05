@@ -28,7 +28,7 @@ public class MakeAccountController extends Controller {
 	@FXML
 	private void submit() {
 		if (!admin.getUsers().contains(acc.getFullName())) {
-			jkit.writeProfile(acc.getFullName());
+			//jkit.writeProfile(acc.getFullName());
 			admin.getUsers().add(acc);
 			main.close(Stages.NEW_ACC);
 		}

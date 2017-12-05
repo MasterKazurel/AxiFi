@@ -116,7 +116,9 @@ public class Main extends Application {
 		for (Views view: Views.values()) {
 			FXMLLoader loader = new FXMLLoader();
             loader.setLocation(
-            		System.class.getResource(view.val)
+            		//From Karl: This seems to only work on my system if getClass().getResource(view.val) is used...
+            		//System.class.getResource(view.val)
+            		getClass().getResource(view.val)
             );
 			Pane main = null;
 			try {

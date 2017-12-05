@@ -28,7 +28,7 @@ public class DeleteAccountController extends Controller {
 	@FXML
 	private void submit() {
 		if (admin.getPassword().equals(adminPwFld.getText())) {
-			jkit.deleteProfile(acc.getFirstName());
+			db.removeProfile(acc.getId());
 			admin.getUsers().remove(acc);
 			main.close(Stages.DEL_ACC);
 		}

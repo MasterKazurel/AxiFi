@@ -38,13 +38,17 @@ public class LoginController extends Controller {
 	}
 	
 	private CsAdmin authenticate(String username, String password) {
-		CsAdmin admin = jkit.openAdmin(username);
-		if (admin == null)
+		boolean secPass = db.adminLogin(username, password); //If it's true things were correct
+		CsAdmin admin = db.queryAdmin(username, password);
+		if (secPass) {
 			return admin;
-		else if (admin.getPassword().equals(password))
+		}
+		else if (admin == null) {
 			return admin;
-		else
+		}
+		else {
 			return null;
+		}
 	}
 	
 	private void showError(String msg) {

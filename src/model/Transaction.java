@@ -5,7 +5,9 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class Transaction {
-	
+	private int id; //id is used as the primary key for Transaction data
+	private int userId; //userId is used as a foreign key determining who the transaction is applied to
+	private StringProperty type; //This is the type of the transaction
 	private StringProperty time;
 	private StringProperty amount;
 	private StringProperty description;
@@ -16,7 +18,21 @@ public class Transaction {
 		this.amount = new SimpleStringProperty(amount);
 		this.description = new SimpleStringProperty(description);
 	}
-
+	
+	public Transaction(int id, int userId, String purpose, String type, double amount) {
+		this.id = id;
+		this.userId = userId;
+		this.description = new SimpleStringProperty(purpose);
+		this.type = new SimpleStringProperty(type);
+		this.amount = new SimpleStringProperty(Double.toString(amount));
+	}
+	
+	public Transaction(String purpose, String type, double amount) {
+		this.description = new SimpleStringProperty(purpose);
+		this.type = new SimpleStringProperty(type);
+		this.amount = new SimpleStringProperty(Double.toString(amount));
+	}
+	
 	public StringProperty getTime() {
 		return time;
 	}

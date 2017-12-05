@@ -12,6 +12,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Profile extends Observable {
+	private int id; //id is used by the database as the primary key of the Profile data
 	private StringProperty firstName;
 	private StringProperty lastName;
 	private StringProperty password;
@@ -29,9 +30,15 @@ public class Profile extends Observable {
 		transactions = new ArrayList<Transaction>();
 		transactionsObserver = FXCollections.observableList(transactions);
 	}
-
+	public Profile(int id, String firstName, String lastName, double balance) {
+		this.id = id;
+		setFirstName(firstName);
+		setLastName(lastName);
+		setBalance(0);
+		transactions = new ArrayList<Transaction>();
+		transactionsObserver = FXCollections.observableList(transactions);
+	}
 	public Profile(String firstName, String lastName, String password) {
-		super();
 		setFirstName(firstName);
 		setLastName(lastName);
 		setPassword(password);
@@ -48,6 +55,13 @@ public class Profile extends Observable {
 		return firstName.getValue();
 	}
 
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		//The database should be the ONLY ONE EVER setting this value. DO NOT TRY TO CHANGE THIS WITHOUT QUERYING THE DATABASE!
+		this.id = id;
+	}
 	public void setFirstName(String firstName) {
 		this.firstName = new SimpleStringProperty(firstName);
 	}
