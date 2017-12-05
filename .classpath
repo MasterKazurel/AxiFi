@@ -12,6 +12,6 @@
 		</accessrules>
 	</classpathentry>
 	<classpathentry kind="lib" path="javax.json-1.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Sarah/Documents/AxiFi/AxiFi/sqlite-jdbc-3.8.10.1.jar"/>
+	<classpathentry kind="lib" path="sqlite-jdbc-3.8.10.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

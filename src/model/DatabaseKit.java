@@ -178,6 +178,7 @@ public class DatabaseKit {
 			
 			Transaction loadTransaction;
 			while(tr.next()) {
+				
 				int id = tr.getInt("ID");
 				int uId = tr.getInt("USER_ID"); //User foreign key
 				String purpose = tr.getString("PURPOSE");

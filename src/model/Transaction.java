@@ -8,13 +8,23 @@ import javafx.beans.property.StringProperty;
 
 public class Transaction extends Observable {
 	
+	private int id;
+	private int userID;
 	private LocalDate time;
 	private double amount;
 	private String description;
 	
-	
 	public Transaction(LocalDate time, double amount, String description) {
 		super();
+		this.time = time;
+		this.amount = amount;
+		this.description = description;
+	}
+	
+	public Transaction(int id, int userID, LocalDate time, double amount, String description) {
+		super();
+		this.id = id;
+		this.userID = userID;
 		this.time = time;
 		this.amount = amount;
 		this.description = description;

@@ -49,7 +49,7 @@ public class NewAccountController extends Controller {
 				fld -> admin.getUsers().stream().anyMatch(user -> user.getFullName().equalsIgnoreCase(fld.getText())), 
 				"Account already exists. ").test()) {
 			Profile acc = new Profile(nameFld.getText(), "test");
-			jkit.writeProfile(acc.getFullName());
+			db.insertProfile(acc);
 			admin.getUsers().add(acc);
 			manager.close(Stages.NEW_ACC);
 		}
