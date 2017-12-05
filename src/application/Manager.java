@@ -256,6 +256,7 @@ public class Manager {
 	private Pane loadView(Views viewID) {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(System.class.getResource(viewID.val));
+		
 		Pane view = null;
 		try {
 			view = (Pane) loader.load();

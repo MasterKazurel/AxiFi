@@ -1,10 +1,16 @@
 package model;
 
 import java.io.File;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
-import model.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class DatabaseKit {
 	private Connection c = null;
@@ -129,6 +135,7 @@ public class DatabaseKit {
 			e.printStackTrace();
 		}
 	}
+	
 	public void insertTransaction(int userId, String purpose, String code, double ammount) {
 		String newTransaction = "INSERT INTO TRANS(PURPOSE, TRANS_TYPE, AMMOUNT, USER_ID)"+
 								"VALUES('" + purpose + "','" + code + "'," + ammount + "," + userId + ");"; 
@@ -141,8 +148,9 @@ public class DatabaseKit {
 			e.printStackTrace();
 		}
 	}
-	public ArrayList<Profile> getUsers() {
-		ArrayList<Profile> profileSet = new ArrayList<Profile>();
+	
+	public ObservableList<Profile> getUsers() {
+		List<Profile> profileSet = new ArrayList<Profile>();
 		
 		String getUsers = "SELECT * FROM USER;";
 		Statement queryUsers = null;
@@ -164,11 +172,12 @@ public class DatabaseKit {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		return profileSet;
+		return FXCollections.observableList(profileSet);
 		
 	}	
-	public ArrayList<Transaction> getTransactions(int userId) {
-		ArrayList<Transaction> transactionSet = new ArrayList<Transaction>();
+	
+	public ObservableList<Transaction> getTransactions(int userId) {
+		List<Transaction> transactionSet = new ArrayList<Transaction>();
 		
 		String getTransactions = "SELECT * FROM TRANS WHERE USER_ID=" + userId + ";";
 		Statement queryTrans = null;
@@ -184,7 +193,6 @@ public class DatabaseKit {
 				String purpose = tr.getString("PURPOSE");
 				String type = tr.getString("TRANS_TYPE");
 				double ammount = tr.getDouble("AMMOUNT");
-				
 				loadTransaction = new Transaction(id, uId, purpose, type, ammount);
 				transactionSet.add(loadTransaction);
 			}
@@ -192,9 +200,10 @@ public class DatabaseKit {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		return transactionSet;
+		return FXCollections.observableList(transactionSet);
 		
 	}
+	
 	public void updateProfile(Profile profile) {
 		ArrayList<Transaction> transactions = (ArrayList<Transaction>) profile.getTransactions();
 		
@@ -203,6 +212,11 @@ public class DatabaseKit {
 			String updateTransactions = "UPDATE TRANS SET ";
 		}
 	}
+	
+	public void insertAdmin(CsAdmin admin) {
+		insertAdmin(admin.getLogin(), admin.getPassword());
+	}
+	
 	public void insertAdmin(String login, String password) {
 		String newAdmin = "INSERT INTO ADMIN(LOGIN, PASSWORD)"+
 						  "VALUES('" + login + "','" + password + "');";
@@ -215,14 +229,30 @@ public class DatabaseKit {
 			e.printStackTrace();
 		}
 	}
-	public CsAdmin queryAdmin(String adm, String password) {
-		//TODO this is not a query
-		return new CsAdmin("csadmin", "csci323", "Robyn", "Berg");
+	
+	public CsAdmin getAdmin() {
+		CsAdmin admin = null;
+		String getAdmin = "SELECT * FROM ADMIN";
+		Statement queryAdmin = null;
+		try {
+			queryAdmin = c.createStatement();
+			ResultSet results = queryAdmin.executeQuery(getAdmin);
+			if (results.next()) {
+				admin = new CsAdmin(results.getString("LOGIN"), results.getString("PASSWORD"), "Robyn", "Berg");
+				admin.setUsers(getUsers());
+				for (Profile p: admin.getUsers())
+					p.setTransactions(getTransactions(p.getId()));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return admin;
 	}
-	public boolean adminLogin(String adm, String password) {
+	
+	public boolean adminLogin(String login, String password) {
 		String pwd = ""; //The queried password
 		
-		String checkAdmin = "SELECT PASSWORD FROM ADMIN WHERE LOGIN=" + "'" + adm + "';";
+		String checkAdmin = "SELECT PASSWORD FROM ADMIN WHERE LOGIN=" + "'" + login + "';";
 		
 		Statement queryAdmin = null;
 		try {
@@ -233,6 +263,7 @@ public class DatabaseKit {
 				}
 			queryAdmin.close();
 		}catch(Exception e) {
+			buildSchema();
 			e.printStackTrace();
 		}
 		if(pwd.equals(password)) {
@@ -241,4 +272,45 @@ public class DatabaseKit {
 		}
 		return false;
 	}
+	
+	public static void main( String args[] ) {
+	      DatabaseKit db = new DatabaseKit();
+	      
+	      String testDb = "test.db";
+	      System.out.println("Purging test database..");
+	      db.initDatabase(testDb);
+	      db.deleteDatabase(testDb);
+	      System.out.println("Purge complete!\n");
+	      System.out.println("Creating new test database..");
+	      db.initDatabase(testDb);
+	      System.out.println("Building database schema..");
+	      db.buildSchema();
+	      System.out.println("Building schema complete!\n");
+	      System.out.println("Inserting new profiles...");
+	      db.insertProfile("Joe", "Volcano");
+	      db.insertProfile("Frog", "King");
+	      db.insertProfile("Meteor", "Knight");
+	      db.insertProfile("Nikolai", "Romanov");
+	      db.insertProfile("Dracula", "Vampire");
+	      db.insertProfile("Girl", "Chan");
+	      System.out.println("Inserted new profiles!\n");
+	      System.out.println("Inserting new transactions!");
+	      db.insertTransaction(1, "memes", "1234", 20.99);
+	      db.insertTransaction(1, "elemental iron", "10", 5.50);
+	      db.insertTransaction(2, "the human soul", "42", 1.99);
+	      db.insertTransaction(2, "a pound of butter", "21300412", 1000.20);
+	      db.insertTransaction(4, "Vodka", "88", 19.95);
+	      db.insertTransaction(5, "a replicant", "808", 5000.153);
+	      db.insertTransaction(5, "Sympathy", "12", 9000000.15);
+	      db.insertTransaction(6, "Thaaat is the price...", "123No321", -50000000);
+	      System.out.println("Inserted new transactions!\n");
+	      System.out.println("Creating new admin profile...");
+	      db.insertAdmin("CsAdmin", "iforgotwhatistsupposedtobe");
+	      System.out.println("Created new admin profile!\n");
+	      
+	      System.out.println("Closing database connection...");
+	      db.closeConnection();
+	      System.out.println("Closed.\n");
+	  }
+
 }

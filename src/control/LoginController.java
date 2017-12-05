@@ -10,10 +10,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import model.CsAdmin;
+import model.Testing;
 import view.Animations;
 
 public class LoginController extends Controller {
@@ -42,8 +42,12 @@ public class LoginController extends Controller {
 /*--- HELPERS ---------------------------------------------------------------------------*/	
 	
 	private CsAdmin authenticate() {
-		if (new Validation<TextField>(loginLbl, usernameFld, fld -> !db.adminLogin(fld.getText(), passwordFld.getText()), "Invalid login.").test())
-			return db.queryAdmin(usernameFld.getText(), passwordFld.getText());
+		CsAdmin admin = db.getAdmin();
+		validations = new Validation<?>[] {new Validation<TextField>(loginLbl, usernameFld, fld -> !admin.getLogin().equals(fld.getText()), "Invalid login."),
+			new Validation<TextField>(loginLbl, passwordFld, fld -> !admin.getPassword().equals(fld.getText()), "Invalid login.")
+		};
+		if (Validation.run(validations))
+			return admin;
 		else {
 			Animations.shake(manager.getStage(Stages.LOGIN));
 			return null;
@@ -56,7 +60,7 @@ public class LoginController extends Controller {
 	private void login(ActionEvent e) {
 		CsAdmin admin = authenticate();
 		if (admin != null)
-			manager.showSendDataClose(Stages.MAIN, Views.MAIN, Stages.LOGIN, admin);
+			manager.showClose(Stages.MAIN, Views.MAIN, Stages.LOGIN);
 	}
 	
 	@FXML
