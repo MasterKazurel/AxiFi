@@ -55,8 +55,8 @@
 /*---- TableView -----------------------------------------*/
 
 .table-view {
-	-fx-selection-bar: derive(-fx-secondary, 20%);
-	-fx-selection-bar-non-focused: derive(-fx-secondary, 20%);
+	-fx-selection-bar: -fx-secondary-dark;
+	-fx-selection-bar-non-focused: -fx-secondary-dark;
 }
 
 .table-view .arrow {
@@ -86,12 +86,13 @@
 }
 
 .table-view .table-row-cell:filled {
-	-fx-background-color: -fx-secondary-dark;
+	-fx-background-color: -fx-secondary-darker;
 }
 
 /* When the table-row-cell is selected and focused */
 .table-view:focused .table-row-cell:filled:focused:selected {
     -fx-background-color: -fx-selection-bar;
+    -fx-border-color: -fx-primary-darker;
 }
 
 /* When the table-row-cell is selected and focused */
@@ -106,7 +107,7 @@
 
 .table-view .table-cell {
 	-fx-font-size: 12.0pt;
-	-fx-text-fill: -fx-primary-darker;
+	-fx-text-fill: -fx-tertiary;
 }
 
 
@@ -125,8 +126,12 @@
 /*---- DatePicker -----------------------------------------*/
 
 .date-picker, .date-cell, .date-cell .label {
-	
 	-fx-text-fill: -fx-tertiary;
+	-fx-background-color: -fx-secondary;
+}
+
+.date-cell:focused, .date-cell:hover {
+	-fx-background-color: -fx-secondary-darker;
 }
 
 .date-picker > .arrow-button {
@@ -181,8 +186,8 @@
  * http://pixelduke.wordpress.com/2012/10/23/jmetro-windows-8-controls-on-java/
  */
 .button,  .menu-button {
-    -fx-padding: 5.0 22.0 5.0 22.0;   
-    -fx-border-width: 3px;
+    -fx-padding: 5.0 22.0 5.0 22.0;
+    -fx-border-width: 1px;
     -fx-border-radius: 5.0px;
     -fx-background-radius: 9.0px;
     -fx-background-color: -fx-primary-darker;
@@ -225,34 +230,6 @@
     -fx-text-fill: -fx-tertiary;
 }
 
-.button:default:hover, .menu-button:default:hover {
-    -fx-background-color: derive(-fx-focus-color,-30.0%);
-}
-
-.button:hover, .button:focused {
-	-fx-background-color: -fx-primary;
-}
-
-.button:pressed, .button:default:hover:pressed {
-  -fx-background-color: -fx-tertiary-dark;
-  -fx-border-color: -fx-tertiary-dark;
-  -fx-text-fill: -fx-primary;
-}
-
-.button:disabled, .button:default:disabled {
-    -fx-opacity: 0.4;
-    -fx-text-fill: -fx-tertiary;
-}
-
-.button:default {
-    -fx-background-color: -fx-focus-color;
-    -fx-text-fill: -fx-tertiary;
-}
-
-.button:default:hover {
-    -fx-background-color: derive(-fx-focus-color,-30.0%);
-}
-
 .sleek-button {
 	-fx-background-color: -fx-primary;
 	-fx-padding: 0.0;
@@ -263,6 +240,7 @@
 }
 
 .sleek-button:hover, .sleek-button:focused {
+	-fx-background-color: -fx-primary;
 	-fx-text-fill: -fx-tertiary;
 	-fx-border-width: 0.0;
 }

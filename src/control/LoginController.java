@@ -10,17 +10,21 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import model.CsAdmin;
 import view.Animations;
 
 public class LoginController extends Controller {
+	
 	@FXML AnchorPane root;
 	@FXML HBox titleBox;
 	@FXML Label loginLbl;
 	@FXML TextField usernameFld, passwordFld;
 	@FXML Button loginBtn, minBtn, exitBtn;
+	
+/*--- SETUP ---------------------------------------------------------------------------*/
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -31,26 +35,11 @@ public class LoginController extends Controller {
 	}
 	
 	@Override
-	protected void setupValidation() {
-		
+	public void receiveData(Object... data) {
+		throw new UnsupportedOperationException();
 	}
 	
-	@FXML
-	private void login(ActionEvent e) {
-		CsAdmin admin = authenticate();
-		if (admin != null)
-			manager.showSendDateClose(Stages.MAIN, Views.MAIN, Stages.LOGIN, admin);
-	}
-	
-	@FXML
-	private void exit(ActionEvent e) {
-		System.exit(0);
-	}
-	
-	@FXML
-	private void minimize(ActionEvent e) {
-		manager.getStage(Stages.LOGIN).setIconified(true);
-	}
+/*--- HELPERS ---------------------------------------------------------------------------*/	
 	
 	private CsAdmin authenticate() {
 		CsAdmin admin = jkit.openAdmin(usernameFld.getText());
@@ -67,11 +56,24 @@ public class LoginController extends Controller {
 			return null;
 		}
 	}
-
-	@Override
-	public void receiveData(Object... data) {
-		throw new UnsupportedOperationException();
+	
+/*--- FXML ---------------------------------------------------------------------------*/
+	
+	@FXML
+	private void login(ActionEvent e) {
+		CsAdmin admin = authenticate();
+		if (admin != null)
+			manager.showSendDataClose(Stages.MAIN, Views.MAIN, Stages.LOGIN, admin);
 	}
-
+	
+	@FXML
+	private void exit(ActionEvent e) {
+		System.exit(0);
+	}
+	
+	@FXML
+	private void minimize(ActionEvent e) {
+		manager.getStage(Stages.LOGIN).setIconified(true);
+	}
 	
 }

@@ -17,10 +17,17 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" prefHeight="400.0" prefWidth="600.0" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.MakeAccountController">
+<AnchorPane fx:id="root" prefHeight="400.0" prefWidth="600.0" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.NewAccountController">
    <children>
       <VBox alignment="CENTER" prefHeight="600.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
+            <HBox fx:id="titleBox" alignment="CENTER_RIGHT">
+               <children>
+                  <Button fx:id="exitBtn" mnemonicParsing="false" onAction="#exit" prefHeight="30.0" prefWidth="30.0" styleClass="sleek-button" text="x">
+                  <tooltip><Tooltip text="exit"/></tooltip>
+                  </Button>
+               </children>
+            </HBox>
             <Label fx:id="nameLbl" text="Account Name">
                <VBox.margin>
                   <Insets top="50.0" />
@@ -30,6 +37,7 @@
                </font>
             </Label>
             <TextField fx:id="nameFld">
+            	<tooltip><Tooltip text="Enter your account name"/></tooltip>
                <VBox.margin>
                   <Insets left="150.0" right="150.0" top="15.0" />
                </VBox.margin>
@@ -43,6 +51,7 @@
                </font>
             </Label>
             <TextField fx:id="fundsFld">
+            	<tooltip><Tooltip text="Enter any starting funds"/></tooltip>
                <VBox.margin>
                   <Insets left="150.0" right="150.0" top="15.0" />
                </VBox.margin>
@@ -53,11 +62,13 @@
                </VBox.margin>
                <children>
                   <Button mnemonicParsing="false" onAction="#submit" text="Create">
+                  	<tooltip><Tooltip text="Confirm account creation"/></tooltip>
                      <HBox.margin>
                         <Insets right="50.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#cancel" text="Cancel">
+                  <Button mnemonicParsing="false" onAction="#exit" text="Cancel">
+                  	<tooltip><Tooltip text="Cancel account creation"/></tooltip>
                      <HBox.margin>
                         <Insets left="50.0" />
                      </HBox.margin>

@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import view.Animations;
 
 public class Validation<N extends Node> {
+	
 	private Label lbl;
 	private String origTxt,
 					origLblStyle,
@@ -19,7 +20,10 @@ public class Validation<N extends Node> {
 	private List<Predicate<N>> tests;
 	private List<String> errorMsgs;
 	
+/*---------------------------------------------------------------------------*/
+	
 	Validation(Label lbl, N n, Predicate<N> test, String errorMsg) {
+		
 		this.lbl = lbl;
 		origTxt = lbl.getText();
 		origLblStyle = lbl.getStyle();
@@ -40,6 +44,8 @@ public class Validation<N extends Node> {
 		return this; //chaining
 	}
 	
+/*---------------------------------------------------------------------------*/
+	
 	boolean test() {
 		boolean pass = true;
 		for (int i = 0; i < tests.size(); i++)
@@ -58,7 +64,8 @@ public class Validation<N extends Node> {
 			lbl.setText("");
 		}
 		lbl.setText(msg);
-		lbl.setStyle("-fx-text-fill: #ff0000; font-weight: bold;" + lbl.getStyle());
+		lbl.setStyle("-fx-text-fill: #ff0000; font-weight: bold; " + 
+					"-fx-background-color: -fx-secondary-darker;" + lbl.getStyle());
 		n.setStyle("-fx-border-color: #ff0000; " + n.getStyle());
 		Animations.shake(lbl);
 		Toolkit.getDefaultToolkit().beep();
@@ -70,6 +77,13 @@ public class Validation<N extends Node> {
 		n.setStyle(origNStyle);
 	}
 	
+/*---------------------------------------------------------------------------*/
+	
+	/**
+	 * Adds listener to each {@code Validation}'s {@code node} that runs 
+	 * its test when the node's focus is lost (i.e. focusedProperty fires).
+	 * @param vs - the validations to set up
+	 */
 	static void setupOnFocusLost(Validation<?>... vs) {
 		for (Validation<?> v: vs)
 			v.n.focusedProperty().addListener((obs, lost, gained) -> {
@@ -78,6 +92,13 @@ public class Validation<N extends Node> {
 			});
 	}
 	
+	/**
+	 * Runs tests on all of the validations, returning true only if
+	 * all tests were successful and false otherwise.
+	 * 
+	 * @param vs - validations to run tests
+	 * @return whether or not all tests were successful
+	 */
 	static boolean run(Validation<?>... vs) {
 		boolean pass = true;
 		for (Validation<?> v: vs)

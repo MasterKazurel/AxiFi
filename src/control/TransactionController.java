@@ -22,6 +22,7 @@ import model.Transaction;
 import view.Animations;
 
 public class TransactionController extends Controller {
+	
 	@FXML private AnchorPane root;
 	@FXML HBox titleBox;
 	@FXML private MenuButton transTypeMenu;
@@ -45,22 +46,18 @@ public class TransactionController extends Controller {
 		EDIT_MULTI;
 	}
 	
+/*--- SETUP ---------------------------------------------------------------------------*/
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		show(false, actualAmountLbl, actualAmountValLbl, 
 					amountHeldLbl, amountHeldValLbl,
 					paymentMenu, methodLbl, msgLbl);
-		root.sceneProperty().addListener((obs, oldScene, newScene) -> {
-			if (newScene != null)
-				Animations.fadeIn(root);
-		});
-		amountFld.textProperty().addListener((obs, oldValue, newValue) -> {
-	        if (!newValue.matches("\"[0-9]{1,13}(\\\\.[0-9]*)?\""))
-	            amountFld.setText(newValue.replaceAll("[^\\d]", ""));
-		});
 		setMode(Modes.NEW);
 		setupValidation();
 		setupStageDrag(titleBox, Stages.TRANS);
+		setupStageClose(root, Stages.TRANS);
+		setupFadeIn(root);
 	}
 	
 	@Override
@@ -73,20 +70,31 @@ public class TransactionController extends Controller {
 	}
 	
 	@Override
+	protected void setupMasking() {
+		amountFld.textProperty().addListener((obs, oldValue, newValue) -> {
+	        if (!newValue.matches("\"[0-9]{1,13}(\\\\.[0-9]*)?\""))
+	            amountFld.setText(newValue.replaceAll("[^\\d]", ""));
+		});
+	}
+	
+	@Override
 	public void receiveData(Object... data) {
 		if (data[0] != null && data[0] instanceof TableViewSelectionModel) {
 			selection = (TableViewSelectionModel<Transaction>) data[0];
-			if (selections().size() > 1)
+			if (selections().size() > 1) 
 				setMode(Modes.EDIT_MULTI);
-			else
+			else if (selections().size() == 1)
 				setMode(Modes.EDIT_SINGLE);
+			else manager.close(Stages.TRANS);
 		}
 	}
+	
+/*----- HELPERS --------------------------------------------------------------------------*/
 	
 	private Transaction selection() 
 	{ return selection.getSelectedItem(); }
 	
-	private List<Transaction> selections() 
+	private List<Transaction> selections()
 	{ return selection.getSelectedItems(); }
 	
 	private void fillForm() {
@@ -99,6 +107,31 @@ public class TransactionController extends Controller {
 		
 		descFld.setText(selection().getDescription());
 	}
+	
+	private void show(boolean show, Node... nodes) {
+		for (Node n: nodes) {
+			n.setVisible(show);
+			Animations.fadeIn(n);
+		}
+	}
+	
+	private void setMode(Modes mode) {
+		this.mode = mode;
+		switch (this.mode) {
+			case NEW:
+				submitBtn.setText("Submit");
+				delBtn.setVisible(false);
+				break;
+			case EDIT_SINGLE:
+				fillForm();
+			case EDIT_MULTI:
+				delBtn.setVisible(true);
+				submitBtn.setText("Update");
+				break;
+		}
+	}
+	
+/*--------- FXML ------------------------------------------------------------------------*/
 	
 	@FXML
 	private void switchTransType(ActionEvent e) {
@@ -169,7 +202,6 @@ public class TransactionController extends Controller {
 	private void delete(ActionEvent e) {
 		switch (mode) {
 			case NEW:
-				
 				break;
 			case EDIT_SINGLE:
 				selection.getTableView().getItems().remove(selection());
@@ -185,29 +217,6 @@ public class TransactionController extends Controller {
 	@FXML
 	private void exit(ActionEvent e) {
 		manager.close(Stages.TRANS);
-	}
-	
-	private void show(boolean show, Node... nodes) {
-		for (Node n: nodes) {
-			n.setVisible(show);
-			Animations.fadeIn(n);
-		}
-	}
-	
-	private void setMode(Modes mode) {
-		this.mode = mode;
-		switch (this.mode) {
-			case NEW:
-				submitBtn.setText("Submit");
-				delBtn.setVisible(false);
-				break;
-			case EDIT_SINGLE:
-				fillForm();
-			case EDIT_MULTI:
-				delBtn.setVisible(true);
-				submitBtn.setText("Update");
-				break;
-		}
 	}
 	
 }

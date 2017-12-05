@@ -24,13 +24,15 @@
 				<HBox fx:id="titleBox" alignment="CENTER_RIGHT">
 					<children>
 						<Button fx:id="exitBtn" mnemonicParsing="false" onAction="#exit" prefHeight="30.0" prefWidth="30.0" styleClass="sleek-button" text="x">
+						<tooltip><Tooltip text="exit"/></tooltip>
 							<HBox.margin>
-								<Insets />
+								<Insets top="5.0" />
 							</HBox.margin>
 						</Button>
 					</children>
 				</HBox>
 				<MenuButton fx:id="transTypeMenu" alignment="CENTER" mnemonicParsing="false" text="Type of transaction">
+				<tooltip><Tooltip text="Transaction type"/></tooltip>
 					<items>
 						<MenuItem fx:id="depositItm" mnemonicParsing="false" onAction="#switchTransType" text="Deposit" />
 						<MenuItem fx:id="withdrawItm" mnemonicParsing="false" onAction="#switchTransType" text="Withdrawal" />

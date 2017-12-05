@@ -19,61 +19,87 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="root" stylesheets="@DarkTheme.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.LoginController">
+<AnchorPane fx:id="root" stylesheets="@DarkTheme.css"
+	AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+	AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"
+	xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="control.LoginController">
 	<children>
-		<VBox alignment="CENTER" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+		<VBox alignment="CENTER" AnchorPane.rightAnchor="0.0"
+			AnchorPane.topAnchor="0.0">
 			<children>
-            <HBox fx:id="titleBox" alignment="TOP_RIGHT">
-               <children>
-                  <Button fx:id="minBtn" mnemonicParsing="false" onAction="#minimize" prefHeight="30.0" prefWidth="30.0" styleClass="sleek-button" text="–">
-                     <font>
-                        <Font />
-                     </font>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </Button>
-                  <Button fx:id="exitBtn" mnemonicParsing="false" onAction="#exit" prefHeight="30.0" prefWidth="30.0" styleClass="sleek-button" text="x">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin></Button>
-               </children>
-            </HBox>
-				<ImageView fitHeight="150.0" fitWidth="225.0" opacity="0.59" pickOnBounds="true" preserveRatio="true" styleClass="centered-image">
+				<HBox fx:id="titleBox" alignment="TOP_RIGHT">
+					<children>
+						<Button fx:id="minBtn" mnemonicParsing="false" onAction="#minimize"
+							prefHeight="30.0" prefWidth="30.0" styleClass="sleek-button"
+							text="–">
+							<tooltip><Tooltip text="minimize"/></tooltip>
+							<font>
+								<Font />
+							</font>
+							<HBox.margin>
+								<Insets />
+							</HBox.margin>
+						</Button>
+						<Button fx:id="exitBtn" mnemonicParsing="false" onAction="#exit"
+							prefHeight="30.0" prefWidth="30.0" styleClass="sleek-button"
+							text="x">
+							<tooltip><Tooltip text="exit"/></tooltip>
+							<HBox.margin>
+								<Insets />
+							</HBox.margin>
+						</Button>
+					</children>
+				</HBox>
+				<ImageView fitHeight="150.0" fitWidth="225.0" opacity="0.59"
+					pickOnBounds="true" preserveRatio="true" styleClass="centered-image">
 					<image>
 						<Image url="@../resources/axifi-logo.png" />
 					</image>
 					<VBox.margin>
 						<Insets right="18.0" top="25.0" />
 					</VBox.margin>
-               <effect>
-                  <Bloom threshold="1.0" />
-               </effect>
+					<effect>
+						<Bloom threshold="1.0" />
+					</effect>
 				</ImageView>
-				<Label fx:id="loginLbl" alignment="CENTER" prefWidth="590.0" styleClass="label-header" text="Please log in " textFill="#ff5733">
+				<Label fx:id="loginLbl" alignment="CENTER" prefWidth="590.0"
+					styleClass="label-header" text="Please log in " textFill="#ff5733">
 					<font>
 						<Font name="Rockwell" size="24.0" />
 					</font>
-               <VBox.margin>
-                  <Insets top="25.0" />
-               </VBox.margin>
+					<VBox.margin>
+						<Insets top="25.0" />
+					</VBox.margin>
 				</Label>
-				<TextField fx:id="usernameFld" layoutX="200.0" onAction="#login" prefWidth="300.0" promptText="Username">
+				<TextField fx:id="usernameFld" layoutX="200.0" onAction="#login"
+					prefWidth="300.0" promptText="Username">
+					<tooltip>
+						<Tooltip text="Enter your username" />
+					</tooltip>
 					<VBox.margin>
 						<Insets bottom="25.0" left="100.0" right="100.0" top="25.0" />
 					</VBox.margin>
 				</TextField>
-				<PasswordField fx:id="passwordFld" onAction="#login" promptText="Password">
+				<PasswordField fx:id="passwordFld" onAction="#login"
+					promptText="Password">
+					<tooltip>
+						<Tooltip text="Enter your password" />
+					</tooltip>
 					<VBox.margin>
 						<Insets left="100.0" right="100.0" top="25.0" />
 					</VBox.margin>
 				</PasswordField>
-				<Button fx:id="loginBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#login" prefHeight="33.0" prefWidth="121.0" text="Log in" textAlignment="CENTER">
-               <VBox.margin>
-                  <Insets top="50.0" />
-               </VBox.margin>
+				<Button fx:id="loginBtn" alignment="CENTER" contentDisplay="CENTER"
+					mnemonicParsing="false" onAction="#login" prefHeight="33.0"
+					prefWidth="121.0" text="Log in" textAlignment="CENTER">
+					<tooltip><Tooltip text="Log in"/></tooltip>
+					<VBox.margin>
+						<Insets top="50.0" />
+					</VBox.margin>
 				</Button>
-				<ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" styleClass="centered-image">
+				<ImageView fitHeight="100.0" fitWidth="100.0"
+					pickOnBounds="true" preserveRatio="true" styleClass="centered-image">
 					<VBox.margin>
 						<Insets bottom="10.0" top="100.0" />
 					</VBox.margin>

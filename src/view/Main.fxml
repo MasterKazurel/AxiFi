@@ -20,7 +20,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="root" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.MainController">
+<BorderPane fx:id="root" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="control.MainController">
 	<top>
 		<MenuBar BorderPane.alignment="CENTER">
 			<menus>
@@ -53,16 +53,25 @@
 									<HBox.margin>
 										<Insets bottom="10.0" left="30.0" right="15.0" top="10.0" />
 									</HBox.margin>
+                           <tooltip>
+                              <Tooltip text="Create a new account" />
+                           </tooltip>
 								</Button>
 								<Button fx:id="delAccBtn" mnemonicParsing="false" onAction="#deleteAccount" text="Delete Account">
 									<HBox.margin>
 										<Insets bottom="10.0" left="15.0" right="20.0" top="10.0" />
 									</HBox.margin>
+                           <tooltip>
+                              <Tooltip text="Delete account if there are no transactions" />
+                           </tooltip>
 								</Button>
 								<Button fx:id="logoutBtn" mnemonicParsing="false" onAction="#logout" text="Logout">
 									<HBox.margin>
 										<Insets bottom="10.0" left="20.0" right="15.0" top="10.0" />
 									</HBox.margin>
+                           <tooltip>
+                              <Tooltip text="Log out of your account" />
+                           </tooltip>
 								</Button>
 							</children>
                      <padding>
@@ -75,11 +84,17 @@
 									<HBox.margin>
 										<Insets left="30.0" right="15.0" />
 									</HBox.margin>
+                           <tooltip>
+                              <Tooltip text="Select account to view transactions" />
+                           </tooltip>
 								</MenuButton>
                         <Button fx:id="logoutBtn1" mnemonicParsing="false" onAction="#showCodes" text="Codes">
                            <HBox.margin>
                               <Insets left="15.0" />
                            </HBox.margin>
+                           <tooltip>
+                              <Tooltip text="View transactions codes" />
+                           </tooltip>
                         </Button>
 							</children>
 							<VBox.margin>
@@ -95,18 +110,27 @@
 							<VBox.margin>
 								<Insets bottom="10.0" left="30.0" right="30.0" top="10.0" />
 							</VBox.margin>
+                     <tooltip>
+                        <Tooltip text="View transaction data" />
+                     </tooltip>
 						</TableView>
 						<HBox alignment="BOTTOM_LEFT">
 							<children>
 								<Button fx:id="newTransBtn" mnemonicParsing="false" onAction="#newTransaction" snapToPixel="false" text="Add Transaction">
 									<HBox.margin>
-										<Insets left="25.0" right="25.0" />
+										<Insets bottom="10.0" left="25.0" right="25.0" />
 									</HBox.margin>
+                           <tooltip>
+                              <Tooltip text="Create a new transaction and add it to the currently selected account" />
+                           </tooltip>
 								</Button>
                         <Button mnemonicParsing="false" onAction="#editTransactions" text="Edit Transaction(s)">
                            <HBox.margin>
-                              <Insets left="25.0" right="25.0" />
+                              <Insets bottom="10.0" left="25.0" right="25.0" />
                            </HBox.margin>
+                           <tooltip>
+                              <Tooltip text="Edit transaction data or delete transaction in single edit mode or multi edit mode." />
+                           </tooltip>
                         </Button>
 							</children>
 						</HBox>
