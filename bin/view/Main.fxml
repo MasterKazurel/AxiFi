@@ -10,7 +10,6 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -63,21 +62,18 @@
 								<Insets bottom="10.0" left="30.0" right="30.0" top="10.0" />
 							</VBox.margin>
 						</TableView>
-						<HBox prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #FFC300;">
+						<HBox prefHeight="58.0" prefWidth="600.0" style="-fx-background-color: #FFC300;">
 							<children>
 								<SplitPane orientation="VERTICAL" prefHeight="80.0" prefWidth="227.0">
 									<items>
 										<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="55.0" prefWidth="225.0">
 											<children>
-												<TextArea layoutX="-14.0" layoutY="-11.0" prefHeight="67.0" prefWidth="239.0" text="Overall Balance:">
-													<opaqueInsets>
-														<Insets />
-													</opaqueInsets>
-													<padding>
-														<Insets left="10.0" top="10.0" />
-													</padding>
-												</TextArea>
-                                    <Label layoutX="-6.0" layoutY="11.0" prefHeight="16.0" prefWidth="227.0" text="Held for fees: ">
+                                    <Label layoutX="-6.0" layoutY="-1.0" prefHeight="27.0" prefWidth="225.0" text="Overall Balance:">
+                                       <padding>
+                                          <Insets left="10.0" top="10.0" />
+                                       </padding>
+                                    </Label>
+                                    <Label layoutX="-6.0" layoutY="26.0" prefHeight="20.0" prefWidth="230.0" text="Held for fees: ">
                                        <padding>
                                           <Insets left="10.0" top="10.0" />
                                        </padding>
@@ -94,7 +90,7 @@
 								</SplitPane>
 								<Button fx:id="newTransBtn" mnemonicParsing="false" onAction="#newTransaction" text="Add Transaction">
 									<HBox.margin>
-										<Insets bottom="5.0" left="175.0" top="25.0" />
+										<Insets bottom="25.0" left="175.0" top="20.0" />
 									</HBox.margin>
 								</Button>
 							</children>
@@ -109,14 +105,14 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-                  <MenuItem mnemonicParsing="false" text="Print" />
-              <MenuItem mnemonicParsing="false" text="Exit" />
+                  <MenuItem fx:id="print" mnemonicParsing="false" onAction="#print" text="Print" />
+              <MenuItem fx:id="exit" mnemonicParsing="false" onAction="#exit" text="Exit" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
             <items>
-              <MenuItem mnemonicParsing="false" text="User Guide" />
-                  <MenuItem mnemonicParsing="false" onAction="#codes" text="Account Codes" />
+              <MenuItem fx:id="userGuide" mnemonicParsing="false" text="User Guide" />
+                  <MenuItem fx:id="codes" mnemonicParsing="false" onAction="#codes" text="Account Codes" />
             </items>
           </Menu>
         </menus>
