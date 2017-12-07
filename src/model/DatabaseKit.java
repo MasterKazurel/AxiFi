@@ -74,10 +74,9 @@ public class DatabaseKit {
 							  "FOREIGN KEY(TRANS_ID) REFERENCES TRANS(ID)" +
 							  ");";
 		
-		Statement buildTable = null;
 		try {
 			//Load an sql statement to be executed
-			buildTable = c.createStatement();
+			Statement buildTable = c.createStatement();
 			
 			//Execute the SQL statements to build the schema
 			buildTable.execute(mkUsrTable);
@@ -94,10 +93,9 @@ public class DatabaseKit {
 		String newUser = "INSERT INTO USER(FIRSTNAME, LASTNAME, BALANCE)" +
 							"VALUES ('" + firstName + "' , '" + lastName + "' , 0.00);"; 
 		
-		Statement insertUser = null;
 		try {
 			//Load an sql statement to be executed
-			insertUser = c.createStatement();
+			Statement insertUser = c.createStatement();
 			insertUser.execute(newUser);
 			insertUser.close();
 		}catch(Exception e) {
@@ -113,25 +111,22 @@ public class DatabaseKit {
 		String newUser = "INSERT INTO USER(FIRSTNAME, LASTNAME, BALANCE)" +
 							"VALUES ('" + firstName + "' , '" + lastName + "' , " + balance +");"; 
 		
-		Statement insertUser = null;
 		try {
-			//Load an sql statement to be executed
-			insertUser = c.createStatement();
+			//Load an sql statement and execute
+			Statement insertUser = c.createStatement();
 			insertUser.execute(newUser);
 			insertUser.close();
-		}catch(Exception e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 	public void removeProfile(int id) {
-		//Remove user based on users primary key id
 		String rmUser = "DELETE FROM USER WHERE ID=" + id;
-		Statement removeUser = null;
 		try {
-			removeUser = c.createStatement();
+			Statement removeUser = c.createStatement();
 			removeUser.execute(rmUser);
 			removeUser.close();
-		}catch(Exception e) {
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -139,9 +134,9 @@ public class DatabaseKit {
 	public void insertTransaction(int userId, String purpose, String code, double ammount) {
 		String newTransaction = "INSERT INTO TRANS(PURPOSE, TRANS_TYPE, AMMOUNT, USER_ID)"+
 								"VALUES('" + purpose + "','" + code + "'," + ammount + "," + userId + ");"; 
-		Statement insertTrans = null;
+		
 		try {
-			insertTrans = c.createStatement();
+			Statement insertTrans = c.createStatement();
 			insertTrans.execute(newTransaction);
 			insertTrans.close();
 		}catch(Exception e) {
@@ -153,9 +148,9 @@ public class DatabaseKit {
 		List<Profile> profileSet = new ArrayList<Profile>();
 		
 		String getUsers = "SELECT * FROM USER;";
-		Statement queryUsers = null;
+		
 		try {
-			queryUsers = c.createStatement();
+			Statement queryUsers = c.createStatement();
 			ResultSet tr = queryUsers.executeQuery(getUsers);
 			
 			Profile user;
@@ -180,9 +175,9 @@ public class DatabaseKit {
 		List<Transaction> transactionSet = new ArrayList<Transaction>();
 		
 		String getTransactions = "SELECT * FROM TRANS WHERE USER_ID=" + userId + ";";
-		Statement queryTrans = null;
+		
 		try {
-			queryTrans = c.createStatement();
+			Statement queryTrans = c.createStatement();
 			ResultSet tr = queryTrans.executeQuery(getTransactions);
 			
 			Transaction loadTransaction;

@@ -2,8 +2,10 @@ package control;
 
 import application.Manager;
 import application.Manager.Stages;
+import javafx.beans.value.ChangeListener;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 import model.DatabaseKit;
@@ -51,7 +53,7 @@ public abstract class Controller implements Initializable {
 	 * @param root
 	 */
 	protected void setupFadeIn(Pane root) {
-		root.sceneProperty().addListener((obs, oldScene, newScene) -> {
+		setupOnShow(root, (obs, oldScene, newScene) -> {
 			if (newScene != null)
 				Animations.fadeIn(newScene.getRoot());
 		});
@@ -95,6 +97,20 @@ public abstract class Controller implements Initializable {
 			if (keyEvt.getCode().equals(keyCode))
 				manager.close(stageID);
 		});
+	}
+	
+	protected void setupOnShow(Pane root, ChangeListener<? super Scene> listener) {
+		root.sceneProperty().addListener(listener);
+	}
+	
+	protected void show(boolean show, Node... nodes) {
+		for (Node n: nodes)
+			n.setVisible(show);
+	}
+	
+	protected void disabled(boolean disabled, Node... nodes) {
+		for (Node n: nodes)
+			n.setDisable(disabled);
 	}
 	
 /*--- ABSTRACT ---------------------------------------------------------------------------*/

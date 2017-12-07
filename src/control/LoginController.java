@@ -28,10 +28,10 @@ public class LoginController extends Controller {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		root.sceneProperty().addListener((obs, oldValue, newValue) -> {
+		setupStageDrag(titleBox, Stages.LOGIN);
+		setupOnShow(root, (obs, oldValue, newValue) -> {
 			if (newValue != null) usernameFld.requestFocus();
 		});
-		setupStageDrag(titleBox, Stages.LOGIN);
 	}
 	
 	@Override
@@ -43,7 +43,8 @@ public class LoginController extends Controller {
 	
 	private CsAdmin authenticate() {
 		CsAdmin admin = db.getAdmin();
-		validations = new Validation<?>[] {new Validation<TextField>(loginLbl, usernameFld, fld -> !admin.getLogin().equals(fld.getText()), "Invalid login."),
+		validations = new Validation<?>[] {
+			new Validation<TextField>(loginLbl, usernameFld, fld -> !admin.getLogin().equals(fld.getText()), "Invalid login."),
 			new Validation<TextField>(loginLbl, passwordFld, fld -> !admin.getPassword().equals(fld.getText()), "Invalid login.")
 		};
 		if (Validation.run(validations))

@@ -23,7 +23,6 @@ public class Validation<N extends Node> {
 /*---------------------------------------------------------------------------*/
 	
 	Validation(Label lbl, N n, Predicate<N> test, String errorMsg) {
-		
 		this.lbl = lbl;
 		origTxt = lbl.getText();
 		origLblStyle = lbl.getStyle();
@@ -64,14 +63,13 @@ public class Validation<N extends Node> {
 			lbl.setText("");
 		}
 		lbl.setText(msg);
-		lbl.setStyle("-fx-text-fill: #ff0000; font-weight: bold; " + 
-					"-fx-background-color: -fx-secondary-darker;" + lbl.getStyle());
+		lbl.setStyle("-fx-text-fill: #ff0000; font-weight: bold; " + lbl.getStyle());
 		n.setStyle("-fx-border-color: #ff0000; " + n.getStyle());
 		Animations.shake(lbl);
 		Toolkit.getDefaultToolkit().beep();
 	}
 	
-	private void clearError() {
+	void clearError() {
 		lbl.setText(origTxt);
 		lbl.setStyle(origLblStyle);
 		n.setStyle(origNStyle);

@@ -5,11 +5,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.swing.SwingUtilities;
+
 import application.Manager.Stages;
 import application.Manager.Views;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.print.PageLayout;
+import javafx.print.PageOrientation;
+import javafx.print.Paper;
+import javafx.print.Printer;
+import javafx.print.PrinterAttributes;
+import javafx.print.PrinterJob;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
@@ -34,6 +42,7 @@ public class MainController extends Controller {
     				postalCodeLabel, cityLabel, birthdayLabel;
     
     @FXML MenuButton accMenuBtn;
+    @FXML MenuItem codes, print, exit, userGuide;
     @FXML Button newAccBtn, delAccBtn, logoutBtn, newTransBtn;
     
     private CsAdmin admin;
@@ -63,14 +72,14 @@ public class MainController extends Controller {
     				break;
     		}
     	});
-    	root.sceneProperty().addListener((obs, oldScene, newScene) -> {
+    	setupFadeIn(root);
+    	setupOnShow(root, (obs, oldScene, newScene) -> {
     		if (newScene != null) {
     			admin = db.getAdmin();
 	    		showAccounts();
 				showTransactions();
     		}
     	});
-    	setupFadeIn(root);
 	}
     
     /**
@@ -102,6 +111,9 @@ public class MainController extends Controller {
 	
     // Add accounts to menu button and setup changelisteners
 	private void showAccounts() {
+		/*admin.getUsers().clear();
+		accMenuBtn.getItems().clear();
+		table.getItems()*/
 		admin.getUsers().addListener((ListChangeListener.Change<? extends Profile> c) -> {
 			while (c.next())
 				if (c.wasRemoved()) {
@@ -109,9 +121,8 @@ public class MainController extends Controller {
 					if (!admin.getUsers().isEmpty()) {
 						currAcc = admin.getUsers().get(0);
 						accMenuBtn.setText(admin.getUsers().get(0).getFullName());
-					} else {
+					} else
 						switchAccounts(null);
-					}
 					showTransactions();
 				}
 				else if (c.wasAdded())
@@ -158,12 +169,17 @@ public class MainController extends Controller {
 			table.setItems(currAcc.getTransactions());
 			table.getItems().addListener((ListChangeListener.Change<? extends Transaction> c) -> table.refresh());
 			dateCol.setCellValueFactory(cellData -> cellData.getValue().getTimeProperty());
-	        amountCol.setCellValueFactory(cellData -> cellData.getValue().getAmountProperty());
+	        amountCol.setCellValueFactory(cellData -> cellData.getValue().getFormattedAmountProperty());
 	        descripCol.setCellValueFactory(cellData -> cellData.getValue().getDescriptionProperty());
 		} else table.getItems().clear();
 	}
 	
 /*--- FXML ---------------------------------------------------------------------------*/	
+	
+	@FXML
+	private void codes(ActionEvent e) {
+		manager.show(Stages.CODES, Views.CODES);
+	}
     
     @FXML
     private void createAccount(ActionEvent e) {
@@ -194,5 +210,26 @@ public class MainController extends Controller {
     private void logout(ActionEvent e) {
     	manager.showClose(Stages.LOGIN, Views.LOGIN, Stages.MAIN);
     }
+    
+    @FXML
+	private void exit(ActionEvent e) {
+		System.exit(0);
+	}
+    
+    /**
+     *  @throws IllegalStateException, SecurityException 
+     */
+    @FXML
+	public void print() {
+		Printer printer = Printer.getDefaultPrinter();
+		PageLayout pageLayout = printer.createPageLayout(Paper.A4, PageOrientation.PORTRAIT,
+				Printer.MarginType.HARDWARE_MINIMUM);
+		PrinterJob job = PrinterJob.createPrinterJob();
+		SwingUtilities.invokeLater(() -> {
+			if (job != null && job.showPrintDialog(table.getScene().getWindow()) && job.printPage(pageLayout, table))
+				job.endJob();
+		});
+		
+	}
 
 }

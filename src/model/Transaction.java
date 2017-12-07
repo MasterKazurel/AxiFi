@@ -1,5 +1,6 @@
 package model;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.Observable;
 
@@ -55,6 +56,10 @@ public class Transaction extends Observable {
 
 	public StringProperty getAmountProperty() {
 		return new SimpleStringProperty(String.valueOf(amount));
+	}
+	
+	public StringProperty getFormattedAmountProperty() {
+		return new SimpleStringProperty(DecimalFormat.getCurrencyInstance().format(amount));
 	}
 	
 	public double getAmount() {

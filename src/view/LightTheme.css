@@ -56,8 +56,8 @@
 /*---- TableView -----------------------------------------*/
 
 .table-view {
-	-fx-selection-bar: derive(-fx-secondary, 20%);
-	-fx-selection-bar-non-focused: derive(-fx-secondary, 20%);
+	-fx-selection-bar: -fx-secondary-dark;
+	-fx-selection-bar-non-focused: -fx-secondary-dark;
 }
 
 .table-view .arrow {
@@ -87,7 +87,7 @@
 }
 
 .table-view .table-row-cell:filled {
-	-fx-background-color: -fx-secondary-dark;
+	-fx-background-color: -fx-secondary;
 }
 
 /* When the table-row-cell is selected and focused */
@@ -245,6 +245,6 @@
 }
 
 .sleek-button:pressed, .sleek-button:default:hover:pressed {
-	-fx-background-color: -fx-background;
+	-fx-background-color: -fx-primary;
 	-fx-text-fill: black;
 }

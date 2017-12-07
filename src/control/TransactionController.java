@@ -1,6 +1,8 @@
 package control;
 
 import java.net.URL;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -8,7 +10,6 @@ import application.Manager.Stages;
 import application.Manager.Views;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -19,22 +20,21 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import model.Transaction;
-import view.Animations;
 
 public class TransactionController extends Controller {
 	
 	@FXML private AnchorPane root;
-	@FXML HBox titleBox;
+	@FXML private HBox titleBox;
 	@FXML private MenuButton transTypeMenu;
 		@FXML private MenuItem depositItm, withdrawItm;
 	@FXML private MenuButton paymentMenu;
 		@FXML private MenuItem creditItm, checkItm;
-	@FXML private Label dateLbl, amountLbl, methodLbl, 
+	@FXML private Label dateLbl, amountLbl, descLbl,
+				codeLbl, methodLbl, 
 				actualAmountLbl, actualAmountValLbl,
-				amountHeldLbl, amountHeldValLbl, descLbl,
-				msgLbl;
-	@FXML private TextField amountFld, descFld;
-	@FXML private Button submitBtn, delBtn, cancelBtn;
+				amountHeldLbl, amountHeldValLbl;
+	@FXML private TextField amountFld, descFld, codeFld;
+	@FXML private Button submitBtn, delBtn, cancelBtn, codeBtn;
 	@FXML private DatePicker datePicker;
 	
 	private TableViewSelectionModel<Transaction> selection;
@@ -48,33 +48,49 @@ public class TransactionController extends Controller {
 	
 /*--- SETUP ---------------------------------------------------------------------------*/
 	
+	/*
+	 * transTypeMenu, depositItm, withdrawItm,
+	 * dateLbl, datePicker,
+	 * amountLbl, amountFld,
+	 * descLbl, descFld, 
+	 * codeLbl, codeFld, codeBtn,
+	 * methodLbl, paymentMenu, creditItm, checkItm,
+	 * actualAmountLbl, actualAmountValLbl, amountHeldLbl, amountHeldValLbl,
+	 * submitBtn, delBtn, cancelBtn;
+	 */
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		show(false, actualAmountLbl, actualAmountValLbl, 
+		show(false, dateLbl, datePicker, amountLbl, amountFld, 
+					descLbl, descFld, codeLbl, codeFld, codeBtn,
+					actualAmountLbl, actualAmountValLbl,
 					amountHeldLbl, amountHeldValLbl,
-					paymentMenu, methodLbl, msgLbl);
+					paymentMenu, methodLbl);
 		setMode(Modes.NEW);
 		setupValidation();
 		setupStageDrag(titleBox, Stages.TRANS);
 		setupStageClose(root, Stages.TRANS);
 		setupFadeIn(root);
+		setupMasking();
 	}
 	
 	@Override
 	protected void setupValidation() {
+		//add to end if adding
 		validations = new Validation<?>[]{
 			new Validation<DatePicker>(dateLbl, datePicker, dp -> dp.getValue() == null, "You must choose a date. "),
 			new Validation<TextField>(amountLbl, amountFld, fld -> fld.getText().isEmpty(), "Amount field is empty. "),
+				//.add(fld -> !fld.getText().matches("/^([+-]?(\\d+(\\.\\d*)?)|(\\.\\d+))$/"), "Amount must be a decimal amount (e.g. 19.99)."),
 			new Validation<TextField>(descLbl, descFld, fld -> fld.getText().isEmpty(), "Description field is empty. ")
 		};
 	}
 	
 	@Override
 	protected void setupMasking() {
-		amountFld.textProperty().addListener((obs, oldValue, newValue) -> {
-	        if (!newValue.matches("\"[0-9]{1,13}(\\\\.[0-9]*)?\""))
+		/*amountFld.textProperty().addListener((obs, oldValue, newValue) -> {
+	        if (!newValue.matches("/^([+-]?(\\d+(\\.\\d*)?)|(\\.\\d+))$/"))
 	            amountFld.setText(newValue.replaceAll("[^\\d]", ""));
-		});
+		});*/
 	}
 	
 	@Override
@@ -108,24 +124,18 @@ public class TransactionController extends Controller {
 		descFld.setText(selection().getDescription());
 	}
 	
-	private void show(boolean show, Node... nodes) {
-		for (Node n: nodes) {
-			n.setVisible(show);
-			Animations.fadeIn(n);
-		}
-	}
-	
 	private void setMode(Modes mode) {
 		this.mode = mode;
 		switch (this.mode) {
 			case NEW:
 				submitBtn.setText("Submit");
-				delBtn.setVisible(false);
+				show(false, delBtn);
 				break;
 			case EDIT_SINGLE:
+				show(true, delBtn);
 				fillForm();
 			case EDIT_MULTI:
-				delBtn.setVisible(true);
+				show(true, delBtn);
 				submitBtn.setText("Update");
 				break;
 		}
@@ -138,16 +148,22 @@ public class TransactionController extends Controller {
 		Object src = e.getSource();
 		if (src.equals(depositItm)) {
 			transTypeMenu.setText(depositItm.getText());
-			show(true, actualAmountLbl, actualAmountValLbl, 
+			show(true, dateLbl, datePicker, amountLbl, amountFld, 
+					descLbl, descFld, codeLbl, codeFld, codeBtn, 
+					actualAmountLbl, actualAmountValLbl,
 					amountHeldLbl, amountHeldValLbl,
-					paymentMenu, methodLbl);
+					paymentMenu, methodLbl, 
+					codeLbl, codeFld, codeBtn);
 			actualAmountLbl.setText("Amount being deposited: ");
 		}
 		else if (src.equals(withdrawItm)) {
 			transTypeMenu.setText(withdrawItm.getText());
-			show(true, actualAmountLbl, actualAmountValLbl);
+			show(true, dateLbl, datePicker, amountLbl, amountFld,
+					descLbl, descFld, codeLbl, codeFld, codeBtn,
+					actualAmountLbl, actualAmountValLbl);
 			show(false, paymentMenu, methodLbl,
-					amountHeldLbl, amountHeldValLbl);
+					amountHeldLbl, amountHeldValLbl,
+					codeLbl, codeFld, codeBtn);
 			actualAmountLbl.setText("Amount being withdrawn: ");
 		}
 	}
@@ -157,9 +173,31 @@ public class TransactionController extends Controller {
 		Object src = e.getSource();
 		if (src.equals(creditItm)) {
 			paymentMenu.setText(creditItm.getText());
+			computeAmounts(src);
 		}
 		else if (src.equals(checkItm)) {
 			paymentMenu.setText(checkItm.getText());
+			computeAmounts(src);
+		}
+	}
+	
+	private void computeAmounts(Object src) {
+		if (validations[1].test()) {
+			double amt = 0;
+			try {
+				amt = Double.parseDouble(amountFld.getText());
+			} catch (NumberFormatException evt) {
+				evt.printStackTrace();
+			}
+			double fees = amt;
+			if (src.equals(creditItm))
+				fees *= .12;
+			else if (src.equals(checkItm))
+				fees *= .08;
+			double actualAmt = amt - fees;
+			NumberFormat dFmt = DecimalFormat.getCurrencyInstance();
+			actualAmountValLbl.setText(dFmt.format(actualAmt));
+			amountHeldValLbl.setText(dFmt.format(fees));
 		}
 	}
 	
@@ -168,6 +206,12 @@ public class TransactionController extends Controller {
 		switch (mode) {
 			case NEW:
 				if (Validation.run(validations)) {
+					double amt = 0.0;
+					try {
+						amt = Double.parseDouble(amountFld.getText());
+					} catch (NumberFormatException ex) {
+						ex.printStackTrace();
+					}
 					manager.sendData(Views.MAIN, new Transaction(datePicker.getValue(), 
 							descFld.getText(),
 							Double.parseDouble(amountFld.getText())));
@@ -184,11 +228,11 @@ public class TransactionController extends Controller {
 				break;
 			case EDIT_MULTI:
 				for (Transaction tran: selections()) {
-					if (new Validation<DatePicker>(datePicker, dp -> dp.getValue() == null).test())
+					if (validations[0].test())
 						tran.setTime(datePicker.getValue());
-					if (new Validation<TextField>(amountFld, fld -> fld.getText().trim().isEmpty()).test())
+					if (validations[1].test())
 						tran.setAmount(Double.parseDouble(amountFld.getText()));
-					if (new Validation<TextField>(descFld, fld -> fld.getText().trim().isEmpty()).test())
+					if (validations[2].test())
 						tran.setDescription(descFld.getText());
 				}
 				selection.getTableView().refresh();
@@ -217,6 +261,16 @@ public class TransactionController extends Controller {
 	@FXML
 	private void exit(ActionEvent e) {
 		manager.close(Stages.TRANS);
+	}
+	
+	@FXML
+	private void openDatePicker(ActionEvent e) {
+		datePicker.show();
+	}
+	
+	@FXML
+	private void codes(ActionEvent e) {
+		manager.show(Stages.CODES, Views.CODES);
 	}
 	
 }

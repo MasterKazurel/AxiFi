@@ -3,6 +3,8 @@ package application;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.stream.Collector;
 
 import control.Controller;
 import javafx.collections.FXCollections;
@@ -12,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Pair;
 
 public class Manager {
 
@@ -62,7 +65,7 @@ public class Manager {
 /*------- SETUP ---------------------------------------------------------------------------------------*/
 
 	public Manager(Stage primaryStage) {
-		currentStyle = Styles.DARK;
+		currentStyle = Styles.LIGHT;
 		stagesBack = new ArrayList<Stage>();
 		stages = FXCollections.observableList(stagesBack);
 		viewsBack = new ArrayList<Pane>();
@@ -107,7 +110,7 @@ public class Manager {
 					transStage.initStyle(StageStyle.TRANSPARENT);
 					transStage.sizeToScene();
 					transStage.setUserData(Stages.TRANS);
-					transStage.initOwner(mainStage);
+					//transStage.initOwner(mainStage);
 					stages.add(transStage);
 					break;
 				case DEL_ACC:
@@ -134,23 +137,26 @@ public class Manager {
 /*------- PUBLIC INTERFACE --------------------------------------------------------------------------------------*/
 		
 	/**
-	 * Passes data to the specified view's controller.
+	 * Passes data to the specified view's controller. Should
+	 * only be used when you don't need to {@link #show(Stages, Views)} or
+	 * {@link #close(Stages)} anything else. If so, use those alternative 
+	 * methods, as the order in which the operations are performed
+	 * matters.
+	 * 
+	 * @param viewID - the {@code view}'s id
+	 * @param data - the data to send
 	 */
 	public void sendData(Views viewID, Object... data) {
 		getController(viewID).receiveData(data);
 	}
 
 	/**
-	 * Shows the specified view on the given stage.
+	 * Shows the given stage ({@code stageID}) and loads the specified view ({@code viewID})
+	 * onto that stage. If {@code reload} is false, the view is not reloaded. 
 	 * 
-	 * @param stageID
-	 *            - the stage to show the view in
-	 * @param viewID
-	 *            - the view to show
-	 * @param reload
-	 *            - whether to reload the view
-	 * 
-	 * 
+	 * @param stageID - the stage to show the view in
+	 * @param viewID - the view to show
+	 * @param reload - whether to reload the view
 	 */
 	public void show(Stages stageID, Views viewID, boolean reload) {
 		Stage stg = getStage(stageID);
@@ -171,7 +177,8 @@ public class Manager {
 	}
 	
 	/**
-	 * Shows the specified view (and reloads it) on the given stage.
+	 * Shows the given stage ({@code stageID}) and loads the specified view ({@code viewID})
+	 * onto that stage.
 	 * 
 	 * @param stageID - the stage to show the view in
 	 * @param viewID - the view to show
@@ -191,12 +198,11 @@ public class Manager {
 	}
 	
 	/**
-	 * Opens specified view ({@code openViewID}) on the specified stage ({@code openStageID})
-	 * and sends {@code data} to that view's controller.
+	 * Shows the given stage ({@code stageID}) and loads the specified view ({@code viewID}) 
+	 * onto that stage. Then sends the given {@code data} to that view's controller.
 	 * 
-	 * @param openStageID - the stage to show the view on
-	 * @param openViewID - the view to show
-	 * @param closeStageID - the stage to close
+	 * @param stageID - the stage to show the view on
+	 * @param viewID - the view to show
 	 * @param data - the data to send the view's controller
 	 */
 	public void showSendData(Stages stageID, Views viewID, Object... data) {
@@ -205,8 +211,9 @@ public class Manager {
 	}
 	
 	/**
-	 * Opens specified view ({@code openViewID}) on the specified stage ({@code openStageID}),
-	 * sends {@code data} to that view's controller, and closes specified stage ({@code closeStageID}).
+	 * Shows the given stage ({@code openStageID}) and loads the specified view ({@code openViewID}) 
+	 * onto that stage. Then closes the stage ({@code closeStageID}), and sends the given {@code data} 
+	 * to that view's controller.
 	 * 
 	 * @param openStageID - the stage to show the view on
 	 * @param openViewID - the view to show
@@ -220,8 +227,8 @@ public class Manager {
 	}
 	
 	/**
-	 * Opens specified view ({@code openViewID}) on the specified stage ({@code openStageID})
-	 * and closes specified stage ({@code closeStageID}).
+	 * Shows the given stage ({@code openStageID}) and loads the specified view ({@code openViewID}) 
+	 * onto that stage. Then closes the stage ({@code closeStageID})
 	 * 
 	 * @param openStageID - the stage to show the view on
 	 * @param openViewID - the view to show
@@ -255,7 +262,7 @@ public class Manager {
 	 */
 	private Pane loadView(Views viewID) {
 		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(System.class.getResource(viewID.val));
+		loader.setLocation(getClass().getResource(viewID.val));
 		
 		Pane view = null;
 		try {

@@ -30,7 +30,7 @@ public class DeleteAccountController extends Controller {
 	public void initialize(URL location, ResourceBundle resources) {
 		setupStageClose(root, Stages.DEL_ACC);
 		setupStageDrag(titleBox, Stages.DEL_ACC);
-		root.sceneProperty().addListener((obs, oldScene, newScene) -> {
+		setupOnShow(root, (obs, oldScene, newScene) -> {
 			if (newScene != null) {
 				Animations.fadeIn(root).onFinishedProperty().set(e -> {
 					cancelBtn.requestFocus();
