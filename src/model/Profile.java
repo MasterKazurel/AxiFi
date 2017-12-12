@@ -29,6 +29,14 @@ public class Profile extends Observable {
 		transactionsObserver = FXCollections.observableList(transactions);
 	}
 	
+	public Profile(int id, String firstName, String lastName) {
+		setFirstName(firstName);
+		setLastName(lastName);
+		setBalance(0);
+		transactions = new ArrayList<Transaction>();
+		transactionsObserver = FXCollections.observableList(transactions);
+	}
+	
 	public Profile(int id, String firstName, String lastName, String password) {
 		setFirstName(firstName);
 		setLastName(lastName);
@@ -65,10 +73,7 @@ public class Profile extends Observable {
 	public int getId() {
 		return id;
 	}
-	public void setId(int id) {
-		//The database should be the ONLY ONE EVER setting this value. DO NOT TRY TO CHANGE THIS WITHOUT QUERYING THE DATABASE!
-		this.id = id;
-	}
+	
 	public void setFirstName(String firstName) {
 		this.firstName = new SimpleStringProperty(firstName);
 	}

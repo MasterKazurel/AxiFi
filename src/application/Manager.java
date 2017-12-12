@@ -110,7 +110,7 @@ public class Manager {
 					transStage.initStyle(StageStyle.TRANSPARENT);
 					transStage.sizeToScene();
 					transStage.setUserData(Stages.TRANS);
-					//transStage.initOwner(mainStage);
+					transStage.initOwner(mainStage);
 					stages.add(transStage);
 					break;
 				case DEL_ACC:
@@ -237,6 +237,19 @@ public class Manager {
 	public void showClose(Stages openStageID, Views openViewID, Stages closeStageID) {
 		close(closeStageID);
 		show(openStageID, openViewID);
+	}
+	
+	/**
+	 * Closes the stage ({@code closeStageID}), and sends the given {@code data} 
+	 * to the view's controller.
+	 * 
+	 * @param viewID - the view to show
+	 * @param closeStageID - the stage to close
+	 * @param data - the data to send the view's controller
+	 */
+	public void sendDataClose(Views viewID, Stages closeStageID, Object... data) {
+		sendData(viewID, data);
+		close(closeStageID);
 	}
 
 	/**

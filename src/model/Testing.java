@@ -26,40 +26,47 @@ public class Testing {
 		admin.getUsers().add(rob);
 		admin.getUsers().add(oliver);*/
 		
-
-		db.initDatabase("data.db");
-		db.deleteDatabase("data.db");
+		db.init();
+		db.deleteDatabase();
 		
-		db.initDatabase("data.db");
+		db.init();
 		db.buildSchema();
 		db.insertAdmin("csadmin", "csci323");
 		db.insertProfile(new Profile(1, "Trish", "Duce", "csci323"));
 		db.insertProfile(new Profile(2, "Michael", "Cassens", "csci323"));
 		db.insertProfile(new Profile(3, "Oliver", "Serang", "csci323"));
+		db.insertProfile(new Profile(4, "Rob", "Smith", "csci323"));
 		
-		db.insertTransaction(1, LocalDate.now().toString(), "Party hats", 1000.00);
-		db.insertTransaction(1, LocalDate.now().toString(), "T-shirts", 100.00);
-		db.insertTransaction(1, LocalDate.now().toString(), "Cups", 23.00);
+		db.insertTransaction(new Transaction(1, LocalDate.now(), "Party hats", 1000.00));
+		db.insertTransaction(new Transaction(1, LocalDate.now(), "T-shirts", 100.00));
+		db.insertTransaction(new Transaction(1, LocalDate.now(), "Cups", 23.00));
 
-		db.insertTransaction(2, LocalDate.now().toString(), "Fireworks", 100.00);
-		db.insertTransaction(2, LocalDate.now().toString(), "Bouncy castle", 1000.00);
-		db.insertTransaction(2, LocalDate.now().toString(), "Pencils", 20.00);
+		db.insertTransaction(new Transaction(2, LocalDate.now(), "Fireworks", 100.00));
+		db.insertTransaction(new Transaction(2, LocalDate.now(), "Bouncy castle", 1000.00));
+		db.insertTransaction(new Transaction(2, LocalDate.now(), "Pencils", 20.00));
 
-		db.insertTransaction(3, LocalDate.now().toString(), "Chairs", 50.00);
-		db.insertTransaction(3, LocalDate.now().toString(), "Ghost masks", 20.00);
-		db.insertTransaction(3, LocalDate.now().toString(), "Lots of erasors", 2000.00);
+		db.insertTransaction(new Transaction(3, LocalDate.now(), "Chairs", 50.00));
+		db.insertTransaction(new Transaction(3, LocalDate.now(), "Ghost masks", 20.00));
+		db.insertTransaction(new Transaction(3, LocalDate.now(), "Lots of erasors", 2000.00));
 
-		db.insertTransaction(4, LocalDate.now().toString(), "Penguin statue", 200.00);
-		db.insertTransaction(4, LocalDate.now().toString(), "Binders", 20.00);
-		db.insertTransaction(4, LocalDate.now().toString(), "Confetti", 30.00);
+		db.insertTransaction(new Transaction(4, LocalDate.now(), "Penguin statue", 200.00));
+		db.insertTransaction(new Transaction(4, LocalDate.now(), "Binders", 20.00));
+		db.insertTransaction(new Transaction(4, LocalDate.now(), "Confetti", 30.00));
 		CsAdmin admin = db.getAdmin();
-		admin.setUsers(db.getUsers());
+		admin.setUsers(db.getProfiles());
 		for (Profile p: admin.getUsers())
 			p.setTransactions(db.getTransactions(p.getId()));
 		return admin;
 	}
 	
 	public static void main (String[] args) {
-		fakeDB(new DatabaseKit());
+		CsAdmin admin = fakeDB(new DatabaseKit());
+		assert admin != null: admin;
+		assert admin.getUsers() != null: admin.getUsers();
+		assert !admin.getUsers().isEmpty(): admin.getUsers();
+		assert admin.getUsers().stream().anyMatch(usr -> usr.getTransactions() == null): 
+			admin.getUsers().stream().filter(usr -> usr.getTransactions() == null);
+		assert admin.getUsers().stream().anyMatch(usr -> usr.getTransactions().isEmpty()): 
+			admin.getUsers().stream().filter(usr -> usr.getTransactions().isEmpty());
 	}
 }

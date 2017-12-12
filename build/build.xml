@@ -21,7 +21,7 @@
 	
 		<copy todir="externalLibs">
 			<fileset dir="F:\cs\umt\ss\AxiFi">
-				<filename name="javax.json-1.1.jar"/>
+				<filename name="sqlite-jdbc-3.8.10.1.jar"/>
 			</fileset>
 		</copy>
 	
@@ -43,7 +43,7 @@
 		<!-- Copy project-libs references -->
 		<copy todir="build/libs">
 			<fileset dir="externalLibs">
-				<include name="javax.json-1.1.jar"/>
+				<include name="sqlite-jdbc-3.8.10.1.jar"/>
 			</fileset>
 		</copy>
 	
@@ -110,7 +110,7 @@
 			<manifest>
 				<attribute name="Implementation-Vendor" value="CyberDyne"/>
 				<attribute name="Implementation-Title" value="AxiFi"/>
-				<attribute name="Implementation-Version" value="2.0"/>
+				<attribute name="Implementation-Version" value="3.0"/>
 				<attribute name="JavaFX-Feature-Proxy" value="None"/>
 			</manifest>
 		</fx:jar>
@@ -124,7 +124,7 @@
 			includeDT="false"
 			offlineAllowed="true"
 			outdir="${basedir}/deploy"
-			outfile="AxiFi" nativeBundles="all"
+			outfile="AxiFi" nativeBundles="exe"
 			updatemode="background" >
 	
 			<fx:platform basedir="${java.home}"/>

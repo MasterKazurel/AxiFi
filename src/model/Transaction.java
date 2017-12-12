@@ -15,25 +15,19 @@ public class Transaction extends Observable {
 	private double amount;
 	private String description;
 	
-	public Transaction(LocalDate time, String description, double amount) {
+	public Transaction(int userID, LocalDate time, String description, double amount) {
 		super();
+		this.userID = userID;
 		this.time = time;
 		this.amount = amount;
 		this.description = description;
 	}
 	
-	public Transaction(String time, String description, double amount) {
-		super();
-		setTime(time);
-		this.amount = amount;
-		this.description = description;
-	}
-	
-	public Transaction(int id, int userID, String time, String description, double amount) {
+	public Transaction(int id, int userID, LocalDate time, String description, double amount) {
 		super();
 		this.id = id;
 		this.userID = userID;
-		setTime(time);
+		this.time = time;
 		this.amount = amount;
 		this.description = description;
 	}
@@ -80,6 +74,14 @@ public class Transaction extends Observable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	public int getID() {
+		return id;
+	}
+	
+	public int getUserID() {
+		return userID;
 	}
 
 	
