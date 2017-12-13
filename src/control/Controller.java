@@ -23,7 +23,7 @@ public abstract class Controller implements Initializable {
 	
 	static {
 		db = new DatabaseKit();
-		db.initDatabase("data.db");
+		db.init();
 	}
 	
 	public void setManager(Manager main)
@@ -108,9 +108,9 @@ public abstract class Controller implements Initializable {
 			n.setVisible(show);
 	}
 	
-	protected void disabled(boolean disabled, Node... nodes) {
+	protected void enable(boolean enable, Node... nodes) {
 		for (Node n: nodes)
-			n.setDisable(disabled);
+			n.setDisable(!enable);
 	}
 	
 /*--- ABSTRACT ---------------------------------------------------------------------------*/

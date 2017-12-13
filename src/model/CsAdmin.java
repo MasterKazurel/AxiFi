@@ -7,6 +7,7 @@ import java.util.Observable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 public class CsAdmin extends Observable {
@@ -16,6 +17,9 @@ public class CsAdmin extends Observable {
         private StringProperty password;
         private ObservableList<Profile> usersObserver;
         private List<Profile> users;
+        private ObservableList<Transaction> transactionsObserver;
+        private List<Transaction> transactions;
+        
         
 		public CsAdmin(String login, String password, String firstName, String lastName) {
 			setLogin(login);
@@ -24,6 +28,19 @@ public class CsAdmin extends Observable {
 			setLastName(lastName);
 			users = new ArrayList<Profile>();
 			usersObserver = FXCollections.observableList(users);
+			transactions = new ArrayList<Transaction>();
+			usersObserver.forEach(user -> {
+				transactionsObserver.addAll(user.getTransactions());
+				user.getTransactions().addListener((ListChangeListener<? super Transaction>) c -> {
+					while (c.next()) {
+						if (c.wasAdded())
+							transactionsObserver.addAll(c.getAddedSubList());
+						if (c.wasRemoved())
+							transactionsObserver.removeAll(c.getRemoved());
+					}
+				});
+			});
+			transactionsObserver = FXCollections.observableList(transactions);
 		}
 
 		public String getLogin() {
@@ -65,6 +82,11 @@ public class CsAdmin extends Observable {
 		public void setUsers(List<Profile> users) {
 			this.users = users;
 			this.usersObserver = FXCollections.observableList(users);
+			usersObserver.forEach(user -> transactionsObserver.addAll(user.getTransactions()));
+		}
+		
+		public ObservableList<Transaction> getTransactions() {
+			return transactionsObserver;
 		}
 		
 }

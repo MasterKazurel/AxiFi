@@ -49,7 +49,9 @@
                            <GridPane.margin>
                               <Insets left="5.0" />
                            </GridPane.margin></Button>
-								<MenuButton fx:id="accMenuBtn" mnemonicParsing="false" text="Select an account" textOverrun="CLIP" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS" />
+								<MenuButton fx:id="accMenuBtn" mnemonicParsing="false" text="Select an account" textOverrun="CLIP" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+									<MenuItem fx:id="allItm" text="Overview" />
+								</MenuButton>
 							</children>
 							<padding>
 								<Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
@@ -60,6 +62,7 @@
 						</GridPane>
 						<TableView fx:id="table" prefHeight="800.0">
 							<columns>
+								<TableColumn fx:id="userCol" prefWidth="190.0" text="User" />
 								<TableColumn fx:id="dateCol" prefWidth="180.0" text="Date" />
 								<TableColumn fx:id="amountCol" prefWidth="198.0" text="Transaction" />
 								<TableColumn fx:id="descripCol" prefWidth="221.0" text="Amount" />
@@ -92,7 +95,7 @@
 												<Insets bottom="10.0" />
 											</VBox.margin>
 										</Button>
-										<Button fx:id="newTransBtn1" mnemonicParsing="false" onAction="#editTransactions" text="Edit Transaction(s)">
+										<Button fx:id="editTransBtn" mnemonicParsing="false" onAction="#editTransactions" text="Edit Transaction(s)">
 											<VBox.margin>
 												<Insets top="10.0" />
 											</VBox.margin>

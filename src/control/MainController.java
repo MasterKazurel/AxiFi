@@ -9,6 +9,7 @@ import javax.swing.SwingUtilities;
 
 import application.Manager.Stages;
 import application.Manager.Views;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,7 +17,6 @@ import javafx.print.PageLayout;
 import javafx.print.PageOrientation;
 import javafx.print.Paper;
 import javafx.print.Printer;
-import javafx.print.PrinterAttributes;
 import javafx.print.PrinterJob;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -35,19 +35,18 @@ public class MainController extends Controller {
 	@FXML private BorderPane root;
     @FXML private TableView<Transaction> table;
     
-    @FXML private TableColumn<Transaction, String> dateCol, amountCol, 
+    @FXML private TableColumn<Transaction, String> userCol, dateCol, amountCol, 
     									descripCol;
 
     @FXML private Label firstNameLabel, lastNameLabel, streetLabel, 
     				postalCodeLabel, cityLabel, birthdayLabel;
     
     @FXML MenuButton accMenuBtn;
-    @FXML MenuItem codes, print, exit, userGuide;
-    @FXML Button newAccBtn, delAccBtn, logoutBtn, newTransBtn;
+    @FXML MenuItem codes, print, exit, userGuide, allItm;
+    @FXML Button newAccBtn, delAccBtn, logoutBtn, newTransBtn, editTransBtn;
     
     private CsAdmin admin;
     private Profile currAcc;
-    
 /*--- SETUP ---------------------------------------------------------------------------*/	
     
     @Override
@@ -60,10 +59,12 @@ public class MainController extends Controller {
 	    			editTransactions();
 	    			break;
     			case DELETE:
-    				if (table.getSelectionModel().getSelectedItems().size() < 1)
-    					table.getItems().remove(table.getSelectionModel().getSelectedItem());
-    				else
-    					table.getItems().removeAll(table.getSelectionModel().getSelectedItems());
+    				if (currAcc != null)
+    					currAcc.getTransactions().removeAll(table.getSelectionModel().getSelectedItems());
+    				else {
+    					for (Profile p: admin.getUsers())
+    						p.getTransactions().removeAll(table.getSelectionModel().getSelectedItems());
+    				}
     				break;
     			case ADD:
     				newTransaction(new ActionEvent(new Object(), null));
@@ -77,7 +78,6 @@ public class MainController extends Controller {
     		if (newScene != null) {
     			admin = db.getAdmin();
 	    		showAccounts();
-				showTransactions();
     		}
     	});
 	}
@@ -94,7 +94,7 @@ public class MainController extends Controller {
 	public void receiveData(Object... data) {
 		Class<?> type = checkData(data);
 		if (type.equals(Transaction.class)) {
-			currAcc.getTransactions().add((Transaction)data[0]);
+			table.getItems().add((Transaction) data[0]);
 		} else
 			throw new IllegalArgumentException("Requires only one object of one of the following types: Transaction.");
 	}
@@ -111,28 +111,21 @@ public class MainController extends Controller {
 	
     // Add accounts to menu button and setup changelisteners
 	private void showAccounts() {
-		/*admin.getUsers().clear();
-		accMenuBtn.getItems().clear();
-		table.getItems()*/
 		admin.getUsers().addListener((ListChangeListener.Change<? extends Profile> c) -> {
-			while (c.next())
+			while (c.next()) {
 				if (c.wasRemoved()) {
 					accMenuBtn.getItems().remove(c.getFrom());
-					if (!admin.getUsers().isEmpty()) {
-						currAcc = admin.getUsers().get(0);
-						accMenuBtn.setText(admin.getUsers().get(0).getFullName());
-					} else
-						switchAccounts(null);
+					switchAccounts(null);
 					showTransactions();
 				}
-				else if (c.wasAdded())
-					addAccounts((List<Profile>)c.getAddedSubList());
+				if (c.wasAdded())
+					addAccounts(false, (List<Profile>)c.getAddedSubList());
+			}
 		});
-		if (accMenuBtn.getItems().isEmpty() && !admin.getUsers().isEmpty()) {
-			addAccounts(admin.getUsers());
-			currAcc = admin.getUsers().get(0);
-			accMenuBtn.setText(admin.getUsers().get(0).getFullName());
-			showTransactions();
+		if (!admin.getUsers().isEmpty()) {
+			addAccounts(true, admin.getUsers());
+			accMenuBtn.setText(allItm.getText());
+			switchAccounts(null);
 		}
 	}
 	
@@ -142,20 +135,26 @@ public class MainController extends Controller {
 	    	accMenuBtn.setText(user.getFullName());
 	    	currAcc = user;
 	    	showTransactions();
+	    	enable(true, delAccBtn, newTransBtn, editTransBtn);
 		} else {
-			accMenuBtn.setText("Select an account");
+			enable(false, delAccBtn, newTransBtn, editTransBtn);
 			currAcc = null;
+			accMenuBtn.setText(allItm.getText());
 			showTransactions();
 		}
     }
 	
 	// Add buttons
-	private void addAccounts(List<Profile> accs) {
+	private void addAccounts(boolean clear, List<Profile> accs) {
+		if (clear) accMenuBtn.getItems().clear();
+		if (!accMenuBtn.getItems().contains(allItm)) {
+			allItm.setOnAction(e -> switchAccounts(null));
+			accMenuBtn.getItems().add(allItm);
+		}
 		// Add accounts
 		List<MenuItem> items = new ArrayList<MenuItem>();
 		accs.forEach(user -> {
 			MenuItem item = new MenuItem();
-			if (!accMenuBtn.getItems().contains(item));
 			item.setText(user.getFullName());
 			item.setOnAction(e -> switchAccounts(user));
 			items.add(item);
@@ -167,11 +166,33 @@ public class MainController extends Controller {
 	private void showTransactions() {
 		if (currAcc != null) {
 			table.setItems(currAcc.getTransactions());
-			table.getItems().addListener((ListChangeListener.Change<? extends Transaction> c) -> table.refresh());
-			dateCol.setCellValueFactory(cellData -> cellData.getValue().getTimeProperty());
-	        amountCol.setCellValueFactory(cellData -> cellData.getValue().getFormattedAmountProperty());
-	        descripCol.setCellValueFactory(cellData -> cellData.getValue().getDescriptionProperty());
-		} else table.getItems().clear();
+			userCol.setVisible(false);
+		} else {
+			table.setItems(admin.getTransactions()); //Overview
+			userCol.setVisible(true);
+			userCol.setCellValueFactory(cellData -> new SimpleStringProperty(db.getOwner(cellData.getValue()).getFullName()));
+		}
+		table.getItems().addListener((ListChangeListener.Change<? extends Transaction> c) -> {
+			while (c.next()) {
+				if (c.wasAdded()) {
+					List<Transaction> added = (List<Transaction>)c.getAddedSubList();
+					System.out.println("Added: " + db.insertTransactions(added));
+					//added.forEach(t -> );
+				}
+				if (c.wasRemoved())
+					System.out.println("Removed: " + db.deleteTransactions((List<Transaction>)c.getRemoved()));
+				if (c.wasUpdated()) {
+					//System.out.println("Updated: " + db.updateTransactions((List<Transaction>)c.getAddedSubList()));
+					System.out.println(c.getFrom() + "," + c.getTo());
+				}
+				table.refresh();
+			}
+			db.updateTransactions(table.getItems());
+			table.refresh();
+		});
+		dateCol.setCellValueFactory(cellData -> cellData.getValue().getTimeProperty());
+        amountCol.setCellValueFactory(cellData -> cellData.getValue().getFormattedAmountProperty());
+        descripCol.setCellValueFactory(cellData -> cellData.getValue().getDescriptionProperty());
 	}
 	
 /*--- FXML ---------------------------------------------------------------------------*/	
@@ -183,12 +204,14 @@ public class MainController extends Controller {
     
     @FXML
     private void createAccount(ActionEvent e) {
-    	manager.showSendData(Stages.NEW_ACC, Views.NEW_ACC, admin);
+    	if (admin != null)
+    		manager.showSendData(Stages.NEW_ACC, Views.NEW_ACC, admin);
     }
     
     @FXML
     private void deleteAccount(ActionEvent e) {
-    	manager.showSendData(Stages.DEL_ACC, Views.DEL_ACC, admin, currAcc);
+    	if (admin != null && currAcc != null)
+    		manager.showSendData(Stages.DEL_ACC, Views.DEL_ACC, admin, currAcc);
     }
     
     @FXML
@@ -198,12 +221,14 @@ public class MainController extends Controller {
     
     @FXML
     private void newTransaction(ActionEvent e) {
-    	manager.show(Stages.TRANS, Views.TRANS);
+    	if (currAcc != null)
+    		manager.showSendData(Stages.TRANS, Views.TRANS, currAcc);
     }
     
     @FXML
     private void editTransactions() {
-    	manager.showSendData(Stages.TRANS, Views.TRANS, table.getSelectionModel());
+    	if (table.getSelectionModel() != null && !table.getSelectionModel().isEmpty())
+    		manager.showSendData(Stages.TRANS, Views.TRANS, table.getSelectionModel(), currAcc);
     }
     
     @FXML

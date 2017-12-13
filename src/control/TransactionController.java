@@ -19,6 +19,7 @@ import javafx.scene.control.TableView.TableViewSelectionModel;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import model.Profile;
 import model.Transaction;
 
 public class TransactionController extends Controller {
@@ -38,6 +39,7 @@ public class TransactionController extends Controller {
 	@FXML private DatePicker datePicker;
 	
 	private TableViewSelectionModel<Transaction> selection;
+	private Profile owner;
 	private Modes mode;
 	
 	public enum Modes {
@@ -61,11 +63,11 @@ public class TransactionController extends Controller {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		show(false, dateLbl, datePicker, amountLbl, amountFld, 
+		enable(false, dateLbl, datePicker, amountLbl, amountFld, 
 					descLbl, descFld, codeLbl, codeFld, codeBtn,
-					actualAmountLbl, actualAmountValLbl,
-					amountHeldLbl, amountHeldValLbl,
 					paymentMenu, methodLbl);
+		show(false, actualAmountLbl, actualAmountValLbl,
+				amountHeldLbl, amountHeldValLbl);
 		setMode(Modes.NEW);
 		setupValidation();
 		setupStageDrag(titleBox, Stages.TRANS);
@@ -79,8 +81,8 @@ public class TransactionController extends Controller {
 		//add to end if adding
 		validations = new Validation<?>[]{
 			new Validation<DatePicker>(dateLbl, datePicker, dp -> dp.getValue() == null, "You must choose a date. "),
-			new Validation<TextField>(amountLbl, amountFld, fld -> fld.getText().isEmpty(), "Amount field is empty. "),
-				//.add(fld -> !fld.getText().matches("/^([+-]?(\\d+(\\.\\d*)?)|(\\.\\d+))$/"), "Amount must be a decimal amount (e.g. 19.99)."),
+			new Validation<TextField>(amountLbl, amountFld, fld -> fld.getText().isEmpty(), "Amount field is empty. ")
+				.add(fld -> Double.isNaN(Double.parseDouble(fld.getText())), "Amount must be a decimal amount (e.g. 19.99)."),
 			new Validation<TextField>(descLbl, descFld, fld -> fld.getText().isEmpty(), "Description field is empty. ")
 		};
 	}
@@ -95,13 +97,28 @@ public class TransactionController extends Controller {
 	
 	@Override
 	public void receiveData(Object... data) {
-		if (data[0] != null && data[0] instanceof TableViewSelectionModel) {
-			selection = (TableViewSelectionModel<Transaction>) data[0];
-			if (selections().size() > 1) 
-				setMode(Modes.EDIT_MULTI);
-			else if (selections().size() == 1)
-				setMode(Modes.EDIT_SINGLE);
-			else manager.close(Stages.TRANS);
+		switch (data.length) {
+		case 0:
+			manager.close(Stages.TRANS);
+			break;
+		case 1:
+			if (data[0] != null && data[0] instanceof Profile) {
+				owner = (Profile) data[0];
+				setMode(Modes.NEW);
+			}
+			break;
+		case 2:
+			if (data[0] != null && data[0] instanceof TableViewSelectionModel &&
+			data[1] != null && data[1] instanceof Profile) {
+				selection = (TableViewSelectionModel<Transaction>) data[0];
+				owner = (Profile) data[1];
+				if (selections().size() > 1)
+					setMode(Modes.EDIT_MULTI);
+				else if (selections().size() == 1)
+					setMode(Modes.EDIT_SINGLE);
+				else manager.close(Stages.TRANS);
+			}
+			break;
 		}
 	}
 	
@@ -148,21 +165,21 @@ public class TransactionController extends Controller {
 		Object src = e.getSource();
 		if (src.equals(depositItm)) {
 			transTypeMenu.setText(depositItm.getText());
-			show(true, dateLbl, datePicker, amountLbl, amountFld, 
-					descLbl, descFld, codeLbl, codeFld, codeBtn, 
-					actualAmountLbl, actualAmountValLbl,
-					amountHeldLbl, amountHeldValLbl,
+			enable(true, dateLbl, datePicker, amountLbl, amountFld, 
+					descLbl, descFld, codeLbl, codeFld, codeBtn,
 					paymentMenu, methodLbl, 
 					codeLbl, codeFld, codeBtn);
+			show(true, actualAmountLbl, actualAmountValLbl,
+					amountHeldLbl, amountHeldValLbl);
 			actualAmountLbl.setText("Amount being deposited: ");
 		}
 		else if (src.equals(withdrawItm)) {
 			transTypeMenu.setText(withdrawItm.getText());
-			show(true, dateLbl, datePicker, amountLbl, amountFld,
-					descLbl, descFld, codeLbl, codeFld, codeBtn,
-					actualAmountLbl, actualAmountValLbl);
-			show(false, paymentMenu, methodLbl,
-					amountHeldLbl, amountHeldValLbl,
+			enable(true, dateLbl, datePicker, amountLbl, amountFld,
+					descLbl, descFld, codeLbl, codeFld, codeBtn);
+			show(true, actualAmountLbl, actualAmountValLbl);
+			show(false, amountHeldLbl, amountHeldValLbl);
+			enable(false, paymentMenu, methodLbl,
 					codeLbl, codeFld, codeBtn);
 			actualAmountLbl.setText("Amount being withdrawn: ");
 		}
@@ -206,15 +223,13 @@ public class TransactionController extends Controller {
 		switch (mode) {
 			case NEW:
 				if (Validation.run(validations)) {
-					double amt = 0.0;
-					try {
-						amt = Double.parseDouble(amountFld.getText());
-					} catch (NumberFormatException ex) {
-						ex.printStackTrace();
-					}
-					manager.sendData(Views.MAIN, new Transaction(datePicker.getValue(), 
+					Transaction newTrans = new Transaction(
+							owner.getId(),
+							datePicker.getValue(),
 							descFld.getText(),
-							Double.parseDouble(amountFld.getText())));
+							Double.parseDouble(amountFld.getText())
+						);
+					owner.getTransactions().add(newTrans);
 					manager.close(Stages.TRANS);
 				}
 				break;
@@ -235,7 +250,6 @@ public class TransactionController extends Controller {
 					if (validations[2].test())
 						tran.setDescription(descFld.getText());
 				}
-				selection.getTableView().refresh();
 				manager.close(Stages.TRANS);
 				break;
 		}

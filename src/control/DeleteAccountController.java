@@ -40,6 +40,13 @@ public class DeleteAccountController extends Controller {
 	}
 	
 	@Override
+	protected void setupValidation() {
+		validations = new Validation<?>[] {
+			new Validation<>(promptLbl, adminPwFld, fld -> fld.getText().equals(admin.getPassword()), "Invalid password. ")
+		};
+	}
+	
+	@Override
 	public void receiveData(Object... data) {
 		admin = (CsAdmin) data[0];
 		acc = (Profile) data[1];
@@ -54,12 +61,6 @@ public class DeleteAccountController extends Controller {
 	
 /*--- HELPERS ---------------------------------------------------------------------------*/
 	
-	// 
-	private void showError(String msg) {
-		promptLbl.setText(msg);
-		promptLbl.setStyle("-fx-text-fill: red; " + promptLbl.getStyle());
-		Animations.shake(manager.getStage(Stages.DEL_ACC));
-	}
 	
 /*--- FXML ---------------------------------------------------------------------------*/
 	
@@ -70,11 +71,12 @@ public class DeleteAccountController extends Controller {
 	
 	@FXML
 	private void submit() {
-		if (admin.getPassword().equals(adminPwFld.getText())) {
+		if (Validation.run(validations)) {
 			db.removeProfile(acc.getId());
 			admin.getUsers().remove(acc);
 			manager.close(Stages.DEL_ACC);
-		} else showError("Invalid password. ");
+		} else
+			Animations.shake(manager.getStage(Stages.DEL_ACC));
 	}
 
 }
