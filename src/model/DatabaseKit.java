@@ -28,7 +28,7 @@ public class DatabaseKit {
 	    	 //Load this class from the build path
 	         Class.forName("org.sqlite.JDBC").newInstance();
 	         //Link a new connection to the database or create a new one if one is not already there
-	         c = DriverManager.getConnection("jdbc:sqlite:src/resources/" + fileName);
+	         c = DriverManager.getConnection("jdbc:sqlite::resource:resources/" + fileName);
 	         this.fileName = fileName;
 	      } catch ( Exception e ) {
 	    	  e.printStackTrace();

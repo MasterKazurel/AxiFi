@@ -13,5 +13,8 @@ tmp/
 # Java
 //*.class
 
+# Misc.
+logs.txt
+
 # Whitelist
 !/build/build.xml
