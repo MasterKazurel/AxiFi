@@ -7,16 +7,14 @@ A financial tracking program.
 
 | OS        | Installer           |
 | ------------- |:-------------:|
-| Windows      | [AxiFi-2.0.zip](https://drive.google.com/open?id=1MHzVKAiryHxDi8eB_-bNzcYz0DtjRryp) |
+| Windows (.exe)      | [AxiFi.zip](https://drive.google.com/open?id=107Woeakf31HL-bqi9QOiRc_sHSLcQdSW) |
 | MacOS      | Currently unavailable      |
 | Linux | Currently unavailable       |
-
-Previous releases:
-- [AxiFi-1.0.zip](https://drive.google.com/open?id=1SFM7bqRWnBe22p3wkULdCDlvGpXPU--p)
+| All (JAR) | [AxiFi.jar.zip](https://drive.google.com/open?id=1df_M1xcUbglGZ-eBVt_tikgWLCNG9dbm) |
 
 ## Developers
 
-## Testing
+### Testing
 Can be run as a normal Java application in eclipse. The main method is in **MainApp.java**.
 
 ### Deployment
