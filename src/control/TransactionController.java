@@ -42,6 +42,8 @@ public class TransactionController extends Controller {
 	private Profile owner;
 	private Modes mode;
 	
+	private double fees;
+	
 	public enum Modes {
 		NEW,
 		EDIT_SINGLE,
@@ -141,6 +143,32 @@ public class TransactionController extends Controller {
 		descFld.setText(selection().getDescription());
 	}
 	
+	private double convertAmount(double amt) {
+		amt = Math.abs(amt);
+		if (transTypeMenu.getText().equals(withdrawItm.getText()))
+			amt = -amt;
+		return amt;
+	}
+	
+	private void computeAmounts(Object src) {
+		if (validations[1].test()) {
+			double amt = 0;
+			try {
+				amt = convertAmount(Double.parseDouble(amountFld.getText()));
+			} catch (NumberFormatException evt) {
+				evt.printStackTrace();
+			}
+			if (src.equals(creditItm))
+				fees = .12;
+			else if (src.equals(checkItm))
+				fees = .08;
+			double actualAmt = Math.abs(amt) - Math.abs(amt)*fees;
+			NumberFormat dFmt = DecimalFormat.getCurrencyInstance();
+			actualAmountValLbl.setText(dFmt.format(actualAmt));
+			amountHeldValLbl.setText(dFmt.format(fees));
+		}
+	}
+	
 	private void setMode(Modes mode) {
 		this.mode = mode;
 		switch (this.mode) {
@@ -198,26 +226,6 @@ public class TransactionController extends Controller {
 		}
 	}
 	
-	private void computeAmounts(Object src) {
-		if (validations[1].test()) {
-			double amt = 0;
-			try {
-				amt = Double.parseDouble(amountFld.getText());
-			} catch (NumberFormatException evt) {
-				evt.printStackTrace();
-			}
-			double fees = amt;
-			if (src.equals(creditItm))
-				fees *= .12;
-			else if (src.equals(checkItm))
-				fees *= .08;
-			double actualAmt = amt - fees;
-			NumberFormat dFmt = DecimalFormat.getCurrencyInstance();
-			actualAmountValLbl.setText(dFmt.format(actualAmt));
-			amountHeldValLbl.setText(dFmt.format(fees));
-		}
-	}
-	
 	@FXML
 	private void submit(ActionEvent e) {
 		switch (mode) {
@@ -227,7 +235,8 @@ public class TransactionController extends Controller {
 							owner.getId(),
 							datePicker.getValue(),
 							descFld.getText(),
-							Double.parseDouble(amountFld.getText())
+							convertAmount(Double.parseDouble(amountFld.getText())),
+							fees
 						);
 					owner.getTransactions().add(newTrans);
 					manager.close(Stages.TRANS);
@@ -236,7 +245,7 @@ public class TransactionController extends Controller {
 			case EDIT_SINGLE:
 				if (Validation.run(validations)) {
 					selection().setTime(datePicker.getValue());
-					selection().setAmount(Double.parseDouble(amountFld.getText()));
+					selection().setAmount(convertAmount(Double.parseDouble(amountFld.getText())));
 					selection().setDescription(descFld.getText());
 					manager.close(Stages.TRANS);
 				}
@@ -246,7 +255,7 @@ public class TransactionController extends Controller {
 					if (validations[0].test())
 						tran.setTime(datePicker.getValue());
 					if (validations[1].test())
-						tran.setAmount(Double.parseDouble(amountFld.getText()));
+						tran.setAmount(convertAmount(Double.parseDouble(amountFld.getText())));
 					if (validations[2].test())
 						tran.setDescription(descFld.getText());
 				}
@@ -275,11 +284,6 @@ public class TransactionController extends Controller {
 	@FXML
 	private void exit(ActionEvent e) {
 		manager.close(Stages.TRANS);
-	}
-	
-	@FXML
-	private void openDatePicker(ActionEvent e) {
-		datePicker.show();
 	}
 	
 	@FXML

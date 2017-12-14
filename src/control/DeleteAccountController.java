@@ -37,12 +37,13 @@ public class DeleteAccountController extends Controller {
 				});
 			}
 		});
+		setupValidation();
 	}
 	
 	@Override
 	protected void setupValidation() {
 		validations = new Validation<?>[] {
-			new Validation<>(promptLbl, adminPwFld, fld -> fld.getText().equals(admin.getPassword()), "Invalid password. ")
+			new Validation<>(promptLbl, adminPwFld, fld -> !fld.getText().equals(admin.getPassword()), "Invalid password. ")
 		};
 	}
 	
@@ -72,7 +73,6 @@ public class DeleteAccountController extends Controller {
 	@FXML
 	private void submit() {
 		if (Validation.run(validations)) {
-			db.removeProfile(acc.getId());
 			admin.getUsers().remove(acc);
 			manager.close(Stages.DEL_ACC);
 		} else

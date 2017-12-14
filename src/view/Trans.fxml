@@ -46,7 +46,7 @@
 						<Insets top="25.0" />
 					</VBox.margin>
 				</Label>
-				<DatePicker fx:id="datePicker" maxWidth="250.0" onAction="#openDatePicker" />
+				<DatePicker fx:id="datePicker" maxWidth="250.0" />
 				<Label fx:id="amountLbl" text="Amount">
 					<VBox.margin>
 						<Insets top="25.0" />

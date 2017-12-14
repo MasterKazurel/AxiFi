@@ -47,7 +47,7 @@ public class Manager {
 
 	public enum Views {
 		LOGIN("Login.fxml"), 
-		NEW_ACC("NewAcct.fxml"),
+		NEW_ACC("Acct.fxml"),
 		MAIN("Main.fxml"), 
 		TRANS("Trans.fxml"), 
 		DEL_ACC("DeleteAcct.fxml"),

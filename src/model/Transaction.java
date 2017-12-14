@@ -14,22 +14,25 @@ public class Transaction extends Observable {
 	private LocalDate time;
 	private double amount;
 	private String description;
+	private double fees;
 	
-	public Transaction(int userID, LocalDate time, String description, double amount) {
+	public Transaction(int userID, LocalDate time, String description, double amount, double fees) {
 		super();
 		this.userID = userID;
 		this.time = time;
 		this.amount = amount;
 		this.description = description;
+		this.fees = fees;
 	}
 	
-	public Transaction(int id, int userID, LocalDate time, String description, double amount) {
+	public Transaction(int id, int userID, LocalDate time, String description, double amount, double fees) {
 		super();
 		this.id = id;
 		this.userID = userID;
 		this.time = time;
 		this.amount = amount;
 		this.description = description;
+		this.fees = fees;
 	}
 
 	public StringProperty getTimeProperty() {
@@ -76,12 +79,30 @@ public class Transaction extends Observable {
 		this.description = description;
 	}
 	
+	@Override
+	public String toString() {
+		return "Transaction [id=" + id + ", userID=" + userID + ", time=" + time + ", amount=" + amount
+				+ ", description=" + description + ", fees=" + fees + "]";
+	}
+
 	public int getID() {
 		return id;
 	}
 	
 	public int getUserID() {
 		return userID;
+	}
+	
+	public double getFee() {
+		return fees;
+	}
+	
+	public double getFeeAmount() {
+		return fees * amount;
+	}
+	
+	public StringProperty getFormattedFeeProperty() {
+		return new SimpleStringProperty(DecimalFormat.getCurrencyInstance().format(getFeeAmount()));
 	}
 
 	

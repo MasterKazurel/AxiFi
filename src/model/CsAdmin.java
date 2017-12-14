@@ -29,19 +29,23 @@ public class CsAdmin extends Observable {
 			users = new ArrayList<Profile>();
 			usersObserver = FXCollections.observableList(users);
 			transactions = new ArrayList<Transaction>();
-			usersObserver.forEach(user -> {
-				transactionsObserver.addAll(user.getTransactions());
-				user.getTransactions().addListener((ListChangeListener<? super Transaction>) c -> {
-					while (c.next()) {
-						if (c.wasAdded())
-							transactionsObserver.addAll(c.getAddedSubList());
-						if (c.wasRemoved())
-							transactionsObserver.removeAll(c.getRemoved());
-					}
-				});
-			});
+			aggregateTrans();
 			transactionsObserver = FXCollections.observableList(transactions);
 		}
+		
+		private void aggregateTrans() {
+            for (Profile user: users) {
+                transactionsObserver.addAll(user.getTransactions());
+                user.getTransactions().addListener((ListChangeListener.Change<? extends Transaction> c) -> {
+                    while (c.next()) {
+                        if (c.wasAdded())
+                        	transactionsObserver.addAll(c.getAddedSubList());
+                        if (c.wasRemoved())
+                        	transactionsObserver.removeAll(c.getRemoved());
+                    }
+                });
+            }
+        }
 
 		public String getLogin() {
 			return login.getValue();
@@ -82,7 +86,7 @@ public class CsAdmin extends Observable {
 		public void setUsers(List<Profile> users) {
 			this.users = users;
 			this.usersObserver = FXCollections.observableList(users);
-			usersObserver.forEach(user -> transactionsObserver.addAll(user.getTransactions()));
+			aggregateTrans();
 		}
 		
 		public ObservableList<Transaction> getTransactions() {

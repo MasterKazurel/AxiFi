@@ -1,6 +1,5 @@
 package model;
 
-import java.io.File;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -28,24 +27,16 @@ public class DatabaseKit {
 	    	 //Load this class from the build path
 	         Class.forName("org.sqlite.JDBC").newInstance();
 	         //Link a new connection to the database or create a new one if one is not already there
-	         c = DriverManager.getConnection("jdbc:sqlite::resource:resources/" + fileName);
+	         c = DriverManager.getConnection("jdbc:sqlite:" + fileName);
+	         c.setReadOnly(false);
 	         this.fileName = fileName;
 	      } catch ( Exception e ) {
 	    	  e.printStackTrace();
 	      }
-		}
+	}
 	
 	public void init() {
 	  init("data.db");
-	}
-	
-	public boolean deleteDatabase() {
-		//!!!WARNING this will delete the entire database file!!!
-		File f = new File("/resources/" + fileName);
-		//Make sure that no directories are harmed accidentally
-		if(!f.isDirectory())
-			return f.delete();
-		return false;
 	}
 	
 	public void closeConnection() {
@@ -56,8 +47,7 @@ public class DatabaseKit {
 		}
 	}
 	
-	public boolean buildSchema() {
-		boolean success = false;
+	public void buildSchema() {
 		//SQL statements
 		String mkUsrTable = "CREATE TABLE USER (" +
 				"ID INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -77,52 +67,46 @@ public class DatabaseKit {
 							  "TRANSTIME DATE," + 
 							  "AMOUNT DECIMAL(8,2) NOT NULL," +
 							  "USER_ID INTEGER NOT NULL," +
+							  "FEE REAL NOT NULL," +
 							  "FOREIGN KEY(USER_ID) REFERENCES USER(ID)" + 
 							  ");";
+		//System.out.println(mkUsrTable + mkAdmTable + mkTransTable);
 		
-		String mkFeeTable = "CREATE TABLE FEES(" +
-							  "ID INTEGER PRIMARY KEY AUTOINCREMENT," + 
-							  "FEE REAL NOT NULL," +
-							  "TRANS_ID INTEGER NOT NULL," +
-							  "FOREIGN KEY(TRANS_ID) REFERENCES TRANS(ID)" +
-							  ");";
-		
-		try {
-			//Load an sql statement to be executed
-			Statement buildTable = c.createStatement();
-			
-			//Execute the SQL statements to build the schema
-			success = 
-				buildTable.execute(mkUsrTable) &&
-				buildTable.execute(mkAdmTable) &&
-				buildTable.execute(mkTransTable) &&
-				buildTable.execute(mkFeeTable);
-			buildTable.close();
+		try (
+			Statement buildTable = c.createStatement();		
+		){
+			buildTable.execute(mkUsrTable);
+			buildTable.execute(mkAdmTable);
+			buildTable.execute(mkTransTable);
 		} catch(Exception e) {
-			e.printStackTrace();		
+			e.printStackTrace();
 		}
-		return success;
 	}
 	
 /*--- PROFILE ---------------------------------------------------------------------------*/
 
 	public boolean insertProfile(Profile profile) {
-		boolean success = false;
-		String firstName = profile.getFirstName();
-		String lastName = profile.getLastName();
-		double balance = 0.0;
-		
 		String newUser = "INSERT INTO USER(FIRSTNAME, LASTNAME, BALANCE)" +
-							"VALUES ('" + firstName + "' , '" + lastName + "' , " + balance +");";
+							"VALUES (?,?,?);";
 		
-		try {
-			//Load an sql statement and execute
-			Statement insertUser = c.createStatement();
-			success = insertUser.execute(newUser);
-			insertUser.close();
+		try (
+			PreparedStatement s = c.prepareStatement(newUser);	
+		) {
+			s.setString(1, profile.getFirstName());
+			s.setString(2, profile.getLastName());
+			s.setDouble(3, profile.getBalance());
+			return s.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return false;
 		}
+	}
+	
+	public boolean insertProfiles(List<Profile> profiles) {
+		boolean success = false;
+		for (Profile p: profiles)
+			if (!insertProfile(p))
+				success = false;
 		return success;
 	}
 	
@@ -137,22 +121,21 @@ public class DatabaseKit {
 				profile = new Profile(results.getInt("ID"), 
 						results.getString("FIRSTNAME"), 
 						results.getString("LASTNAME"));
-				profile.setTransactions(getTransactions(profile.getId()));
+				profile.getTransactions().addAll(getTransactions(profile.getId()));
 			}
-			
 		} catch (SQLException ex) {
-			System.err.println("Error");
 			ex.printStackTrace();
 		}
 		return profile;
 	}
 	
-	public boolean removeProfile(int id) {
+	public boolean deleteProfile(Profile profile) {
 		boolean success = false;
 		String rmUser = "DELETE FROM USER WHERE ID=?;";
 		try (
 			PreparedStatement removeUser = c.prepareStatement(rmUser);
 		) {
+			removeUser.setInt(1, profile.getId());
 			success = removeUser.execute();
 			removeUser.close();
 		} catch(Exception e) {
@@ -161,15 +144,11 @@ public class DatabaseKit {
 		return success;
 	}
 	
-	public boolean updateProfile(Profile profile) {
+	public boolean deleteProfiles(List<Profile> profiles) {
 		boolean success = false;
-		ArrayList<Transaction> transactions = (ArrayList<Transaction>) profile.getTransactions();
-		
-		for(int i=0; i < transactions.size(); i++) {
-			//TODO Update anything that was changed
-			String updateTransactions = "UPDATE TRANS SET ";
-			success = false;
-		}
+		for (Profile p: profiles)
+			if (!deleteProfile(p))
+				success = false;
 		return success;
 	}
 	
@@ -196,31 +175,30 @@ public class DatabaseKit {
 		return user;
 	}
 	
-	public ObservableList<Profile> getProfiles() {
+	public ObservableList<Profile> getUsers() {
 		List<Profile> profileSet = new ArrayList<Profile>();
 		
 		String getUsers = "SELECT * FROM USER;";
 		
-		try {
+		try (
 			PreparedStatement queryUsers = c.prepareStatement(getUsers);
-			ResultSet results = queryUsers.executeQuery();
-			
-			while(results.next())
-				profileSet.add(
-					new Profile(
-						results.getInt("ID"), 
+			ResultSet results = queryUsers.executeQuery();		
+		){
+			while(results.next()) {
+				Profile newUser = new Profile(
+						results.getInt("ID"),
 						results.getString("FIRSTNAME"),
 						results.getString("LASTNAME"),
-						results.getDouble("BALANCE"))
-					);
-				
+						results.getDouble("BALANCE"));
+				newUser.getTransactions().addAll(getTransactions(newUser.getId()));
+				profileSet.add(newUser);
+			}
 			queryUsers.close();
 			results.close();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 		return FXCollections.observableList(profileSet);
-		
 	}	
 	
 /*--- TRANSACTION ---------------------------------------------------------------------------*/
@@ -229,8 +207,9 @@ public class DatabaseKit {
 		List<Transaction> transactionSet = new ArrayList<Transaction>();
 		String getTrans = "SELECT * FROM TRANS WHERE USER_ID=?;";
 		
-		try {
-			PreparedStatement queryTrans = c.prepareStatement(getTrans);
+		try (
+			PreparedStatement queryTrans = c.prepareStatement(getTrans);		
+		){
 			queryTrans.setInt(1, userID);
 			ResultSet results = queryTrans.executeQuery();
 			
@@ -239,10 +218,10 @@ public class DatabaseKit {
 				int uId = results.getInt("USER_ID"); //User foreign key
 				LocalDate type = results.getDate("TRANSTIME").toLocalDate();
 				String purpose = results.getString("DESCRIPTION");
-				double ammount = results.getDouble("AMOUNT");
-				transactionSet.add(new Transaction(id, uId, type, purpose, ammount));
+				double amount = results.getDouble("AMOUNT");
+				double fees = results.getDouble("FEE");
+				transactionSet.add(new Transaction(id, uId, type, purpose, amount, fees));
 			}
-			queryTrans.close();
 			results.close();
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -251,7 +230,7 @@ public class DatabaseKit {
 		
 	}
 	
-	/*public ObservableList<Transaction> getTransactions() {
+	public ObservableList<Transaction> getTransactions() {
 		List<Transaction> transactions = new ArrayList<Transaction>();
 		String getTransactions = "SELECT * FROM TRANS;";
 		
@@ -263,26 +242,29 @@ public class DatabaseKit {
 				LocalDate type = results.getDate("TRANSTIME").toLocalDate();
 				String purpose = results.getString("DESCRIPTION");
 				double ammount = results.getDouble("AMOUNT");
-				transactions.add(new Transaction(id, uId, type, purpose, ammount));
+				double fees = results.getDouble("FEE");
+				transactions.add(new Transaction(id, uId, type, purpose, ammount, fees));
 			}
 			results.close();
-		}catch(Exception e) {
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
 		return FXCollections.observableList(transactions);
-	}*/
+	}
 	
 	public boolean insertTransaction(Transaction transaction) {
 		boolean success = false;
-		String newTransaction = "INSERT INTO TRANS(DESCRIPTION, TRANSTIME, AMOUNT, USER_ID)"+
-								"VALUES(?, ?, ?, ?);";
+		String newTransaction = "INSERT INTO TRANS(DESCRIPTION, TRANSTIME, AMOUNT, FEE, USER_ID)"+
+								"VALUES(?, ?, ?,?, ?);";
 		
-		try {
-			PreparedStatement insertTrans = c.prepareStatement(newTransaction);
+		try (
+			PreparedStatement insertTrans = c.prepareStatement(newTransaction);		
+		){
 			insertTrans.setString(1, transaction.getDescription());
 			insertTrans.setDate(2, Date.valueOf(transaction.getTime()));
 			insertTrans.setDouble(3, transaction.getAmount());
-			insertTrans.setInt(4, getOwner(transaction).getId());
+			insertTrans.setDouble(4, transaction.getFee());
+			insertTrans.setInt(5, getOwner(transaction).getId());
 			success = insertTrans.execute();
 			insertTrans.close();
 		} catch(Exception e) {
@@ -299,20 +281,18 @@ public class DatabaseKit {
 		return success;
 	}
 	
-	public boolean updateTransactions(List<Transaction> transactions) {
+	public boolean updateTransaction(Transaction t) {
 		boolean success = false;
-		String updateTrans = "UPDATE TRANS SET DESCRIPTION=?, TRANSTIME=?, AMOUNT=? WHERE ID=?;";
-		
-		try {
-			for (Transaction t: transactions) {
-				PreparedStatement transStmt = c.prepareStatement(updateTrans);
-				transStmt.setString(1, t.getDescription());
-				transStmt.setDate(2, Date.valueOf(t.getTime()));
-				transStmt.setDouble(3, t.getAmount());
-				transStmt.setInt(4, t.getID());
-				success = transStmt.execute();
-				transStmt.close();
-			}
+		String updateTrans = "UPDATE TRANS SET DESCRIPTION=?, TRANSTIME=?, AMOUNT=?, USER_ID=? WHERE ID=?;";
+		try (
+			PreparedStatement transStmt = c.prepareStatement(updateTrans);		
+		){
+			transStmt.setString(1, t.getDescription());
+			transStmt.setDate(2, Date.valueOf(t.getTime()));
+			transStmt.setDouble(3, t.getAmount());
+			transStmt.setInt(4, t.getUserID());
+			transStmt.setInt(5, t.getID());
+			success = transStmt.execute();
 		} catch (SQLException ex) {
 			System.err.println("Error");
 			ex.printStackTrace();
@@ -320,10 +300,17 @@ public class DatabaseKit {
 		return success;
 	}
 	
+	public boolean updateTransactions(List<Transaction> ts) {
+		boolean success = true;
+		for (Transaction t: ts)
+			if (!updateTransaction(t))
+				success = false;
+		return success;
+	}
+	
 	public boolean deleteTransactions(List<Transaction> transactions) {
 		boolean success = true;
 		for (Transaction t: transactions) {
-			System.out.println(t.getDescription());
 			if (!deleteTransaction(t.getID()))
 				success = false;
 		}
@@ -347,112 +334,65 @@ public class DatabaseKit {
 		}
 		return success;
 	}
-	
 /*--- ADMIN ---------------------------------------------------------------------------*/
 	
 	public void insertAdmin(CsAdmin admin) {
 		insertAdmin(admin.getLogin(), admin.getPassword());
 	}
 	
-	public void insertAdmin(String login, String password) {
+	public boolean insertAdmin(String login, String password) {
 		String newAdmin = "INSERT INTO ADMIN(LOGIN, PASSWORD)"+
 						  "VALUES(?, ?);";
 		
 		try (
-			PreparedStatement insertAdmin = c.prepareStatement(newAdmin);		
+			PreparedStatement s = c.prepareStatement(newAdmin);		
 		) {
-			insertAdmin.setString(1, login);
-			insertAdmin.setString(2, password);
-			insertAdmin.execute();
-		}catch(Exception e) {
+			s.setString(1, login);
+			s.setString(2, password);
+			return s.execute();
+		} catch(Exception e) {
 			e.printStackTrace();
+			return false;
 		}
 	}
 	
 	public CsAdmin getAdmin() {
-		CsAdmin admin = null;
-		String getAdmin = "SELECT * FROM ADMIN";
-		
-		try (
-			Statement queryAdmin = c.createStatement();
-			ResultSet results = queryAdmin.executeQuery(getAdmin);
-		) {
-			if (results.next()) {
-				admin = new CsAdmin(results.getString("LOGIN"), results.getString("PASSWORD"), "Robyn", "Berg");
-				admin.setUsers(getProfiles());
-				for (Profile p: admin.getUsers()) {
-					p.setTransactions(getTransactions(p.getId()));
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		CsAdmin admin = new CsAdmin("csadmin", "csci323", "Robyn", "Berg");
+		admin.setUsers(getUsers());
 		return admin;
 	}
 	
-	@Deprecated
-	public boolean adminLogin(String login, String password) {
-		String pwd = ""; //The queried password
-		
-		String checkAdmin = "SELECT PASSWORD FROM ADMIN WHERE LOGIN=" + "'" + login + "';";
-		
-		Statement queryAdmin = null;
-		try {
-			queryAdmin = c.createStatement();
-			ResultSet admQ = queryAdmin.executeQuery(checkAdmin);
-				if(admQ.next()) {
-					pwd = admQ.getString("PASSWORD");
-				}
-			queryAdmin.close();
-		}catch(Exception e) {
-			buildSchema();
-			e.printStackTrace();
-		}
-		if(pwd.equals(password)) {
-			//Login success
-			return true;
-		}
-		return false;
-	}
-	
+	// Fake database (and unit testing)
 	public static void main( String args[] ) {
-	      /*DatabaseKit db = new DatabaseKit();
-	      
-	      String testDb = "test.db";
-	      System.out.println("Purging test database..");
-	      db.initDatabase(testDb);
-	      db.deleteDatabase(testDb);
-	      System.out.println("Purge complete!\n");
-	      System.out.println("Creating new test database..");
-	      db.initDatabase(testDb);
-	      System.out.println("Building database schema..");
-	      db.buildSchema();
-	      System.out.println("Building schema complete!\n");
-	      System.out.println("Inserting new profiles...");
-	      db.insertProfile("Joe", "Volcano");
-	      db.insertProfile("Frog", "King");
-	      db.insertProfile("Meteor", "Knight");
-	      db.insertProfile("Nikolai", "Romanov");
-	      db.insertProfile("Dracula", "Vampire");
-	      db.insertProfile("Girl", "Chan");
-	      System.out.println("Inserted new profiles!\n");
-	      System.out.println("Inserting new transactions!");
-	      db.insertTransaction(1, "memes", "1234", 20.99);
-	      db.insertTransaction(1, "elemental iron", "10", 5.50);
-	      db.insertTransaction(2, "the human soul", "42", 1.99);
-	      db.insertTransaction(2, "a pound of butter", "21300412", 1000.20);
-	      db.insertTransaction(4, "Vodka", "88", 19.95);
-	      db.insertTransaction(5, "a replicant", "808", 5000.153);
-	      db.insertTransaction(5, "Sympathy", "12", 9000000.15);
-	      db.insertTransaction(6, "Thaaat is the price...", "123No321", -50000000);
-	      System.out.println("Inserted new transactions!\n");
-	      System.out.println("Creating new admin profile...");
-	      db.insertAdmin("CsAdmin", "iforgotwhatistsupposedtobe");
-	      System.out.println("Created new admin profile!\n");
-	      
-	      System.out.println("Closing database connection...");
-	      db.closeConnection();
-	      System.out.println("Closed.\n");*/
+		DatabaseKit db = new DatabaseKit();
+		db.init();
+		db.buildSchema();
+		db.insertProfile(new Profile(1, "Trish", "Duce", 200.0));
+		db.insertProfile(new Profile(2, "Michael", "Cassens", 200.0));
+		db.insertProfile(new Profile(3, "Oliver", "Serang", 200.0));
+		db.insertProfile(new Profile(4, "Rob", "Smith", 200.0));
+		
+		db.insertTransaction(new Transaction(1, LocalDate.now(), "Party hats", -1000.00, .12));
+		db.insertTransaction(new Transaction(1, LocalDate.now(), "T-shirt Cannon", -100.00, .12));
+		db.insertTransaction(new Transaction(1, LocalDate.now(), "Donation", 15.00, .12));
+		db.insertTransaction(new Transaction(2, LocalDate.now(), "Fireworks", -100.00, .12));
+		db.insertTransaction(new Transaction(2, LocalDate.now(), "Bouncy castle", -1000.00, .12));
+		db.insertTransaction(new Transaction(2, LocalDate.now(), "Donation", 50.00, .12));
+		db.insertTransaction(new Transaction(3, LocalDate.now(), "Lots of erasors", -100.00, .12));
+		db.insertTransaction(new Transaction(3, LocalDate.now(), "Ghost masks", -20.00, .12));
+		db.insertTransaction(new Transaction(3, LocalDate.now(), "Donation", 2000.00, .12));
+		db.insertTransaction(new Transaction(4, LocalDate.now(), "Penguin statue", -200.00, .12));
+		db.insertTransaction(new Transaction(4, LocalDate.now(), "Confetti", -20.00, .12));
+		db.insertTransaction(new Transaction(4, LocalDate.now(), "Donation", 30.00, .12));
+		
+		CsAdmin admin = db.getAdmin();
+		assert admin != null: admin;
+		assert admin.getUsers() != null: admin.getUsers();
+		assert !admin.getUsers().isEmpty(): admin.getUsers();
+		assert admin.getUsers().stream().anyMatch(usr -> usr.getTransactions() == null): 
+			admin.getUsers().stream().filter(usr -> usr.getTransactions() == null);
+		assert admin.getUsers().stream().anyMatch(usr -> usr.getTransactions().isEmpty()): 
+			admin.getUsers().stream().filter(usr -> usr.getTransactions().isEmpty());
 	  }
 
 }

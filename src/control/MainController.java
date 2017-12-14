@@ -36,17 +36,19 @@ public class MainController extends Controller {
     @FXML private TableView<Transaction> table;
     
     @FXML private TableColumn<Transaction, String> userCol, dateCol, amountCol, 
-    									descripCol;
+    									descripCol, feeCol;
 
-    @FXML private Label firstNameLabel, lastNameLabel, streetLabel, 
-    				postalCodeLabel, cityLabel, birthdayLabel;
+    @FXML private Label balanceLbl, feesLbl;
     
     @FXML MenuButton accMenuBtn;
     @FXML MenuItem codes, print, exit, userGuide, allItm;
-    @FXML Button newAccBtn, delAccBtn, logoutBtn, newTransBtn, editTransBtn;
+    @FXML Button newAccBtn, editAccBtn, delAccBtn, logoutBtn, newTransBtn, editTransBtn;
     
     private CsAdmin admin;
     private Profile currAcc;
+    
+    private ListChangeListener<Profile> usersListener;
+    private ListChangeListener<Transaction> tableListener;
 /*--- SETUP ---------------------------------------------------------------------------*/	
     
     @Override
@@ -56,18 +58,21 @@ public class MainController extends Controller {
     	table.setOnKeyPressed(keyEvt -> {
     		switch (keyEvt.getCode()) {
 	    		case ENTER:
-	    			editTransactions();
+	    			if (editTransBtn.isVisible() && !editTransBtn.isDisabled())
+	    				editTransactions();
 	    			break;
     			case DELETE:
-    				if (currAcc != null)
-    					currAcc.getTransactions().removeAll(table.getSelectionModel().getSelectedItems());
-    				else {
-    					for (Profile p: admin.getUsers())
-    						p.getTransactions().removeAll(table.getSelectionModel().getSelectedItems());
-    				}
+    				if (editTransBtn.isArmed() && !editTransBtn.isDisabled())
+	    				if (currAcc != null)
+	    					currAcc.getTransactions().removeAll(table.getSelectionModel().getSelectedItems());
+	    				else {
+	    					for (Profile p: admin.getUsers())
+	    						p.getTransactions().removeAll(table.getSelectionModel().getSelectedItems());
+	    				}
     				break;
     			case ADD:
-    				newTransaction(new ActionEvent(new Object(), null));
+    				if (newTransBtn.isArmed() && !newTransBtn.isDisabled())
+    					newTransaction(new ActionEvent(new Object(), null));
     				break;
     			default:
     				break;
@@ -75,11 +80,43 @@ public class MainController extends Controller {
     	});
     	setupFadeIn(root);
     	setupOnShow(root, (obs, oldScene, newScene) -> {
-    		if (newScene != null) {
-    			admin = db.getAdmin();
-	    		showAccounts();
-    		}
+    		if (newScene != null) refresh();
     	});
+    	usersListener = new ListChangeListener<Profile>() {
+			@Override
+			public void onChanged(Change<? extends Profile> c) {
+				while (c.next()) {
+					if (c.wasRemoved()) {
+						List<Profile> removed = (List<Profile>) c.getRemoved();
+						for (Profile r: removed)
+							accMenuBtn.getItems().removeIf(a -> a.getText().equals(r.getFullName()));
+						db.deleteProfiles(removed);
+						switchAccounts(null);
+						refresh();
+					}
+					if (c.wasAdded()) {
+						addAccounts(false, (List<Profile>) c.getAddedSubList());
+						db.insertProfiles((List<Profile>) c.getAddedSubList());
+						refresh();
+					}
+				}
+			}
+		};
+		tableListener = new ListChangeListener<Transaction> () {
+			@Override
+			public void onChanged(Change<? extends Transaction> c) {
+				while (c.next()) {
+					if (c.wasAdded()) {
+						db.insertTransactions((List<Transaction>)c.getAddedSubList());
+						refresh();
+					}
+					if (c.wasRemoved()) {
+						db.deleteTransactions((List<Transaction>)c.getRemoved());
+						refresh();
+					}
+				}
+			}
+		};
 	}
     
     /**
@@ -108,36 +145,35 @@ public class MainController extends Controller {
 		else
 			throw new IllegalArgumentException("Requires only one object of one of the following types: Transaction.");
 	}
+    
+    public void refresh() {
+    	admin = db.getAdmin();
+		showAccounts();
+		table.refresh();
+    }
 	
     // Add accounts to menu button and setup changelisteners
 	private void showAccounts() {
-		admin.getUsers().addListener((ListChangeListener.Change<? extends Profile> c) -> {
-			while (c.next()) {
-				if (c.wasRemoved()) {
-					accMenuBtn.getItems().remove(c.getFrom());
-					switchAccounts(null);
-					showTransactions();
-				}
-				if (c.wasAdded())
-					addAccounts(false, (List<Profile>)c.getAddedSubList());
-			}
-		});
-		if (!admin.getUsers().isEmpty()) {
-			addAccounts(true, admin.getUsers());
+		admin.getUsers().removeListener(usersListener);
+		admin.getUsers().addListener(usersListener);
+		if (!admin.getUsers().isEmpty())
+			accMenuBtn.getItems().clear();
+		addAccounts(true, admin.getUsers());
+		if (currAcc == null) {
 			accMenuBtn.setText(allItm.getText());
 			switchAccounts(null);
-		}
+		} else switchAccounts(currAcc);
 	}
 	
 	// Switch data & UI
 	private void switchAccounts(Profile user) {
 		if (user != null) {
+			enable(true, delAccBtn, editAccBtn, newTransBtn, editTransBtn);
 	    	accMenuBtn.setText(user.getFullName());
 	    	currAcc = user;
 	    	showTransactions();
-	    	enable(true, delAccBtn, newTransBtn, editTransBtn);
 		} else {
-			enable(false, delAccBtn, newTransBtn, editTransBtn);
+			enable(false, delAccBtn, editAccBtn, newTransBtn, editTransBtn);
 			currAcc = null;
 			accMenuBtn.setText(allItm.getText());
 			showTransactions();
@@ -168,31 +204,16 @@ public class MainController extends Controller {
 			table.setItems(currAcc.getTransactions());
 			userCol.setVisible(false);
 		} else {
-			table.setItems(admin.getTransactions()); //Overview
+			table.setItems(db.getTransactions()); //Overview
 			userCol.setVisible(true);
 			userCol.setCellValueFactory(cellData -> new SimpleStringProperty(db.getOwner(cellData.getValue()).getFullName()));
 		}
-		table.getItems().addListener((ListChangeListener.Change<? extends Transaction> c) -> {
-			while (c.next()) {
-				if (c.wasAdded()) {
-					List<Transaction> added = (List<Transaction>)c.getAddedSubList();
-					System.out.println("Added: " + db.insertTransactions(added));
-					//added.forEach(t -> );
-				}
-				if (c.wasRemoved())
-					System.out.println("Removed: " + db.deleteTransactions((List<Transaction>)c.getRemoved()));
-				if (c.wasUpdated()) {
-					//System.out.println("Updated: " + db.updateTransactions((List<Transaction>)c.getAddedSubList()));
-					System.out.println(c.getFrom() + "," + c.getTo());
-				}
-				table.refresh();
-			}
-			db.updateTransactions(table.getItems());
-			table.refresh();
-		});
+		table.getItems().removeListener(tableListener);
+		table.getItems().addListener(tableListener);
 		dateCol.setCellValueFactory(cellData -> cellData.getValue().getTimeProperty());
         amountCol.setCellValueFactory(cellData -> cellData.getValue().getFormattedAmountProperty());
         descripCol.setCellValueFactory(cellData -> cellData.getValue().getDescriptionProperty());
+        feeCol.setCellValueFactory(cellData -> cellData.getValue().getFormattedFeeProperty());
 	}
 	
 /*--- FXML ---------------------------------------------------------------------------*/	
@@ -206,6 +227,12 @@ public class MainController extends Controller {
     private void createAccount(ActionEvent e) {
     	if (admin != null)
     		manager.showSendData(Stages.NEW_ACC, Views.NEW_ACC, admin);
+    }
+    
+    @FXML
+    private void editAccount(ActionEvent e) {
+    	if (admin != null && currAcc != null)
+    		manager.showSendData(Stages.NEW_ACC, Views.NEW_ACC, admin, currAcc);
     }
     
     @FXML
